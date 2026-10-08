@@ -4,6 +4,10 @@
 @font-face{font-family:'Archivo';font-weight:700;font-display:swap;src:url(/fonts/archivo-latin-700-normal.woff2) format('woff2')}
 @font-face{font-family:'Archivo';font-weight:800;font-display:swap;src:url(/fonts/archivo-latin-800-normal.woff2) format('woff2')}
 @font-face{font-family:'Archivo';font-weight:900;font-display:swap;src:url(/fonts/archivo-latin-900-normal.woff2) format('woff2')}
+@font-face{font-family:'Space Grotesk';font-weight:400;font-display:swap;src:url(/fonts/space-grotesk-latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:'Space Grotesk';font-weight:700;font-display:swap;src:url(/fonts/space-grotesk-latin-700-normal.woff2) format('woff2')}
+@font-face{font-family:'Pixelify';font-weight:400;font-display:swap;src:url(/fonts/pixelify-sans-latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:'Pixelify';font-weight:700;font-display:swap;src:url(/fonts/pixelify-sans-latin-700-normal.woff2) format('woff2')}
 @font-face{font-family:'Space Mono';font-weight:400;font-display:swap;src:url(/fonts/space-mono-latin-400-normal.woff2) format('woff2')}
 @font-face{font-family:'Space Mono';font-weight:700;font-display:swap;src:url(/fonts/space-mono-latin-700-normal.woff2) format('woff2')}
 
@@ -15,7 +19,9 @@
   --board:#FF9E1B; --live:#6CBE45;
   /* type */
   --sans:'Archivo',system-ui,sans-serif;
-  --mono:'Space Mono',ui-monospace,monospace;
+  --mono:'Space Grotesk',system-ui,sans-serif;
+  --pixel:'Pixelify',var(--mono);
+  --code:'Space Mono',ui-monospace,monospace;
   --fs-body:clamp(17px,1.1vw + 12px,19px);
   --fs-lead:clamp(19px,1.4vw + 12px,23px);
   --fs-h2:clamp(46px,7vw,104px);
