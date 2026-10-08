@@ -48,6 +48,6 @@ Every month, finance pulled four exports (sales, payments, which rep owns which 
 
 <img src="/case/commission-review.jpg" alt="Review screen: list of reps with a flagged report explaining a prorated leave of absence">
 
-## What I'd do next
+## Outcome
 
-[TODO: Yahya: how did the pitch land? Any feedback from the CFO/CEO, or what happened next?] With more time I'd test the review screen with the people who actually run month-end and add an audit log, so finance can show exactly what changed and why.
+The CFO loved it, and the app was approved and scheduled to be built. Then the company downsized before development started, so it never shipped. With more time I'd test the review screen with the people who actually run month-end and add an audit log, so finance can show exactly what changed and why.
