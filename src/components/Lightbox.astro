@@ -95,7 +95,10 @@
     // zoom out of the clicked tile: uniform scale so nothing stretches
     const box = dlg.querySelector<HTMLElement>('.lb')!;
     const src = from?.querySelector('.med, .frame, img') as HTMLElement | null;
-    if (src && !reduce) {
+    const small = matchMedia('(max-width: 760px), (pointer: coarse)').matches;
+    if (small && !reduce) {
+      box.animate([{ transform: 'translateY(24px)', opacity: 0 }, { transform: 'none', opacity: 1 }], { duration: 260, easing: 'cubic-bezier(.2,.8,.2,1)' });
+    } else if (src && !reduce) {
       const a = src.getBoundingClientRect(), b = box.getBoundingClientRect();
       const s = Math.max(.2, Math.min(a.width / b.width, a.height / b.height));
       const tx = a.left + a.width / 2 - (b.left + b.width / 2), ty = a.top + a.height / 2 - (b.top + b.height / 2);
@@ -111,20 +114,22 @@
   dlg.addEventListener('click', (e) => { if (e.target === dlg) closeLightbox(); });
   dlg.addEventListener('keydown', (e) => { if (e.key === 'ArrowRight') step(1); if (e.key === 'ArrowLeft') step(-1); });
   // swipe: the image follows your finger, then settles
-  let x0: number | null = null, y0 = 0;
+  let x0: number | null = null, y0 = 0, axis: '' | 'x' | 'y' = '';
   const stage = dlg.querySelector<HTMLElement>('.stage')!;
-  stage.addEventListener('touchstart', (e) => { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; }, { passive: true });
+  stage.addEventListener('touchstart', (e) => { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; axis = ''; }, { passive: true });
   stage.addEventListener('touchmove', (e) => {
     if (x0 === null || busy) return;
-    const dx = e.touches[0].clientX - x0;
-    if (Math.abs(dx) < Math.abs(e.touches[0].clientY - y0)) return;
+    const dx = e.touches[0].clientX - x0, dy = e.touches[0].clientY - y0;
+    if (!axis && Math.hypot(dx, dy) > 12) axis = Math.abs(dx) > Math.abs(dy) * 1.5 ? 'x' : 'y';
+    if (axis !== 'x') return;
     const m = $('lbMedia').firstElementChild as HTMLElement | null;
-    if (m) m.style.transform = `translateX(${dx}px)`;
+    if (m) m.style.transform = `translateX(${dx * 0.6}px)`;
   }, { passive: true });
   stage.addEventListener('touchend', (e) => {
     if (x0 === null) return;
     const dx = e.changedTouches[0].clientX - x0; x0 = null;
     const m = $('lbMedia').firstElementChild as HTMLElement | null;
+    if (axis !== 'x') { if (m) m.style.transform = ''; return; }
     if (Math.abs(dx) > 50 && data && data.items.length > 1) step(dx < 0 ? 1 : -1);
     else if (m) { m.animate([{ transform: m.style.transform }, { transform: 'none' }], { duration: 200, easing: 'ease-out' }); m.style.transform = ''; }
   });
@@ -157,5 +162,5 @@
   .arrow{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;cursor:pointer;font-weight:700;z-index:3}
   .arrow[hidden]{display:none}
   .prev{left:10px}.next{right:10px}
-  @media (max-width:1000px){.lb{grid-template-columns:1fr}.stage :global(img),.stage :global(video){max-height:55vh}}
+  @media (max-width:1000px){.lb{grid-template-columns:1fr;overflow:auto}.stage :global(img),.stage :global(video){max-height:55vh}}
 </style>

@@ -95,7 +95,8 @@ const filters = [['all', 'All'], ['artwork', 'Artwork'], ['collection', 'Collect
   .tile{display:flex;flex-direction:column;gap:10px;background:none;border:0;padding:0;text-align:left;cursor:pointer}
   .tile[hidden]{display:none}
   .med{aspect-ratio:1;border:3px solid var(--ink);background:#ddd4c2;transition:transform .25s,box-shadow .25s}
-  .tile:hover .med,.tile:focus-visible .med{transform:translate(-4px,-4px);box-shadow:8px 8px 0 var(--ink)}
+  @media (hover:hover){.tile:hover .med{transform:translate(-4px,-4px);box-shadow:8px 8px 0 var(--ink)}}
+  .tile:focus-visible .med{transform:translate(-4px,-4px);box-shadow:8px 8px 0 var(--ink)}
   .med :global(picture),.med :global(img){width:100%;height:100%;object-fit:cover}
   .wide{grid-column:span 2}.wide .med{aspect-ratio:2/1}
   .big{grid-column:span 2;grid-row:span 2}.big .med{aspect-ratio:auto;flex-grow:1;min-height:0}

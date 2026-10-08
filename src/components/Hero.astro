@@ -13,7 +13,7 @@ const lines = [
 const bits = [
   ['seeing-me/piece_08.png', 'left:-2%;top:2%;width:22%', '-10deg', 6.5],
   ['seeing-me/piece_07.png', 'right:0;top:0;width:24%', '8deg', 8],
-  ['seeing-me/piece_20.png', 'left:-4%;top:52%;width:30%', '-6deg', 7.2],
+  ['seeing-me/piece_12.png', 'left:-2%;top:46%;width:20%', '-6deg', 7.2],
   ['seeing-me/piece_19.png', 'right:-2%;top:40%;width:22%', '10deg', 9],
   ['seeing-me/piece_29.png', 'left:14%;bottom:0;width:24%', '-8deg', 5.8],
   ['seeing-me/piece_50.png', 'right:8%;bottom:2%;width:28%', '6deg', 7.6],
@@ -49,7 +49,7 @@ const bits = [
     </ul>
   </div>
   <div class="collage" aria-hidden="true">
-    <Picture class="center art-pop" src={img('seeing-me/piece_12.png')} formats={['avif', 'webp']} widths={[400, 700, 1000]} sizes="(max-width: 760px) 70vw, 30vw" alt="" loading="eager" fetchpriority="high" />
+    <Picture class="center art-pop" src={img('seeing-me/piece_33.png')} formats={['avif', 'webp']} widths={[400, 700, 1000]} sizes="(max-width: 760px) 70vw, 30vw" alt="" loading="eager" fetchpriority="high" />
     {bits.map(([f, style, r, d], i) => (
       <Picture class="m art-pop" src={img(f)} formats={['avif', 'webp']} widths={[200, 400]} sizes="(max-width: 760px) 25vw, 12vw" alt="" style={`${style};--r:${r};--d:${d}s;--dl:-${(i * 0.9).toFixed(1)}s`} />
     ))}
@@ -97,7 +97,7 @@ const bits = [
   .soc a:hover{color:var(--ink);background:rgba(20,20,19,.07)}
 
   .collage{grid-column:span 5;position:relative;aspect-ratio:5/6;min-height:400px}
-  .collage :global(.center){position:absolute;left:18%;top:8%;width:64%;filter:drop-shadow(10px 12px 0 rgba(20,20,19,.12));animation:float 9s ease-in-out infinite}
+  .collage :global(.center){position:absolute;left:12%;top:22%;width:76%;filter:drop-shadow(0 14px 18px rgba(20,20,19,.18));animation:float 9s ease-in-out infinite}
   .collage :global(.m){position:absolute;animation:float var(--d,7s) ease-in-out infinite;animation-delay:var(--dl,0s);transition:transform .35s cubic-bezier(.3,1.6,.6,1)}
   .collage :global(.m:hover){transform:scale(1.12) rotate(var(--r,6deg))}
   .collage :global(img){width:100%;height:auto}

@@ -61,5 +61,3 @@ h2{margin:0;font-weight:900;font-size:var(--fs-h2);line-height:.9;letter-spacing
 @media (prefers-reduced-transparency:reduce){ .glass{background:var(--cream);-webkit-backdrop-filter:none;backdrop-filter:none} .glass::before{display:none} }
 
 /* dark-mode tweaks: keep the black-outlined art readable */
-:root[data-theme="dark"] .art-pop{filter:drop-shadow(0 0 1.5px rgba(242,238,228,.55))}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .art-pop{filter:drop-shadow(0 0 1.5px rgba(242,238,228,.55))}}
