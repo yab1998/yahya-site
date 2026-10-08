@@ -1,5 +1,5 @@
 ---
-title: "Ummah FC identity"
+title: "Ummah FC Uniforms and Brand Identity"
 order: 5
 summary: "A football club identity built as a system: logo, components and three kits."
 role: "Brand designer"

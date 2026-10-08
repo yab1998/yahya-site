@@ -1,7 +1,7 @@
 ---
-title: "Album art system"
+title: "Album Art Collection"
 order: 2
-summary: "Cover art and visual identity across a body of releases: THE VAULT, summerluv., HIATUS and The Hopeful series. [TODO: result, e.g. streams or release reach]"
+summary: "Cover art and visual identity across a body of releases: THE VAULT, summerluv., HIATUS and The Hopeful series."
 role: "Art director, designer, photographer (where noted)"
 lane: "Art direction · visual identity"
 timeline: "2019–2024"

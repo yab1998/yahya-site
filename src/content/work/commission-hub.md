@@ -1,5 +1,5 @@
 ---
-title: "Commission Hub"
+title: "Sales Commission Hub"
 order: 3
 summary: "An in-house app that turns a clinical lab's month-end commission spreadsheets into reviewed, encrypted reports for every sales rep, prototyped and pitched to the C-suite."
 role: "Product design · UX · prototyping · pitch"

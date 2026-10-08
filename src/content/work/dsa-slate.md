@@ -1,7 +1,7 @@
 ---
 title: "DSA slate + Aber Kawas walking video"
 order: 1
-summary: "Campaign video for NYC-DSA candidates, including a walking-interview piece for Aber Kawas. [TODO: result, e.g. views or how the campaign used it]"
+summary: "Two campaign videos for NYC-DSA candidate Aber Kawas: a walking interview through the neighborhood and a professionally shot sit-down. Used across her campaign's socials."
 role: "Director, producer, editor"
 lane: "Campaign storytelling · video"
 team: "[TODO: crew, campaign staff]"

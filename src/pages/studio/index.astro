@@ -5,9 +5,9 @@ import site from '../../data/site.json';
 import banner from '../../assets/studio/banner.svg?raw';
 
 const projects = [
-  { name: 'the diwan foundation', tag: 'Nonprofit · campaigns + reporting', text: 'Campaign and impact-report design for a nonprofit, turning programs and numbers into stories donors actually read.' },
+  { name: 'the diwan foundation', tag: 'Nonprofit · fundraising campaigns', text: 'The 100 Hands campaign, Giving Day and Ramadan fundraisers, redesigned top to bottom: new digital assets, email copy and posting schedules. Each one helped raise about $40K.' },
   { name: 'the crescent school', tag: 'Education · identity + web', text: 'Crescent School is a K–12 private school in Hempstead, NY that provides high-quality Islamic education to students from all backgrounds.' },
-  { name: 'straightway ethical advisory', tag: 'Finance · brand + digital', text: 'Brand and digital design for an ethical advisory firm, built to feel trustworthy, clear and human.' },
+  { name: 'straightway ethical advisory', tag: 'Finance · logo + brand identity', text: 'Logo and brand identity for an ethical advisory firm, built to feel trustworthy, clear and human.' },
 ];
 const og = await getImage({ src: portrait, width: 1200, height: 630, fit: 'cover', format: 'jpg' });
 const canonical = new URL('/studio/', Astro.site);
@@ -83,7 +83,7 @@ const canonical = new URL('/studio/', Astro.site);
     <section id="contact" class="contact">
       <form class="form" name="studio-inquiry" method="POST" action="/studio/thanks/" data-netlify="true" netlify-honeypot="company-website">
         <h2>let's <em>talk.</em></h2>
-        <p class="fsub">Tell me a little about it, and grab a time for a free 20-minute intro call.</p>
+        <p class="fsub">Tell me a little about it, and grab a time for a free 30-minute intro call.</p>
         <input type="hidden" name="form-name" value="studio-inquiry" />
         <p class="hp"><label>Leave this empty <input name="company-website" tabindex="-1" autocomplete="off" /></label></p>
         <div class="two">
@@ -95,7 +95,7 @@ const canonical = new URL('/studio/', Astro.site);
           {['logo / brand identity', 'creative direction', 'campaign / social', 'website', 'something else'].map((t, k) => <label><input type="radio" name="type" value={t} required={k === 0} /><span>{t}</span></label>)}
         </fieldset>
         <fieldset class="chips"><legend>budget</legend>
-          {['not sure yet', 'under $1k', '$1k–3k', '$3k–7.5k', '$7.5k+'].map((t) => <label><input type="radio" name="budget" value={t} /><span>{t}</span></label>)}
+          {['not sure yet', 'under $500', '$500–1.5k', '$1.5k–3k', '$3k+'].map((t) => <label><input type="radio" name="budget" value={t} /><span>{t}</span></label>)}
         </fieldset>
         <label class="fl"><textarea name="message" rows="4" required placeholder=" "></textarea><span>tell me about the project</span></label>
         <fieldset class="cal"><legend>book an intro call <i>(optional)</i></legend>
@@ -110,9 +110,9 @@ const canonical = new URL('/studio/', Astro.site);
         <h2>how it works</h2>
         <p><b>lunar lighthouse</b> takes on a small number of paid projects at a time, so each one gets real attention.</p>
         <ol>
-          <li><b>Intro call.</b> 20 minutes to hear what you're building and whether we're a fit.</li>
+          <li><b>Intro call.</b> 30 minutes to hear what you're building and whether we're a fit.</li>
           <li><b>Proposal.</b> Scope, timeline and a flat price, in writing.</li>
-          <li><b>Make.</b> Concepts, one round of direction, then refinement.</li>
+          <li><b>Make.</b> Concepts, two rounds of revisions, then refinement.</li>
           <li><b>Hand-off.</b> Final files, a simple guide to using them, and support after launch.</li>
         </ol>
         <p class="alt">Prefer email? <a href={`mailto:${site.email}?subject=lunar%20lighthouse%20inquiry`}>{site.email}</a></p>
@@ -151,7 +151,7 @@ const canonical = new URL('/studio/', Astro.site);
     const days = document.querySelector('.cal .days'), slots = document.querySelector('.cal .slots');
     const out = document.querySelector<HTMLInputElement>('.cal input[name=call_time]'), pick = document.querySelector('.cal .pick');
     if (days && slots && out && pick) {
-      const times = ['10:00 am', '12:00 pm', '2:00 pm', '4:00 pm', '6:00 pm'];
+      const times = ['12:00 pm', '1:00 pm', '2:00 pm', '3:00 pm', '4:00 pm', '5:00 pm'];
       let day = '';
       const d = new Date(); const list: Date[] = [];
       while (list.length < 10) { d.setDate(d.getDate() + 1); if (d.getDay() % 6) list.push(new Date(d)); }
