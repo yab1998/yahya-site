@@ -47,7 +47,15 @@ const videos = site.videos;
     </div>
     <div class="vids">
       {videos.map((v) => (
-        v.url
+        v.slug
+          ? <div class="vid has reveal">
+              <button type="button" class="vplay" aria-label={`Play: ${v.title}`} data-lb={JSON.stringify({ items: [{ src: `/video/content/${v.slug}.jpg`, alt: v.title, video: `/video/content/${v.slug}.mp4` }], title: v.title, kind: v.platform })}>
+                <video class="vloop" src={`/video/content/${v.slug}-loop.mp4`} poster={`/video/content/${v.slug}.jpg`} muted loop playsinline preload="none" aria-hidden="true"></video>
+                <span class="pbtn" aria-hidden="true">▶</span>
+              </button>
+              <div class="vmeta"><span class="k">{v.platform}</span><b>{v.title}</b><a class="mono" href={v.url} target="_blank" rel="noopener">On TikTok ↗</a></div>
+            </div>
+          : v.url
           ? <a class="vid reveal" href={v.url} target="_blank" rel="noopener"><span class="k">{v.platform}</span><b>{v.title}</b><span class="mono">Watch ↗</span></a>
           : <div class="vid soon reveal"><span class="k">{v.platform}</span><b>{v.title.replace(/\[TODO:?\s*|\]/g, '')}</b><span class="mono">Link coming soon</span></div>
       ))}
@@ -82,6 +90,13 @@ const videos = site.videos;
     </ul>
     <footer><span>© 2026 YAHYA ABDUL-BASSER</span><span>YAHYAABDULBASSER.ME</span></footer>
   </section>
+  <script>
+    const loops = document.querySelectorAll<HTMLVideoElement>('.vloop');
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      const vio = new IntersectionObserver((es) => es.forEach((e) => { const v = e.target as HTMLVideoElement; if (e.isIntersecting) { v.preload = 'auto'; v.play().catch(() => {}); } else v.pause(); }), { threshold: .4 });
+      loops.forEach((v) => vio.observe(v));
+    }
+  </script>
 </BaseLayout>
 
 <script>
@@ -128,6 +143,13 @@ const videos = site.videos;
   .vids{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
   .vid{border-radius:var(--rad);border:3px solid var(--ink);aspect-ratio:9/12;padding:22px;display:flex;flex-direction:column;justify-content:flex-end;gap:8px;background:var(--paper);transition:transform .25s,box-shadow .25s}
   a.vid:hover{transform:translate(-4px,-4px);box-shadow:8px 8px 0 var(--orange)}
+  .vid.has{padding:0;aspect-ratio:auto;justify-content:flex-start;overflow:hidden;background:var(--ink)}
+  .vplay{position:relative;display:block;width:100%;aspect-ratio:9/14;padding:0;border:0;background:#000;cursor:pointer}
+  .vplay video{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s}
+  .vid.has:hover .vplay video{transform:scale(1.04)}
+  .pbtn{position:absolute;left:50%;top:50%;translate:-50% -50%;width:64px;height:64px;border-radius:50%;background:var(--paper);color:var(--ink);display:grid;place-items:center;font-size:22px;border:3px solid var(--ink);transition:scale .25s}
+  .vid.has:hover .pbtn{scale:1.12}
+  .vmeta{background:var(--paper);padding:16px 18px;display:flex;flex-direction:column;gap:6px;border-top:3px solid var(--ink)}
   .vid.soon{border-style:dashed;background:transparent}
   .vid b{font-size:22px;line-height:1.1}
   .vid .mono{font-size:12px}

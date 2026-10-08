@@ -46,17 +46,20 @@
     {
       "title": "Walking with Aber Kawas",
       "url": "https://www.tiktok.com/@thelifeofyahya/video/7654336225603521805",
-      "platform": "Campaign · TikTok"
+      "platform": "Campaign · TikTok",
+      "slug": "aber"
     },
     {
       "title": "Going to a PWI (my most-watched)",
       "url": "https://www.tiktok.com/@thelifeofyahya/video/6991258393138810117",
-      "platform": "TikTok"
+      "platform": "TikTok",
+      "slug": "pwi"
     },
     {
       "title": "What happened in the 2024 election",
       "url": "https://www.tiktok.com/@thelifeofyahya/video/7434710069763165482",
-      "platform": "TikTok · analysis"
+      "platform": "TikTok · analysis",
+      "slug": "shift"
     },
     {
       "title": "[TODO: long-form video]",
