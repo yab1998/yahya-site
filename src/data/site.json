@@ -370,6 +370,27 @@
   ],
   "gallery": [
     {
+      "src": "photos/blueshootscutesmilemaroonsweater-edited.jpg",
+      "series": "Bluelight Sessions",
+      "title": "Maroon",
+      "alt": "Photograph from Bluelight Sessions: Maroon",
+      "blurb": "Styled, lit, shot and edited by me for The Heartbreak Saga. Each outfit stands for a different chapter of the story."
+    },
+    {
+      "src": "photos/blueshootsmilingcoloredshirt-edited.jpg",
+      "series": "Bluelight Sessions",
+      "title": "Laugh",
+      "alt": "Photograph from Bluelight Sessions: Laugh",
+      "blurb": "Styled, lit, shot and edited by me for The Heartbreak Saga. Each outfit stands for a different chapter of the story."
+    },
+    {
+      "src": "photos/blueshootsmirkinghandcoloredshirt-edited.jpg",
+      "series": "Bluelight Sessions",
+      "title": "Smirk",
+      "alt": "Photograph from Bluelight Sessions: Smirk",
+      "blurb": "Styled, lit, shot and edited by me for The Heartbreak Saga. Each outfit stands for a different chapter of the story."
+    },
+    {
       "src": "photos/bluepuffer-7968.jpg",
       "series": "Blue Puffer",
       "title": "Red Stoop",
@@ -394,22 +415,11 @@
       "alt": "Photograph from Blue Puffer: Corner"
     },
     {
-      "src": "photos/img-2419.jpg",
-      "series": "Bluelight Sessions",
-      "title": "Maroon",
-      "alt": "Photograph from Bluelight Sessions: Maroon"
-    },
-    {
-      "src": "photos/blueshootsmilingcoloredshirt-edited.jpg",
-      "series": "Bluelight Sessions",
-      "title": "Laugh",
-      "alt": "Photograph from Bluelight Sessions: Laugh"
-    },
-    {
       "src": "photos/img-2522.jpg",
       "series": "Bluelight Sessions",
       "title": "Floral",
-      "alt": "Photograph from Bluelight Sessions: Floral"
+      "alt": "Photograph from Bluelight Sessions: Floral",
+      "blurb": "Styled, lit, shot and edited by me for The Heartbreak Saga. Each outfit stands for a different chapter of the story."
     },
     {
       "src": "photos/drive-IMG_4947.jpg",
@@ -439,13 +449,15 @@
       "src": "photos/bluelight-2393.jpg",
       "series": "Bluelight Sessions",
       "title": "Hands",
-      "alt": "Photograph from Bluelight Sessions: Hands"
+      "alt": "Photograph from Bluelight Sessions: Hands",
+      "blurb": "Styled, lit, shot and edited by me for The Heartbreak Saga. Each outfit stands for a different chapter of the story."
     },
     {
       "src": "photos/bluelight-2564.jpg",
       "series": "Bluelight Sessions",
       "title": "Stare",
-      "alt": "Photograph from Bluelight Sessions: Stare"
+      "alt": "Photograph from Bluelight Sessions: Stare",
+      "blurb": "Styled, lit, shot and edited by me for The Heartbreak Saga. Each outfit stands for a different chapter of the story."
     },
     {
       "src": "photos/wall-4913.jpg",

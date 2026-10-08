@@ -12,7 +12,7 @@ const tiles = await Promise.all(site.design.map(async (w) => {
   return { ...w, lb: JSON.stringify({ items, title: w.title, kind: w.kind, blurb: w.blurb, credit: w.credit }) };
 }));
 const plates = await Promise.all(site.gallery.map(async (g) => ({
-  ...g, lb: JSON.stringify({ items: [{ src: await url(g.src, 1600), alt: g.alt }], title: g.title, kind: g.series, blurb: 'Digital photograph' }),
+  ...g, lb: JSON.stringify({ items: [{ src: await url(g.src, 1600), alt: g.alt }], title: g.title, kind: g.series, blurb: (g as any).blurb ?? 'Digital photograph' }),
 })));
 const filters = [['all', 'All'], ['artwork', 'Artwork'], ['collection', 'Collection'], ['motion', 'Motion'], ['ux', 'UX']];
 ---
@@ -59,7 +59,7 @@ const filters = [['all', 'All'], ['artwork', 'Artwork'], ['collection', 'Collect
       <button type="button" aria-label="Next photographs" data-dir="1">→</button>
     </div>
   </div>
-  <p class="curnote mono">Portraits and self-portraits across four shoots, made as covers and as studies. {plates.length} plates.</p>
+  <p class="curnote mono">Portraits and self-portraits across four shoots. The purple Bluelight Sessions I styled, lit, shot and edited myself for The Heartbreak Saga. {plates.length} plates.</p>
 </section>
 <div class="wall dots" id="wall" tabindex="0" role="region" aria-label="Gallery of photographs, scroll sideways">
   {plates.map((g, k) => (
