@@ -18,7 +18,7 @@ const videos = site.videos;
   <Hero />
 
   <div class="ticker" aria-hidden="true"><div class="track">
-    {[0, 1, 2, 3].map(() => ['DESIGN', 'CREATIVE DIRECTION', 'CONTENT', 'ALBUM ART', 'CAMPAIGN VIDEO', 'MUSIC', 'OPEN FOR WORK'].map((w) => <><span>{w}</span><i>●</i></>))}
+    {[0, 1, 2, 3].map(() => ['DESIGN', 'CREATIVE DIRECTION', 'CONTENT CREATION', 'ARTWORK', 'MUSIC', 'OPEN FOR WORK'].map((w) => <><span>{w}</span><i>●</i></>))}
   </div></div>
 
   <section id="work" class="wrap">
@@ -73,6 +73,7 @@ const videos = site.videos;
     <p class="open"><span class="dot" aria-hidden="true"></span>{site.availability}</p>
     <h2>Get in touch.</h2>
     <a class="mail" href={`mailto:${site.email}`}>{site.email}</a>
+    <button type="button" class="copy" id="copyMail" data-mail={site.email}>Copy email</button>
     <p class="look">{site.lookingFor}</p>
     <ul class="socials">
       {site.socials.map((s) => <li><a href={s.url} target="_blank" rel="noopener"><span class="ic"><Icon name={s.icon} size={26} /></span><b>{s.name} ↗</b><span class="mono">{s.icon === 'linkedin' ? 'yahyaabdulbasser' : site.handle}</span></a></li>)}
@@ -84,6 +85,12 @@ const videos = site.videos;
 
 <script>
   // signature writes itself when the About photo scrolls into view
+  const cm = document.getElementById('copyMail') as HTMLButtonElement | null;
+  cm?.addEventListener('click', async () => {
+    try { await navigator.clipboard.writeText(cm.dataset.mail!); cm.textContent = 'Copied. Talk soon ✌'; }
+    catch { location.href = 'mailto:' + cm.dataset.mail; }
+    setTimeout(() => (cm.textContent = 'Copy email'), 2400);
+  });
   const sw = document.querySelector('.sigwrap');
   if (sw) new IntersectionObserver(([e], o) => { if (e.isIntersecting) { sw.classList.add('signed'); o.disconnect(); } }, { threshold: 0.5 }).observe(sw);
 
@@ -177,4 +184,6 @@ const videos = site.videos;
     .vid{aspect-ratio:auto;min-height:180px}
     .ab{grid-template-columns:1fr}
   }
+  .copy{display:inline-flex;align-items:center;min-height:44px;margin-top:14px;padding:0 18px;border-radius:999px;border:2px solid currentColor;background:transparent;color:inherit;font-family:var(--mono);font-weight:700;font-size:15px;cursor:pointer}
+  .copy:hover{background:var(--ink);color:var(--cream)}
 </style>

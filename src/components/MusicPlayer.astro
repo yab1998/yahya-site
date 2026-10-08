@@ -7,6 +7,7 @@ import site from '../data/site.json';
 const fmt = (s: number) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
 const tracks = await Promise.all(site.tracks.map(async (t) => ({ ...t, coverUrl: await url(t.cover, 700) })));
 const first = tracks[0];
+const disco = await Promise.all((site as any).discography.map(async (r: any) => ({ ...r, coverUrl: await url(r.cover, 400) })));
 ---
 <section id="music" aria-labelledby="mh">
   <div class="l">
@@ -50,6 +51,22 @@ const first = tracks[0];
     <ul class="stream">
       {site.streaming.map((s) => <li><a href={s.url} target="_blank" rel="noopener"><Icon name={s.icon} size={20} /><span>{s.name}</span></a></li>)}
     </ul>
+  </div>
+  <div class="disco">
+    <h3 class="dh"><span>Discography</span></h3>
+    {disco.map((r: any) => (
+      <details class="rel">
+        <summary>
+          <img src={r.coverUrl} alt="" width="72" height="72" loading="lazy" />
+          <span class="rt"><b>{r.title}</b><span class="mono">{r.type}{r.year && ` · ${r.year}`} · {r.tracks.length} {r.tracks.length === 1 ? 'track' : 'tracks'}</span></span>
+          <span class="pl" aria-hidden="true">+</span>
+        </summary>
+        <div class="rb">
+          <ol>{r.tracks.map((t: string) => <li>{t}</li>)}</ol>
+          <ul class="cr">{r.credits.map((c: string) => <li>{c}</li>)}</ul>
+        </div>
+      </details>
+    ))}
   </div>
   <audio id="audio" preload="none" crossorigin="anonymous"></audio>
 </section>
@@ -171,6 +188,21 @@ const first = tracks[0];
   .ctl .pp:hover{background:var(--yellow);transform:scale(1.05)}
   .pz{display:none} .pp.on .pl{display:none} .pp.on .pz{display:block}
 
+  .disco{grid-column:1/-1;margin-top:56px;border-top:2px solid rgba(250,246,238,.25);padding-top:24px}
+  .dh{margin:0 0 12px;font-family:var(--pixel);font-weight:400;font-size:22px;color:var(--yellow);letter-spacing:.06em;text-transform:uppercase}
+  .rel{border-bottom:1.5px solid rgba(250,246,238,.2)}
+  .rel summary{display:flex;align-items:center;gap:16px;padding:14px 0;cursor:pointer;list-style:none}
+  .rel summary::-webkit-details-marker{display:none}
+  .rel summary img{width:64px;height:64px;border-radius:8px;object-fit:cover;flex-shrink:0}
+  .rt{display:flex;flex-direction:column;gap:3px;flex:1;min-width:0}
+  .rt b{font-size:clamp(18px,2vw,24px);font-weight:800;letter-spacing:-.01em}
+  .rt .mono{font-size:13px;color:#cfc9bc}
+  .pl{width:36px;height:36px;border-radius:50%;border:2px solid rgba(250,246,238,.5);display:grid;place-items:center;font-size:20px;transition:transform .25s}
+  .rel[open] .pl{transform:rotate(45deg)}
+  .rb{display:grid;grid-template-columns:1fr 1fr;gap:24px;padding:4px 0 20px 80px}
+  .rb ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:5px}
+  .rb .cr{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:5px;font-family:var(--mono);font-size:14px;color:#cfc9bc}
+  @media (max-width:760px){.rb{grid-template-columns:1fr;padding-left:0}}
   .board-h{font-family:var(--pixel)!important;font-size:15px!important;display:grid;grid-template-columns:44px 1fr auto;gap:16px;font-size:12px;letter-spacing:.12em;color:var(--yellow);border-bottom:2px solid var(--white);padding-bottom:12px}
   .tracks{list-style:none;margin:0;padding:0}
   .trk{display:grid;grid-template-columns:44px 1fr auto;gap:16px;align-items:center;padding:16px 0;width:100%;background:none;border:0;border-bottom:1px solid rgba(250,246,238,.2);text-align:left;cursor:pointer;color:inherit}

@@ -627,5 +627,38 @@
       "icon": "soundcloud",
       "url": "https://soundcloud.com/thelifeofyahya"
     }
+  ],
+  "discography": [
+    {
+      "title": "The Heartbreak Saga",
+      "type": "EP",
+      "year": "2024",
+      "cover": "art/thscoverraw-edit.jpg",
+      "tracks": [
+        "LOVETHATGIRL! — w/ von",
+        "prospect park.",
+        "slidin' — w/ maryam & töph",
+        "A.H.",
+        "LEAVEMEBEHIND — w/ von",
+        "the return?"
+      ],
+      "credits": [
+        "Written and performed by yahya",
+        "Art direction, styling and photography by yahya"
+      ]
+    },
+    {
+      "title": "remember us (breonna's song)",
+      "type": "Single",
+      "year": "",
+      "cover": "art/rememberusbreonnassong.jpg",
+      "tracks": [
+        "remember us (breonna's song)"
+      ],
+      "credits": [
+        "Written and performed by yahya",
+        "Cover art by Omar Din"
+      ]
+    }
   ]
 }

@@ -102,6 +102,13 @@ const person = {
     });
     matchMedia('(prefers-color-scheme: dark)').addEventListener('change', label);
 
+    // split section titles into words that rise in
+    document.querySelectorAll<HTMLElement>('.shead h2, #music h2, #contact h2, .cs h1').forEach((h) => {
+      const words = (h.textContent || '').trim().split(/\s+/);
+      h.setAttribute('aria-label', words.join(' '));
+      h.innerHTML = words.map((w, i) => `<span class="w" aria-hidden="true"><span style="--wi:${i}">${w.replace(/</g, '&lt;')}</span></span>`).join(' ');
+      h.classList.add('split', 'reveal');
+    });
     // scroll reveal — content is visible without JS; this only adds the entrance
     const io = new IntersectionObserver((es) => es.forEach((e) => {
       if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }

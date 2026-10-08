@@ -58,9 +58,9 @@ const art = (n: string, dark = false) => img(`seeing-me/piece_${n}${dark ? '-dar
     <p class="lead">{site.pitch}</p>
     <p class="avail"><span class="dot" aria-hidden="true"></span>{site.availability}</p>
     <div class="ctas">
-      <a class="btn solid" href="#work">View work</a>
+      <a class="btn solid" href="#work">See the work ↓</a>
       <a class="btn ghost" href="/resume/">Resume</a>
-      <a class="btn ghost" href={`mailto:${site.email}`}>Email</a>
+      <a class="btn ghost" href={`mailto:${site.email}`}>Say hi ↗</a>
     </div>
     <ul class="soc" aria-label="Social profiles">
       {site.socials.map((s) => <li><a href={s.url} target="_blank" rel="noopener" aria-label={s.name}><Icon name={s.icon} size={20} /></a></li>)}
