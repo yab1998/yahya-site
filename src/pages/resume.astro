@@ -46,7 +46,7 @@ const linkedin = site.socials.find((s) => s.icon === 'linkedin');
     <section aria-labelledby="edu" class="two">
       <div>
         <h2 id="edu" class="sec mono">Education</h2>
-        <h3>{cv.education.school}</h3>
+        <h3 class="school"><span class="bar" aria-hidden="true"></span>{cv.education.school}</h3>
         <p>{cv.education.degree} · {cv.education.when}</p>
       </div>
       <div>
@@ -95,6 +95,8 @@ const linkedin = site.socials.find((s) => s.icon === 'linkedin');
   .tag{font-family:var(--mono);font-size:11px;border:1.5px solid var(--ink);border-radius:999px;padding:2px 10px}
   .two{display:grid;grid-template-columns:1fr 1.4fr;gap:48px;border-top:3px solid var(--ink);margin-top:16px}
   .two p{margin:6px 0 0}
+  .school{display:flex;align-items:center;gap:12px;font-size:26px;font-weight:900;letter-spacing:-.02em}
+  .school .bar{width:6px;align-self:stretch;min-height:30px;border-radius:3px;background:#B31B1B}
   .sk{margin-bottom:18px}
   .skh{font-size:16px;margin-bottom:8px}
   .sk ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
