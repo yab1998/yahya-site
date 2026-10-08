@@ -99,15 +99,14 @@
       "images": [
         "art/seeing-me-art.jpg"
       ],
-      "size": "wide",
+      "size": "big",
       "blurb": "An illustrated poster and short animation built from a library of hand-drawn figures, eyes, hearts and squiggles. Every element was drawn separately so it could move.",
       "video": "/video/seeing-me.mp4",
       "poster": "art/seeing-me-43.jpg",
       "alt": [
         "\"SEEING ME\": illustration + animation"
       ],
-      "label": "Motion",
-      "aspect": "4/3"
+      "label": "Motion"
     },
     {
       "title": "olive branch",

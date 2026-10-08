@@ -61,7 +61,7 @@ const canonical = new URL('/studio/', Astro.site);
       <ol class="plist">
         {projects.map((p, i) => (
           <li class="prow rise" data-i={i}>
-            <a href="#contact">
+            <a href={i === 2 ? '/studio/work/demo/' : '#contact'}>
               <span class="num">0{i + 1}</span>
               <span class="pname">{p.name}</span>
               <span class="ptag">{p.tag}</span>
@@ -82,26 +82,29 @@ const canonical = new URL('/studio/', Astro.site);
 
     <section id="contact" class="contact">
       <form class="form" name="studio-inquiry" method="POST" action="/studio/thanks/" data-netlify="true" netlify-honeypot="company-website">
-        <h2>contact us</h2>
+        <h2>let's <em>talk.</em></h2>
+        <p class="fsub">Tell me a little about it, and grab a time for a free 20-minute intro call.</p>
         <input type="hidden" name="form-name" value="studio-inquiry" />
         <p class="hp"><label>Leave this empty <input name="company-website" tabindex="-1" autocomplete="off" /></label></p>
-        <label>Name<input name="name" required autocomplete="name" /></label>
-        <label>Email<input name="email" type="email" required autocomplete="email" /></label>
-        <label>Organization or brand<input name="organization" autocomplete="organization" /></label>
         <div class="two">
-          <label>Project type
-            <select name="type" required>
-              <option value="">Choose one</option><option>Logo / brand identity</option><option>Creative direction</option><option>Campaign / social design</option><option>Website</option><option>Something else</option>
-            </select>
-          </label>
-          <label>Budget
-            <select name="budget">
-              <option value="">Not sure yet</option><option>Under $1,000</option><option>$1,000–$3,000</option><option>$3,000–$7,500</option><option>$7,500+</option>
-            </select>
-          </label>
+          <label class="fl"><input name="name" required autocomplete="name" placeholder=" " /><span>your name</span></label>
+          <label class="fl"><input name="email" type="email" required autocomplete="email" placeholder=" " /><span>email</span></label>
         </div>
-        <label>Tell me about the project<textarea name="message" rows="6" required placeholder="What you're making, who it's for, and when you need it."></textarea></label>
-        <button type="submit">Send</button>
+        <label class="fl"><input name="organization" autocomplete="organization" placeholder=" " /><span>organization or brand</span></label>
+        <fieldset class="chips"><legend>what do you need?</legend>
+          {['logo / brand identity', 'creative direction', 'campaign / social', 'website', 'something else'].map((t, k) => <label><input type="radio" name="type" value={t} required={k === 0} /><span>{t}</span></label>)}
+        </fieldset>
+        <fieldset class="chips"><legend>budget</legend>
+          {['not sure yet', 'under $1k', '$1k–3k', '$3k–7.5k', '$7.5k+'].map((t) => <label><input type="radio" name="budget" value={t} /><span>{t}</span></label>)}
+        </fieldset>
+        <label class="fl"><textarea name="message" rows="4" required placeholder=" "></textarea><span>tell me about the project</span></label>
+        <fieldset class="cal"><legend>book an intro call <i>(optional)</i></legend>
+          <div class="days" role="group" aria-label="Pick a day"></div>
+          <div class="slots" role="group" aria-label="Pick a time (Eastern)"></div>
+          <p class="pick" aria-live="polite">pick a day, then a time (eastern time)</p>
+          <input type="hidden" name="call_time" />
+        </fieldset>
+        <button type="submit" class="send"><span>send it</span><b aria-hidden="true">↗</b></button>
       </form>
       <div class="about">
         <h2>how it works</h2>
@@ -143,6 +146,25 @@ const canonical = new URL('/studio/', Astro.site);
     if (mag && !reduce && matchMedia('(pointer: fine)').matches) {
       mag.addEventListener('pointermove', (e) => { const r = mag.getBoundingClientRect(); mag.style.transform = `translate(${(e.clientX - r.left - r.width / 2) * .3}px,${(e.clientY - r.top - r.height / 2) * .35}px)`; });
       mag.addEventListener('pointerleave', () => { mag.style.transform = ''; });
+    }
+    // intro-call picker: next 10 weekdays, fixed eastern-time slots
+    const days = document.querySelector('.cal .days'), slots = document.querySelector('.cal .slots');
+    const out = document.querySelector<HTMLInputElement>('.cal input[name=call_time]'), pick = document.querySelector('.cal .pick');
+    if (days && slots && out && pick) {
+      const times = ['10:00 am', '12:00 pm', '2:00 pm', '4:00 pm', '6:00 pm'];
+      let day = '';
+      const d = new Date(); const list: Date[] = [];
+      while (list.length < 10) { d.setDate(d.getDate() + 1); if (d.getDay() % 6) list.push(new Date(d)); }
+      const mk = (txt: string, sub = '') => { const b = document.createElement('button'); b.type = 'button'; b.innerHTML = sub ? `<small>${sub}</small>${txt}` : txt; return b; };
+      const set = (wrap: Element, b: HTMLElement) => { wrap.querySelectorAll('button').forEach((x) => x.setAttribute('aria-pressed', String(x === b))); };
+      list.forEach((dt) => {
+        const b = mk(String(dt.getDate()), dt.toLocaleDateString('en-US', { weekday: 'short' }).toLowerCase());
+        b.setAttribute('aria-pressed', 'false');
+        b.setAttribute('aria-label', dt.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }));
+        b.onclick = () => { day = dt.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }); set(days, b); slots.classList.add('on'); out.value = ''; pick.textContent = `${day}: now pick a time`; slots.querySelectorAll('button').forEach((x) => x.setAttribute('aria-pressed', 'false')); };
+        days.append(b);
+      });
+      times.forEach((t) => { const b = mk(t); b.setAttribute('aria-pressed', 'false'); b.onclick = () => { if (!day) return; set(slots, b); out.value = `${day}, ${t} ET`; pick.textContent = `✓ ${out.value}. I'll confirm by email.`; }; slots.append(b); });
     }
   </script>
 </body>
@@ -223,14 +245,39 @@ const canonical = new URL('/studio/', Astro.site);
   .peek[data-i="0"] .pv:nth-child(1),.peek[data-i="1"] .pv:nth-child(2),.peek[data-i="2"] .pv:nth-child(3){display:block}
   @media (hover:none),(pointer:coarse){.ptext{display:block}.peek{display:none}}
   .contact{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(32px,6vw,96px);padding:clamp(64px,9vw,140px) clamp(24px,7vw,116px)}
-  .form{border:2px solid var(--ink);border-radius:14px;padding:clamp(22px,2.5vw,32px);display:flex;flex-direction:column;gap:14px}
-  .form h2{color:var(--g);font-size:clamp(40px,3.6vw,54px);margin-bottom:8px}
-  .form label{display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:600}
-  .form input,.form select,.form textarea{font:inherit;font-weight:400;font-size:16px;border:2px solid var(--g);border-radius:12px;padding:12px 14px;background:#fff;color:var(--ink);width:100%}
-  .form input:focus,.form select:focus,.form textarea:focus{outline:3px solid rgba(88,129,88,.35);outline-offset:1px}
-  .form .two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-  .form button{align-self:flex-end;font-family:var(--serif);font-weight:700;font-size:22px;color:var(--g);background:#fff;border:2px solid var(--g);border-radius:12px;padding:6px 56px;cursor:pointer}
-  .form button:hover{background:var(--g);color:#fff}
+  .form{background:var(--g);color:#fff;border-radius:28px;padding:clamp(24px,3.5vw,48px);display:flex;flex-direction:column;gap:18px;box-shadow:0 30px 60px -30px rgba(31,58,31,.6);position:relative;overflow:hidden}
+  .form::before{content:"";position:absolute;right:-80px;top:-80px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,#f5d97a 0 30%,transparent 31%),radial-gradient(circle,rgba(255,255,255,.12),transparent 70%);opacity:.9;pointer-events:none}
+  .form h2{font-size:clamp(48px,5vw,76px);color:#fff}.form h2 em{color:#f5d97a}
+  .fsub{margin:-6px 0 6px;color:#e3eedf;max-width:40ch}
+  .form .two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .fl{position:relative;display:block}
+  .fl input,.fl textarea{width:100%;font:inherit;font-size:17px;color:#fff;background:rgba(255,255,255,.08);border:0;border-bottom:2px solid rgba(255,255,255,.55);border-radius:12px 12px 0 0;padding:26px 14px 10px;transition:background .25s,border-color .25s}
+  .fl textarea{resize:vertical}
+  .fl span{position:absolute;left:14px;top:18px;font-size:16px;color:#d6e6d2;pointer-events:none;transition:all .2s}
+  .fl input:focus,.fl textarea:focus{outline:none;background:rgba(255,255,255,.16);border-color:#f5d97a}
+  .fl input:focus+span,.fl input:not(:placeholder-shown)+span,.fl textarea:focus+span,.fl textarea:not(:placeholder-shown)+span{top:6px;font-size:12px;color:#f5d97a;letter-spacing:.06em}
+  .chips,.cal{border:0;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:8px}
+  .chips legend,.cal legend{font-size:13px;letter-spacing:.08em;color:#e3eedf;margin-bottom:10px;padding:0}.cal legend i{font-style:normal;opacity:.7}
+  .chips label{cursor:pointer}.chips input{position:absolute;opacity:0;pointer-events:none}
+  .chips span{display:inline-block;padding:8px 16px;border-radius:999px;border:1.5px solid rgba(255,255,255,.7);font-size:14px;transition:all .2s}
+  .chips label:hover span{background:rgba(255,255,255,.14)}
+  .chips input:checked+span{background:#f5d97a;color:var(--ink);border-color:#f5d97a}
+  .chips input:focus-visible+span{outline:3px solid #fff;outline-offset:2px}
+  .cal{flex-direction:column;flex-wrap:nowrap;background:rgba(0,0,0,.14);border-radius:18px;padding:16px}
+  .cal legend{float:left;width:100%}
+  .days{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}
+  .days button,.slots button{font:inherit;cursor:pointer;border:1.5px solid rgba(255,255,255,.6);background:transparent;color:#fff;border-radius:14px;transition:all .2s}
+  .days button{min-width:56px;padding:8px 6px;display:flex;flex-direction:column;align-items:center;font-family:var(--serif);font-size:24px;line-height:1}
+  .days button small{font-family:var(--mono);font-size:11px;margin-bottom:4px;opacity:.8}
+  .slots{display:flex;flex-wrap:wrap;gap:8px;opacity:.35;pointer-events:none;transition:opacity .3s}.slots.on{opacity:1;pointer-events:auto}
+  .slots button{padding:8px 14px;font-size:14px}
+  .days button:hover,.slots button:hover{background:rgba(255,255,255,.14)}
+  .days button[aria-pressed=true],.slots button[aria-pressed=true]{background:#f5d97a;color:var(--ink);border-color:#f5d97a}
+  .form,.cal,.chips{min-width:0;min-inline-size:0}.form>*{max-width:100%}
+  .pick{margin:2px 0 0;font-size:13px;color:#e3eedf}
+  .send{align-self:flex-start;display:inline-flex;align-items:center;gap:14px;font-family:var(--serif);font-weight:600;font-size:26px;color:var(--ink);background:#f5d97a;border:0;border-radius:999px;padding:12px 14px 12px 30px;cursor:pointer;transition:transform .25s,background .25s}
+  .send b{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:var(--ink);color:#f5d97a;font-size:20px;transition:transform .3s}
+  .send:hover{background:#fff}.send:hover b{transform:rotate(45deg)}
   .hp{position:absolute;left:-9999px}
   .about h2{font-size:clamp(44px,4.4vw,64px);margin:clamp(24px,5vw,80px) 0 18px}
   .about p{font-size:clamp(17px,1.5vw,20px);max-width:40ch}
