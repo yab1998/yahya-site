@@ -52,7 +52,7 @@ const facts = [['Role', d.role], ['Team', d.team], ['Timeline', d.timeline], ['T
   .body :global(.flow li){counter-increment:f;display:grid;grid-template-columns:44px 1fr;gap:2px 14px;align-items:start;padding:14px;border:2px solid var(--ink);border-radius:12px;background:var(--paper)}
   .body :global(.flow li)::before{content:counter(f);grid-row:span 2;width:36px;height:36px;border-radius:50%;background:var(--green);color:var(--white);display:grid;place-items:center;font-weight:900}
   .body :global(.flow span){color:var(--muted);font-size:15px}
-  .body :global(.proto){margin:24px calc(50% - min(50vw, 640px));border:3px solid var(--ink);border-radius:12px;overflow:hidden;background:#EEF3F2}
+  .body :global(.proto){margin:24px calc(50% - min(50vw, 640px));border:3px solid var(--ink);border-radius:var(--rad);overflow:hidden;background:#EEF3F2}
   .body :global(.proto iframe){display:block;width:100%;height:min(80vh,760px);border:0}
   .body :global(.protonote){font-size:14px}
   .body :global(.protonote a){text-decoration:underline;text-underline-offset:3px;font-weight:700}

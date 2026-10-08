@@ -118,7 +118,7 @@ const videos = site.videos;
   .reach span{font-family:var(--mono);font-size:13px;text-transform:uppercase}
   .asof{font-size:12px;color:var(--muted);margin:0 0 8px}
   .vids{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
-  .vid{border:3px solid var(--ink);aspect-ratio:9/12;padding:22px;display:flex;flex-direction:column;justify-content:flex-end;gap:8px;background:var(--paper);transition:transform .25s,box-shadow .25s}
+  .vid{border-radius:var(--rad);border:3px solid var(--ink);aspect-ratio:9/12;padding:22px;display:flex;flex-direction:column;justify-content:flex-end;gap:8px;background:var(--paper);transition:transform .25s,box-shadow .25s}
   a.vid:hover{transform:translate(-4px,-4px);box-shadow:8px 8px 0 var(--orange)}
   .vid.soon{border-style:dashed;background:transparent}
   .vid b{font-size:22px;line-height:1.1}
@@ -126,7 +126,7 @@ const videos = site.videos;
 
   #about{padding-block:112px 120px}
   .ab{display:grid;grid-template-columns:4fr 8fr;gap:48px;align-items:start}
-  .ph :global(picture img){width:100%;aspect-ratio:4/5;object-fit:cover;border:3px solid var(--ink)}
+  .ph :global(picture img){width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:var(--rad);border:3px solid var(--ink)}
   .sig{position:absolute;right:6%;bottom:5%;width:52%;height:auto;z-index:2;filter:drop-shadow(0 1px 2px rgba(0,0,0,.35));
     -webkit-mask-image:linear-gradient(90deg,#000 45%,transparent 55%);mask-image:linear-gradient(90deg,#000 45%,transparent 55%);
     -webkit-mask-size:240% 100%;mask-size:240% 100%;-webkit-mask-position:100% 0;mask-position:100% 0}

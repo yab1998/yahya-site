@@ -115,7 +115,7 @@ const filters = [['all', 'All'], ['artwork', 'Artwork'], ['collection', 'Collect
   .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px;grid-auto-flow:dense}
   .tile{display:flex;flex-direction:column;gap:10px;background:none;border:0;padding:0;text-align:left;cursor:pointer}
   .tile[hidden]{display:none}
-  .med{aspect-ratio:1;border:3px solid var(--ink);background:#ddd4c2;transition:transform .25s,box-shadow .25s}
+  .med{aspect-ratio:1;border-radius:var(--rad);border:3px solid var(--ink);background:#ddd4c2;transition:transform .25s,box-shadow .25s}
   @media (hover:hover){.tile:hover .med{transform:translate(-4px,-4px);box-shadow:8px 8px 0 var(--ink)}}
   .tile:focus-visible .med{transform:translate(-4px,-4px);box-shadow:8px 8px 0 var(--ink)}
   .med{position:relative;overflow:hidden}
@@ -130,7 +130,7 @@ const filters = [['all', 'All'], ['artwork', 'Artwork'], ['collection', 'Collect
   .grid.list{display:flex;flex-direction:column;gap:0;border-top:3px solid var(--ink)}
   .grid.list .tile{flex-direction:row;align-items:center;gap:18px;padding:12px 4px;border-bottom:1.5px solid var(--ink);opacity:1;transform:none}
   .grid.list .tile[hidden]{display:none}
-  .grid.list .med{width:72px;height:72px;flex:0 0 72px;aspect-ratio:1!important;border-width:2px;box-shadow:none!important;transform:none!important}
+  .grid.list .med{border-radius:8px;width:72px;height:72px;flex:0 0 72px;aspect-ratio:1!important;border-width:2px;box-shadow:none!important;transform:none!important}
   .grid.list .badge,.grid.list .strip :global(picture:not(:first-child)),.grid.list .soonbox span{display:none}
   .grid.list .cap{flex:1;align-items:center}
   .grid.list .cap b{font-size:clamp(18px,2.2vw,26px)}

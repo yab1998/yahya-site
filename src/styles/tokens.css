@@ -19,6 +19,7 @@
   --board:#FF9E1B; --live:#6CBE45;
   /* type */
   --sans:'Archivo',system-ui,sans-serif;
+  --rad:12px;
   --mono:'Space Grotesk',system-ui,sans-serif;
   --pixel:'Pixelify',var(--mono);
   --code:'Space Mono',ui-monospace,monospace;
