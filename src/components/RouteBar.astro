@@ -16,7 +16,7 @@ const stops = [
     <>
       <a class="stn" href={`${base}#${s.id}`} data-stop={s.id}>
         <span class={`bul ${s.c}`} aria-hidden="true">{s.l}</span>
-        <span class="lbl"><b>{s.name}</b><span>{s.sub}</span></span>
+        <span class="lbl"><b>{s.name}</b></span>
       </a>
       {i < stops.length - 1 && <span class={`line ${s.c}`} aria-hidden="true" />}
     </>
