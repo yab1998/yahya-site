@@ -2,6 +2,7 @@
 import { Picture, getImage } from 'astro:assets';
 import portrait from '../../assets/photos/blueshootscutesmilemaroonsweater-edited.jpg';
 import site from '../../data/site.json';
+import banner from '../../assets/studio/banner.svg?raw';
 
 const projects = [
   { name: 'the diwan foundation', tag: 'Nonprofit · campaigns + reporting', text: 'Campaign and impact-report design for a nonprofit, turning programs and numbers into stories donors actually read.' },
@@ -30,40 +31,45 @@ const canonical = new URL('/studio/', Astro.site);
   <a class="skip" href="#main">Skip to content</a>
   <main id="main">
     <section class="hero">
-      <div class="left dots">
-        <h1>we are<br />lunar<br />lighthouse.</h1>
+      <nav class="nav" aria-label="Studio">
+        <a class="mark" href="/studio/" aria-label="lunar lighthouse home"><img src="/ll-mark-green.svg" alt="" width="54" height="65" /><span>lunar lighthouse</span></a>
+        <span><a href="#about">about.</a><a href="#work">work.</a><a href="#contact">contact me.</a></span>
+      </nav>
+      <h1 class="rise">we are lunar<br />lighthouse<span class="dot">.</span></h1>
+      <div class="banner" set:html={banner} />
+    </section>
+
+    <section id="about" class="about-sec dots">
+      <div class="col">
+        <h2 class="rise">about lunar</h2>
+        <p class="lead rise"><b>lunar lighthouse</b> is an independent creative studio crafting thoughtful, human-centered design and digital storytelling.</p>
       </div>
-      <div class="right">
-        <nav class="nav" aria-label="Studio">
-          <a class="mark" href="/studio/" aria-label="lunar lighthouse home"><img src="/ll-mark-green.svg" alt="" width="54" height="65" /><span>lunar lighthouse</span></a>
-          <span><a href="#work">work.</a><a href="#contact">contact me.</a></span>
-        </nav>
-        <h2>about lunar</h2>
-        <p class="lead"><b>lunar lighthouse</b> is an independent creative studio crafting thoughtful, human-centered design and digital storytelling.</p>
+      <div class="col rise">
         <Picture class="me" src={portrait} alt="Portrait of Yahya against a purple backdrop" formats={['avif', 'webp']} widths={[240, 480]} sizes="120px" />
         <p class="bio">I'm <b>Yahya</b>. I've been freelancing since 2019 and named the studio in 2023. I'm a New York-based creative blending design thinking, psychology and storytelling to solve complex problems, shape user experiences and curate compelling digital narratives.</p>
         <ul class="svc">
           <li>logos + brand identity</li><li>creative direction</li><li>campaign + social design</li><li>websites + digital</li>
         </ul>
       </div>
-      <img class="banner" src="/ll-banner-black.svg" alt="Black ink illustration of a striped lighthouse on rocky shore under a crescent moon and stars" width="1200" height="460" />
     </section>
 
     <section id="work" class="work">
-      <h2>latest projects</h2>
-      <p class="sub"><b>lunar lighthouse</b> works with mission-driven organizations, schools and small brands on identity, campaigns and digital.</p>
-      <div class="cards">
+      <h2 class="rise">latest projects</h2>
+      <p class="sub rise"><b>lunar lighthouse</b> works with mission-driven organizations, schools and small brands on identity, campaigns and digital.</p>
+      <ol class="plist">
         {projects.map((p, i) => (
-          <article class="card" style={`--o:${[0, 110, -8][i]}px`}>
-            <div class="top"><h3>{p.name}</h3></div>
-            <div class="bot">
-              <p class="tag">{p.tag}</p>
-              <p>{p.text}</p>
-              <a class="pill" href="#contact">Start something similar</a>
-            </div>
-          </article>
+          <li class="prow rise" data-i={i}>
+            <a href="#contact">
+              <span class="num">0{i + 1}</span>
+              <span class="pname">{p.name}</span>
+              <span class="ptag">{p.tag}</span>
+              <span class="arrow" aria-hidden="true">↗</span>
+            </a>
+            <p class="ptext">{p.text}</p>
+          </li>
         ))}
-      </div>
+      </ol>
+      <div class="peek" aria-hidden="true">{projects.map((p) => (<div class="pv"><b>{p.tag}</b><p>{p.text}</p><span>start something similar →</span></div>))}</div>
     </section>
 
     <section id="contact" class="contact">
@@ -107,6 +113,20 @@ const canonical = new URL('/studio/', Astro.site);
     <div><b class="fh">work</b>{projects.map((p) => <a href="#work">{p.name.replace('the ', '')}</a>)}</div>
     <div><b class="fh">contact us</b><a href={`mailto:${site.email}`}>email</a><a href="/">personal site</a><a href={site.socials[0].url} target="_blank" rel="noopener">instagram</a></div>
   </footer>
+  <script>
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .15 });
+    document.querySelectorAll('.rise').forEach((el, i) => { el.style.setProperty('--i', String(i % 4)); reduce ? el.classList.add('in') : io.observe(el); });
+    const peek = document.querySelector<HTMLElement>('.peek'); const list = document.querySelector('.plist');
+    if (peek && list && matchMedia('(hover: hover) and (pointer: fine)').matches) {
+      let x = 0, y = 0, tx = 0, ty = 0, raf = 0;
+      const loop = () => { x += (tx - x) * .22; y += (ty - y) * .22; peek.style.transform = `translate(${x}px,${y}px)`; raf = requestAnimationFrame(loop); };
+      list.addEventListener('pointermove', (e) => { const r = (list as HTMLElement).getBoundingClientRect(); tx = (e as PointerEvent).clientX - r.left + 28; ty = (e as PointerEvent).clientY - r.top + 18; });
+      list.querySelectorAll<HTMLElement>('.prow').forEach((row) => row.addEventListener('pointerenter', () => { peek.dataset.i = row.dataset.i; peek.classList.add('on'); }));
+      list.addEventListener('pointerenter', () => { if (!raf) loop(); });
+      list.addEventListener('pointerleave', () => { peek.classList.remove('on'); cancelAnimationFrame(raf); raf = 0; });
+    }
+  </script>
 </body>
 </html>
 
@@ -125,33 +145,48 @@ const canonical = new URL('/studio/', Astro.site);
   h1,h2,h3{font-family:var(--serif);font-weight:600;letter-spacing:-.02em;line-height:1;margin:0}
   .skip{position:absolute;left:-9999px}.skip:focus{left:16px;top:16px;background:#fff;padding:8px 12px;z-index:9}
   .dots{background-color:var(--g);background-image:radial-gradient(rgba(0,0,0,.09) 2.2px,transparent 2.6px);background-size:22px 22px}
-  .hero{display:grid;grid-template-columns:1fr 1fr;border-bottom:4px solid var(--ink)}
-  .left{position:relative;display:flex;flex-direction:column;justify-content:space-between;padding:clamp(32px,5vw,72px) clamp(24px,5vw,72px) 0;overflow:hidden}
-  .left h1{color:#fff;font-size:clamp(56px,7.6vw,118px);line-height:.98}
-  .hero .banner{grid-column:1/-1;display:block;width:100%;height:auto;border-top:4px solid var(--ink);background:#fff}
-  .right{padding:clamp(32px,5vw,72px) clamp(24px,5vw,80px)}
-  .nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:clamp(40px,7vh,80px)}
+  .hero{min-height:100svh;display:flex;flex-direction:column;padding:clamp(24px,3.5vw,48px) clamp(24px,5vw,72px) 0;border-bottom:4px solid var(--ink);overflow:hidden}
+  .nav{display:flex;justify-content:space-between;align-items:center}
   .mark{display:flex;align-items:center;gap:12px;font-family:var(--serif);font-weight:600;font-size:24px;text-decoration:none;letter-spacing:-.01em;color:var(--g-d)}.mark img{width:46px;height:auto}
   .nav span{display:flex;gap:22px}.nav span a{text-decoration:none;font-size:18px}.nav span a:hover{text-decoration:underline;text-underline-offset:5px}
-  .right h2{font-size:clamp(44px,4.6vw,68px);margin-bottom:28px}
-  .lead{font-size:clamp(19px,1.7vw,24px);line-height:1.4;max-width:30ch;margin:0 0 clamp(32px,6vh,72px)}
-  .right .me{width:120px;height:120px;border-radius:50%;object-fit:cover;margin-bottom:24px}
-  .bio{max-width:38ch;margin:0 0 28px}
+  .hero h1{font-size:clamp(60px,10.5vw,170px);line-height:.92;letter-spacing:-.035em;margin:clamp(28px,6vh,72px) 0 0}
+  .hero h1 .dot{color:var(--g)}
+  .banner{margin:auto calc(clamp(24px,5vw,72px) * -1) 0;line-height:0}
+  .banner svg{display:block;width:100%;height:auto}
+  .banner .rays{transform-box:view-box;transform-origin:330px 150px;animation:spin 90s linear infinite}
+  .banner .beam{transform-box:view-box;transform-origin:760px 129px;animation:sweep 7s ease-in-out infinite alternate}
+  .banner .tw{transform-box:fill-box;transform-origin:center;animation:twinkle 3.2s ease-in-out infinite;animation-delay:var(--d)}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @keyframes sweep{from{transform:rotate(-7deg);opacity:.05}to{transform:rotate(9deg);opacity:.11}}
+  @keyframes twinkle{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(.45);opacity:.35}}
+  .rise{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1);transition-delay:calc(var(--i,0) * 90ms)}
+  .rise.in{opacity:1;transform:none}
+  .about-sec{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(32px,6vw,96px);padding:clamp(64px,9vw,140px) clamp(24px,5vw,72px);color:#fff;border-bottom:4px solid var(--ink)}
+  .about-sec h2{font-size:clamp(48px,6vw,96px);margin-bottom:28px}
+  .lead{font-size:clamp(20px,2vw,28px);line-height:1.4;max-width:28ch;margin:0}
+  .about-sec .me{width:120px;height:120px;border-radius:50%;object-fit:cover;margin-bottom:24px;border:3px solid #fff}
+  .bio{max-width:40ch;margin:0 0 28px}
   .svc{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:8px}
-  .svc li{border:1.5px solid var(--ink);border-radius:999px;padding:4px 14px;font-size:14px}
-  .work{background:var(--g);color:#fff;padding:clamp(56px,8vw,112px) clamp(24px,4.5vw,64px) clamp(80px,10vw,140px)}
-  .work h2{font-size:clamp(44px,5vw,72px);margin-bottom:20px}
-  .work .sub{font-size:clamp(17px,1.6vw,22px);max-width:62ch;margin:0 0 56px}
-  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(20px,3vw,40px);align-items:start}
-  .card{border:1.5px solid rgba(255,255,255,.9);border-radius:16px;overflow:hidden;transform:translateY(var(--o));transition:transform .3s}
-  .card:hover{transform:translateY(calc(var(--o) - 6px))}
-  .card .top{min-height:270px;padding:28px 24px;background:var(--g)}
-  .card h3{font-size:clamp(36px,3.4vw,52px);font-weight:500}
-  .card .bot{background:var(--grey);color:var(--ink);padding:24px}
-  .card .tag{font-family:var(--serif);font-weight:700;font-size:22px;margin:0 0 10px}
-  .card .bot p{margin:0 0 20px;font-size:15px}
-  .pill{display:inline-block;border:1.5px solid var(--ink);border-radius:999px;padding:6px 22px;font-family:var(--serif);font-weight:700;font-size:18px;text-decoration:none}
-  .pill:hover{background:var(--ink);color:var(--grey)}
+  .svc li{border:1.5px solid #fff;border-radius:999px;padding:4px 14px;font-size:14px}
+  .work{position:relative;background:var(--paper);color:var(--ink);padding:clamp(56px,8vw,112px) clamp(24px,5vw,72px) clamp(80px,10vw,140px);border-bottom:4px solid var(--ink)}
+  .work h2{font-size:clamp(48px,6vw,96px);margin-bottom:20px}
+  .work .sub{font-size:clamp(17px,1.6vw,22px);max-width:62ch;margin:0 0 48px}
+  .plist{list-style:none;margin:0;padding:0;border-top:1.5px solid var(--ink)}
+  .prow{border-bottom:1.5px solid var(--ink)}
+  .prow a{display:grid;grid-template-columns:56px 1fr auto 40px;align-items:baseline;gap:20px;padding:clamp(18px,2.6vw,34px) 0;text-decoration:none;transition:padding .35s cubic-bezier(.2,.7,.2,1),color .25s}
+  .num{font-size:14px;color:var(--g-d)}
+  .pname{font-family:var(--serif);font-weight:500;font-size:clamp(34px,5.4vw,84px);line-height:1;letter-spacing:-.03em}
+  .ptag{font-size:14px;text-align:right}
+  .arrow{font-size:28px;transition:transform .35s}
+  .prow a:hover,.prow a:focus-visible{padding-left:18px;color:var(--g-d)}
+  .prow a:hover .arrow,.prow a:focus-visible .arrow{transform:translate(4px,-4px) rotate(0)}
+  .ptext{display:none;margin:-8px 0 22px 76px;max-width:56ch}
+  .peek{position:absolute;left:0;top:0;width:300px;pointer-events:none;opacity:0;scale:.85;transition:opacity .25s,scale .3s cubic-bezier(.2,.7,.2,1);z-index:3}
+  .peek.on{opacity:1;scale:1}
+  .pv{display:none;background:var(--g);color:#fff;border-radius:16px;padding:22px;box-shadow:0 18px 40px rgba(0,0,0,.18);rotate:-2deg}
+  .pv b{font-family:var(--serif);font-size:22px;display:block;margin-bottom:8px}.pv p{margin:0 0 14px;font-size:15px}.pv span{font-size:13px;opacity:.85}
+  .peek[data-i="0"] .pv:nth-child(1),.peek[data-i="1"] .pv:nth-child(2),.peek[data-i="2"] .pv:nth-child(3){display:block}
+  @media (hover:none),(pointer:coarse){.ptext{display:block}.peek{display:none}}
   .contact{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(32px,6vw,96px);padding:clamp(64px,9vw,140px) clamp(24px,7vw,116px)}
   .form{border:2px solid var(--ink);border-radius:14px;padding:clamp(22px,2.5vw,32px);display:flex;flex-direction:column;gap:14px}
   .form h2{color:var(--g);font-size:clamp(40px,3.6vw,54px);margin-bottom:8px}
@@ -172,12 +207,12 @@ const canonical = new URL('/studio/', Astro.site);
   .foot .fh{font-size:32px;margin-bottom:4px}
   .foot a{text-decoration:none}.foot a:hover{text-decoration:underline;text-underline-offset:4px}
   @media (max-width:900px){
-    .hero{grid-template-columns:1fr}
-    .left{min-height:auto}
-    .cards{grid-template-columns:1fr}.card{transform:none}.card:hover{transform:none}.card .top{min-height:160px}
+    .hero{min-height:auto}.banner{margin-top:40px}
+    .about-sec{grid-template-columns:1fr}
+    .prow a{grid-template-columns:36px 1fr 28px}.ptag{display:none}.ptext{margin-left:56px}
     .contact{grid-template-columns:1fr}.about h2{margin-top:0}
     .foot{grid-template-columns:1fr}
   }
   @media (max-width:520px){.form .two{grid-template-columns:1fr}.nav span{gap:14px}.nav span a{font-size:16px}}
-  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.card,.card:hover{transition:none}}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.banner *{animation:none!important}.rise{opacity:1;transform:none;transition:none}.prow a{transition:none}}
 </style>
