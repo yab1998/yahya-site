@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Commission reporting prototype</title>
+<meta name="robots" content="noindex">
+<style>
+:root{
+  --bg:#EEF3F2; --card:#FFFFFF; --ink:#0F2A2A; --muted:#4B6463; --line:#D3DFDD;
+  --teal:#1F6F6B; --teal-d:#164F4C; --teal-l:#E2F0EE; --accent:#C2185B; --ok:#1E7B3C; --warn:#9A5B00;
+  --r:14px; --f:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{font-family:var(--f);background:var(--bg);color:var(--ink);font-size:14px;line-height:1.45}
+button{font:inherit;cursor:pointer}
+.app{min-height:100%;display:flex;flex-direction:column}
+.top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 24px;background:var(--card);border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:-.01em}
+.mark{width:28px;height:28px;border-radius:8px;background:var(--teal);display:grid;place-items:center;color:#fff;font-size:15px}
+.brand small{display:block;font-weight:500;color:var(--muted);font-size:12px}
+.who{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:13px}
+.av{width:30px;height:30px;border-radius:50%;background:var(--teal-l);color:var(--teal-d);display:grid;place-items:center;font-weight:700;font-size:12px}
+.steps{display:flex;gap:6px;padding:12px 24px;background:var(--card);border-bottom:1px solid var(--line);overflow-x:auto}
+.steps span{flex-shrink:0;font-size:12px;font-weight:600;color:var(--muted);padding:5px 10px;border-radius:999px;background:var(--bg)}
+.steps span.on{background:var(--teal);color:#fff}
+.steps span.done{background:var(--teal-l);color:var(--teal-d)}
+main{flex:1;padding:24px;max-width:1180px;width:100%;margin:0 auto}
+.screen{display:none;animation:in .3s ease}
+.screen.on{display:block}
+@keyframes in{from{opacity:0;transform:translateY(6px)}}
+h1{font-size:26px;margin:0 0 4px;letter-spacing:-.02em}
+h2{font-size:16px;margin:0;display:flex;align-items:center;gap:8px}
+.sub{color:var(--muted);margin:0 0 20px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px}
+.grid{display:grid;grid-template-columns:1.1fr 1.4fr 1fr;gap:16px}
+.col{display:flex;flex-direction:column;gap:16px}
+.btn{border:0;border-radius:10px;padding:11px 18px;font-weight:700;background:var(--teal);color:#fff}
+.btn:hover{background:var(--teal-d)}
+.btn:disabled{background:#B9C9C7;color:#fff;cursor:not-allowed}
+.btn.ghost{background:transparent;color:var(--teal-d);border:1.5px solid var(--teal)}
+.btn.ghost:hover{background:var(--teal-l)}
+.row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.big{font-size:30px;font-weight:800;letter-spacing:-.02em}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:5px 10px;border-radius:999px;background:var(--teal-l);color:var(--teal-d)}
+.chip.warn{background:#FCEFD9;color:var(--warn)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.reps{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:14px}
+.rep{text-align:center;font-size:11px;color:var(--muted)}
+.rep i{display:grid;place-items:center;width:38px;height:38px;margin:0 auto 4px;border-radius:50%;background:var(--teal-l);color:var(--teal-d);font-style:normal;font-weight:700;font-size:12px}
+table{width:100%;border-collapse:collapse;margin-top:12px}
+td,th{text-align:left;padding:9px 6px;border-bottom:1px solid var(--line);font-size:13px}
+th{color:var(--muted);font-weight:600;font-size:12px}
+td.n{text-align:right;font-variant-numeric:tabular-nums;font-weight:700}
+.set{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line)}
+.set:last-child{border:0}
+.tog{width:38px;height:22px;border-radius:999px;background:var(--teal);position:relative;border:0}
+.tog::after{content:"";position:absolute;top:3px;left:19px;width:16px;height:16px;border-radius:50%;background:#fff;transition:left .2s}
+.tog[aria-pressed=false]{background:#B9C9C7}
+.tog[aria-pressed=false]::after{left:3px}
+.files{display:flex;flex-direction:column;gap:8px;margin:14px 0}
+.file{display:flex;align-items:center;gap:12px;padding:12px;border:1.5px dashed var(--line);border-radius:10px;background:var(--bg);text-align:left;width:100%;color:var(--ink)}
+.file:hover{border-color:var(--teal)}
+.file .ck{width:22px;height:22px;border-radius:6px;border:2px solid #9DB3B0;display:grid;place-items:center;flex-shrink:0;color:#fff;font-size:13px}
+.file.ok{border-style:solid;border-color:var(--teal);background:var(--teal-l)}
+.file.ok .ck{background:var(--teal);border-color:var(--teal)}
+.file small{display:block;color:var(--muted);font-size:12px}
+.hint{font-size:12px;color:var(--muted)}
+.center{max-width:420px;margin:40px auto;text-align:center}
+.login{max-width:380px;margin:40px auto}
+.login label{display:block;font-size:12px;font-weight:600;margin:14px 0 6px}
+.login input{width:100%;padding:11px 12px;border:1.5px solid var(--line);border-radius:10px;font:inherit}
+.login input:focus{outline:2px solid var(--teal);border-color:var(--teal)}
+.bar{height:10px;border-radius:999px;background:var(--teal-l);overflow:hidden;margin:18px 0 8px}
+.bar b{display:block;height:100%;width:0;background:var(--teal);transition:width .25s linear}
+.log{font-size:12px;color:var(--muted);min-height:18px}
+.viewer{display:grid;grid-template-columns:260px 1fr;gap:16px}
+.list{display:flex;flex-direction:column;gap:6px;margin-top:12px;max-height:440px;overflow:auto}
+.li{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--card);text-align:left;color:var(--ink)}
+.li[aria-current]{border-color:var(--teal);background:var(--teal-l)}
+.li .dot{width:8px;height:8px;border-radius:50%;background:var(--ok)}
+.li .dot.f{background:var(--warn)}
+.doc{background:#fff;border:1px solid var(--line);border-radius:10px;padding:22px}
+.doc .h{display:flex;justify-content:space-between;border-bottom:2px solid var(--ink);padding-bottom:10px;margin-bottom:6px}
+.total{font-size:22px;font-weight:800}
+.note{margin-top:14px;padding:12px;border-radius:10px;background:#FCEFD9;color:#5C3800;font-size:13px}
+.recips{display:flex;flex-direction:column;gap:4px;margin-top:12px;max-height:300px;overflow:auto}
+.recips label{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:8px;border:1px solid var(--line)}
+.recips input{width:18px;height:18px;accent-color:var(--teal)}
+textarea{width:100%;min-height:120px;border:1.5px solid var(--line);border-radius:10px;padding:12px;font:inherit;resize:vertical;margin-top:10px}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(200%);visibility:hidden;background:var(--ink);color:#fff;padding:12px 18px;border-radius:12px;font-weight:600;transition:transform .3s}
+.toast.on{transform:translateX(-50%);visibility:visible}
+.foot{text-align:center;color:var(--muted);font-size:12px;padding:18px}
+.foot a{color:var(--accent);font-weight:600}
+@media (max-width:900px){.grid,.viewer{grid-template-columns:1fr}.reps{grid-template-columns:repeat(5,1fr)}main{padding:16px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="brand"><span class="mark" aria-hidden="true">+</span><span>Commission Hub<small>Clinical lab · Finance</small></span></div>
+    <div class="who" id="who" hidden><span>Finance admin</span><span class="av">FA</span></div>
+  </header>
+  <nav class="steps" id="steps" aria-label="Flow progress">
+    <span data-s="login">1 · Sign in</span><span data-s="dash">2 · Overview</span><span data-s="upload">3 · Upload data</span><span data-s="gen">4 · Generate</span><span data-s="review">5 · Review</span><span data-s="send">6 · Distribute</span>
+  </nav>
+  <main>
+    <!-- 1 login -->
+    <section class="screen on" id="login">
+      <div class="card login">
+        <h1>Sign in</h1>
+        <p class="sub">Monthly commission reporting for the finance team.</p>
+        <label for="em">Work email</label><input id="em" value="finance.admin@lab.example">
+        <label for="pw">Password</label><input id="pw" type="password" value="••••••••">
+        <button class="btn" style="width:100%;margin-top:20px" data-go="dash">Sign in</button>
+        <p class="hint" style="text-align:center;margin-top:12px">Single sign-on in production</p>
+      </div>
+    </section>
+
+    <!-- 2 dashboard -->
+    <section class="screen" id="dash">
+      <h1>Welcome back.</h1>
+      <p class="sub">June close · 15 active sales reps · last batch sent May 31</p>
+      <div class="grid">
+        <div class="col">
+          <div class="card">
+            <div class="row"><h2>Sales team</h2><span class="chip">15 active</span></div>
+            <div class="reps" id="reps"></div>
+          </div>
+          <div class="card">
+            <h2>Last batch</h2>
+            <p style="margin:10px 0 0"><b>15</b> reports sent · <b>8</b> opened</p>
+            <div class="row" style="margin-top:14px"><button class="btn ghost" data-go="review">View last batch</button></div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <div class="row"><h2>Commission overview</h2><span class="hint">May 1 – May 31</span></div>
+            <table><thead><tr><th>Top reps</th><th style="text-align:right">Commission</th></tr></thead>
+              <tbody><tr><td>1. Maya Chen</td><td class="n">$23,456</td></tr><tr><td>2. Daniel Okafor</td><td class="n">$17,344</td></tr><tr><td>3. Priya Raman</td><td class="n">$14,532</td></tr></tbody></table>
+            <p style="margin:16px 0 0"><span class="big">27</span> active adjustments</p>
+            <div class="chips"><span class="chip warn">4 leave of absence</span><span class="chip warn">3 departures</span><span class="chip">10 new reps</span><span class="chip">10 account transfers</span></div>
+            <p class="hint" style="margin-top:10px">Adjustments are applied automatically when reports are generated.</p>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card" style="background:var(--teal);color:#fff;border:0">
+            <h2>Start June close</h2>
+            <p style="margin:8px 0 16px;opacity:.9">Upload 4 files and the app builds every rep's report.</p>
+            <button class="btn" style="background:#fff;color:var(--teal-d);width:100%" data-go="upload">Generate new reports →</button>
+          </div>
+          <div class="card">
+            <h2>Settings</h2>
+            <div class="set"><span>Default commission rate</span><b>10%</b></div>
+            <div class="set"><span>Save reports as PDF</span><button class="tog" aria-pressed="true" aria-label="Save reports as PDF"></button></div>
+            <div class="set"><span>CC rep's manager</span><button class="tog" aria-pressed="true" aria-label="CC rep's manager"></button></div>
+            <div class="set"><span>Encrypt files</span><button class="tog" aria-pressed="true" aria-label="Encrypt files"></button></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3 upload -->
+    <section class="screen" id="upload">
+      <div class="card" style="max-width:620px;margin:0 auto">
+        <h1>Upload June data</h1>
+        <p class="sub" style="margin:0">Add the four exports below. Click each one to simulate an upload.</p>
+        <div class="files" id="files">
+          <button class="file" type="button"><span class="ck">✓</span><span><b>Sales summary</b><small>From the CRM · .xlsx</small></span></button>
+          <button class="file" type="button"><span class="ck">✓</span><span><b>Payment extract</b><small>From accounting · .csv</small></span></button>
+          <button class="file" type="button"><span class="ck">✓</span><span><b>Rep–account cross reference</b><small>Who owns which accounts · .xlsx</small></span></button>
+          <button class="file" type="button"><span class="ck">✓</span><span><b>Adjustments log</b><small>Leave, departures, transfers · .xlsx</small></span></button>
+        </div>
+        <div class="row"><span class="hint" id="fcount">0 of 4 files added</span><span style="display:flex;gap:8px"><button class="btn ghost" data-go="dash">Back</button><button class="btn" id="genBtn" disabled data-go="gen">Generate reports</button></span></div>
+      </div>
+    </section>
+
+    <!-- 4 generating -->
+    <section class="screen" id="gen">
+      <div class="card center">
+        <h1>Generating reports</h1>
+        <p class="sub" style="margin:0">Matching payments to reps and applying adjustments.</p>
+        <div class="bar"><b id="barFill"></b></div>
+        <p class="log" id="log">Starting…</p>
+      </div>
+    </section>
+
+    <!-- 5 review -->
+    <section class="screen" id="review">
+      <div class="row" style="margin-bottom:16px"><div><h1>Review reports</h1><p class="sub" style="margin:0">15 reports ready · <b id="flagCount">2</b> need a look before sending</p></div><button class="btn" data-go="send">Continue to send →</button></div>
+      <div class="viewer">
+        <div class="card"><h2>Reps</h2><div class="list" id="list"></div></div>
+        <div class="doc" id="doc"></div>
+      </div>
+    </section>
+
+    <!-- 6 distribute -->
+    <section class="screen" id="send">
+      <div class="grid" style="grid-template-columns:1fr 1.2fr">
+        <div class="card">
+          <div class="row"><h2>Recipients</h2><label class="hint"><input type="checkbox" id="all" checked> Select all</label></div>
+          <div class="recips" id="recips"></div>
+        </div>
+        <div class="card">
+          <h2>Message</h2>
+          <textarea id="msg">Hi team,
+
+Attached is your June commission report, with your total commission and a breakdown by product line.
+
+If anything looks off, reply to this email within 5 business days and Finance will review it with your manager.
+
+— Finance</textarea>
+          <div class="row" style="margin-top:14px"><button class="btn ghost" data-go="review">Back</button><button class="btn" id="sendBtn">Send 15 reports</button></div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <p class="foot">Concept prototype · sample data · <a href="#" onclick="go('login');return false">Restart</a></p>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+const reps=[["Maya Chen",23456],["Daniel Okafor",17344],["Priya Raman",14532],["Luis Ortega",12980],["Hannah Brooks",11402],["Samir Haddad",10875],["Grace Kim",9930],["Tom Walsh",9210],["Aisha Bello",8744],["Ben Carter",8105],["Nina Petrov",7620],["Jamal Reed",6988],["Ella Novak",6340],["Omar Farouk",5910],["Kate Lin",4120]];
+const flags={4:"Leave of absence May 12–26: commission prorated to 16 working days.",12:"New rep: 3 accounts transferred from Ben Carter on May 15."};
+const ini=n=>n.split(" ").map(w=>w[0]).join("");
+const $=id=>document.getElementById(id);
+const order=["login","dash","upload","gen","review","send"];
+function go(id){
+  document.querySelectorAll(".screen").forEach(s=>s.classList.toggle("on",s.id===id));
+  const i=order.indexOf(id);
+  document.querySelectorAll("#steps span").forEach((s,k)=>{s.classList.toggle("on",k===i);s.classList.toggle("done",k<i)});
+  $("who").hidden=id==="login";
+  if(id==="gen")runGen();
+  if(id==="upload")resetUpload();
+  scrollTo(0,0);
+}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-go]");if(b&&!b.disabled){e.preventDefault();go(b.dataset.go)}});
+document.querySelectorAll(".tog").forEach(t=>t.onclick=()=>t.setAttribute("aria-pressed",t.getAttribute("aria-pressed")!=="true"));
+$("reps").innerHTML=reps.map(([n])=>`<div class="rep"><i>${ini(n)}</i>${n.split(" ")[0]} ${n.split(" ")[1][0]}.</div>`).join("");
+// upload
+const files=[...document.querySelectorAll(".file")];
+function resetUpload(){files.forEach(f=>f.classList.remove("ok"));upd()}
+function upd(){const n=files.filter(f=>f.classList.contains("ok")).length;$("fcount").textContent=`${n} of 4 files added`;$("genBtn").disabled=n<4}
+files.forEach(f=>f.onclick=()=>{f.classList.add("ok");upd()});
+// generate
+let timer;
+function runGen(){
+  const msgs=["Reading sales summary…","Matching 1,284 payments to reps…","Applying 27 adjustments…","Building 15 PDFs…","Encrypting files…","Done"];
+  let p=0;clearInterval(timer);$("barFill").style.width="0";
+  timer=setInterval(()=>{p+=4;$("barFill").style.width=p+"%";$("log").textContent=msgs[Math.min(msgs.length-1,Math.floor(p/20))];
+    if(p>=100){clearInterval(timer);setTimeout(()=>go("review"),400)}},70);
+}
+// review
+let cur=0;
+function list(){$("list").innerHTML=reps.map(([n],k)=>`<button class="li" type="button" ${k===cur?'aria-current="true"':''} data-k="${k}"><span>${n}</span><span class="dot ${flags[k]?'f':''}" title="${flags[k]?'Needs review':'Ready'}"></span></button>`).join("")}
+function doc(){
+  const [n,t]=reps[cur];const lines=[["Diagnostics panels",.46],["Molecular testing",.31],["Routine labs",.23]];
+  $("doc").innerHTML=`<div class="h"><div><b>June commission report</b><div class="hint">${n} · Rep since 2021</div></div><div class="hint">Report ${cur+1} of 15</div></div>
+  <table><thead><tr><th>Product line</th><th style="text-align:right">Commission</th></tr></thead><tbody>${lines.map(([l,s])=>`<tr><td>${l}</td><td class="n">$${Math.round(t*s).toLocaleString()}</td></tr>`).join("")}</tbody></table>
+  <div class="row" style="margin-top:14px"><span>Total commission</span><span class="total">$${t.toLocaleString()}</span></div>
+  ${flags[cur]?`<div class="note"><b>Needs review.</b> ${flags[cur]}<div style="margin-top:10px"><button class="btn" style="padding:7px 12px" onclick="approve(${cur})">Looks right, approve</button></div></div>`:`<p class="chip" style="margin-top:14px">✓ Ready to send</p>`}`;
+}
+window.approve=k=>{delete flags[k];$("flagCount").textContent=Object.keys(flags).length;list();doc();toast("Approved")};
+$("list").onclick=e=>{const b=e.target.closest(".li");if(!b)return;cur=+b.dataset.k;list();doc()};
+list();doc();
+// distribute
+$("recips").innerHTML=reps.map(([n])=>`<label><input type="checkbox" checked> ${n}</label>`).join("");
+const boxes=()=>[...document.querySelectorAll("#recips input")];
+function cnt(){const n=boxes().filter(b=>b.checked).length;$("sendBtn").textContent=`Send ${n} report${n===1?"":"s"}`;$("sendBtn").disabled=!n;$("all").checked=n===reps.length}
+$("recips").onchange=cnt;$("all").onchange=e=>{boxes().forEach(b=>b.checked=e.target.checked);cnt()};
+$("sendBtn").onclick=()=>{toast(`${boxes().filter(b=>b.checked).length} reports sent · encrypted PDFs`);setTimeout(()=>go("dash"),1600)};
+function toast(t){const el=$("toast");el.textContent=t;el.classList.add("on");setTimeout(()=>el.classList.remove("on"),1500)}
+go("login");
+</script>
+</body>
+</html>

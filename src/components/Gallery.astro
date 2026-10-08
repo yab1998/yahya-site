@@ -3,6 +3,7 @@
 import { Picture } from 'astro:assets';
 import { img, url } from '../lib/images';
 import site from '../data/site.json';
+import commissionCover from '../assets/case/commission-dash.jpg';
 
 const tiles = await Promise.all(site.design.map(async (w) => {
   const items = await Promise.all(w.images.map(async (p, k) => ({ src: await url(p), alt: w.alt[k] ?? w.title })));
@@ -40,6 +41,10 @@ const filters = [['all', 'All'], ['artwork', 'Artwork'], ['collection', 'Collect
         {w.credit && <span class="cred mono">{w.credit}</span>}
       </button>
     ))}
+    <a class="tile wide" data-tags="ux" href="/work/commission-hub/">
+      <div class="med"><Picture src={commissionCover} alt="" formats={['avif', 'webp']} widths={[600, 1000]} sizes="(max-width: 760px) 100vw, 50vw" style="width:100%;height:100%;object-fit:cover;object-position:top left" /></div>
+      <div class="cap"><span class="n mono">UX</span><span class="tt"><b>Commission Hub</b><span class="k">Case study + prototype →</span></span></div>
+    </a>
     <div class="tile soon" data-tags="ux">
       <div class="med soonbox"><span class="mono">UX case study</span><b>EdTech competition platform</b><span class="mono">Screens coming soon</span></div>
     </div>

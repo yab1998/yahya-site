@@ -1,6 +1,6 @@
 ---
 title: "EdTech competition platform"
-order: 3
+order: 4
 summary: "Product and UX work for a K–12 academic competition platform: results, rankings and student profiles. [TODO: result]"
 role: "Product & data analyst · UX design"
 lane: "Product · UX · analytics"
