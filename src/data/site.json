@@ -44,19 +44,24 @@
   },
   "videos": [
     {
-      "title": "[TODO: best short-form edit]",
-      "url": "",
+      "title": "Walking with Aber Kawas",
+      "url": "https://www.tiktok.com/@thelifeofyahya/video/7654336225603521805",
+      "platform": "Campaign · TikTok"
+    },
+    {
+      "title": "Going to a PWI (my most-watched)",
+      "url": "https://www.tiktok.com/@thelifeofyahya/video/6991258393138810117",
       "platform": "TikTok"
     },
     {
-      "title": "[TODO: interview or long-form]",
-      "url": "",
-      "platform": "YouTube"
+      "title": "What happened in the 2024 election",
+      "url": "https://www.tiktok.com/@thelifeofyahya/video/7434710069763165482",
+      "platform": "TikTok · analysis"
     },
     {
-      "title": "Aber Kawas walking video",
+      "title": "[TODO: long-form video]",
       "url": "",
-      "platform": "Campaign"
+      "platform": "YouTube"
     }
   ],
   "design": [
@@ -406,13 +411,6 @@
       "series": "Bluelight Sessions",
       "title": "Smirk",
       "alt": "Photograph from Bluelight Sessions: Smirk",
-      "blurb": "Styled, lit, shot and edited by me for The Heartbreak Saga. Each outfit stands for a different chapter of the story."
-    },
-    {
-      "src": "photos/bluelight-2390.jpg",
-      "series": "Bluelight Sessions",
-      "title": "Cover Mouth",
-      "alt": "Photograph from Bluelight Sessions: Cover Mouth",
       "blurb": "Styled, lit, shot and edited by me for The Heartbreak Saga. Each outfit stands for a different chapter of the story."
     },
     {

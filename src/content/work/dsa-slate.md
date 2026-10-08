@@ -23,7 +23,7 @@ description: "Campaign storytelling for NYC-DSA candidates: a walking-interview 
 
 ## The work
 
-[TODO: embed the finished walking video.]
+<p class="protonote"><a href="https://www.tiktok.com/@thelifeofyahya/video/7654336225603521805" target="_blank" rel="noopener">Watch the walking video on TikTok ↗</a></p>
 
 ## Outcome
 
