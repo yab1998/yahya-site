@@ -24,7 +24,7 @@ const canonical = new URL('/studio/', Astro.site);
   <meta property="og:description" content="Independent creative studio in New York. Brand identity, creative direction and digital storytelling." />
   <meta property="og:image" content={new URL(og.src, Astro.site)} />
   <meta name="theme-color" content="#588158" />
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/ll-mark-color.svg" type="image/svg+xml" />
   <link rel="preload" href="/fonts/eb-garamond-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin />
 </head>
 <body>
@@ -37,13 +37,13 @@ const canonical = new URL('/studio/', Astro.site);
       </div>
       <div class="right">
         <nav class="nav" aria-label="Studio">
-          <a class="mark" href="/studio/" aria-label="lunar lighthouse home">ll.</a>
+          <a class="mark" href="/studio/" aria-label="lunar lighthouse home"><img src="/ll-mark-green.svg" alt="" width="54" height="65" /><span>lunar lighthouse</span></a>
           <span><a href="#work">work.</a><a href="#contact">contact me.</a></span>
         </nav>
         <h2>about lunar</h2>
         <p class="lead"><b>lunar lighthouse</b> is an independent creative studio crafting thoughtful, human-centered design and digital storytelling.</p>
         <Picture class="me" src={portrait} alt="Portrait of Yahya against a purple backdrop" formats={['avif', 'webp']} widths={[240, 480]} sizes="120px" />
-        <p class="bio">I'm <b>Yahya</b> — a New York-based creative blending design thinking, psychology and storytelling to solve complex problems, shape user experiences and curate compelling digital narratives.</p>
+        <p class="bio">I'm <b>Yahya</b>. I've been freelancing since 2019 and named the studio in 2023. I'm a New York-based creative blending design thinking, psychology and storytelling to solve complex problems, shape user experiences and curate compelling digital narratives.</p>
         <ul class="svc">
           <li>logos + brand identity</li><li>creative direction</li><li>campaign + social design</li><li>websites + digital</li>
         </ul>
@@ -104,7 +104,7 @@ const canonical = new URL('/studio/', Astro.site);
     </section>
   </main>
   <footer class="foot">
-    <div><b>made in new york</b><br />by <a href="/">yahya abdul-basser</a><br /><br /><b>© 2026</b><br />lunar lighthouse creative</div>
+    <div><b>made in new york</b><br />by <a href="/">yahya abdul-basser</a><br /><br /><b>© 2026 · est. 2023</b><br />lunar lighthouse creative</div>
     <div><b class="fh">work</b>{projects.map((p) => <a href="#work">{p.name.replace('the ', '')}</a>)}</div>
     <div><b class="fh">contact us</b><a href={`mailto:${site.email}`}>email</a><a href="/">personal site</a><a href={site.socials[0].url} target="_blank" rel="noopener">instagram</a></div>
   </footer>
@@ -132,7 +132,7 @@ const canonical = new URL('/studio/', Astro.site);
   .left .lh{width:calc(100% + clamp(48px,10vw,144px));max-width:none;margin-left:calc(clamp(24px,5vw,72px) * -1);margin-top:24px}
   .right{padding:clamp(32px,5vw,72px) clamp(24px,5vw,80px)}
   .nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:clamp(40px,7vh,80px)}
-  .mark{font-family:var(--serif);font-weight:700;font-size:40px;text-decoration:none;letter-spacing:-.04em}
+  .mark{display:flex;align-items:center;gap:12px;font-family:var(--serif);font-weight:600;font-size:24px;text-decoration:none;letter-spacing:-.01em;color:var(--g-d)}.mark img{width:46px;height:auto}
   .nav span{display:flex;gap:22px}.nav span a{text-decoration:none;font-size:18px}.nav span a:hover{text-decoration:underline;text-underline-offset:5px}
   .right h2{font-size:clamp(44px,4.6vw,68px);margin-bottom:28px}
   .lead{font-size:clamp(19px,1.7vw,24px);line-height:1.4;max-width:30ch;margin:0 0 clamp(32px,6vh,72px)}
