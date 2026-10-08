@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Academic competition platform prototype</title>
+<meta name="robots" content="noindex">
+<style>
+:root{--bg:#F6F8FA;--card:#fff;--ink:#0E1B2B;--muted:#56657A;--line:#E1E7EE;--brand:#14706B;--brand-d:#0D4F4B;--brand-l:#E3F2F0;--live:#D92D20;--violet:#6941C6;--amber:#B54708;--green:#067647;--r:14px;--f:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+*{box-sizing:border-box}html,body{margin:0}
+body{font-family:var(--f);background:var(--bg);color:var(--ink);font-size:14px;line-height:1.45}
+button{font:inherit;cursor:pointer}
+header{position:sticky;top:0;z-index:5;background:var(--card);border-bottom:1px solid var(--line)}
+.bar{max-width:1180px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:18px}
+.logo{display:flex;align-items:center;gap:8px;font-weight:800;font-size:16px}
+.logo i{width:28px;height:28px;border-radius:8px;background:var(--brand);color:#fff;display:grid;place-items:center;font-style:normal;font-size:14px}
+nav.tabs{display:flex;gap:4px;margin-left:auto}
+nav.tabs button{border:0;background:none;padding:8px 12px;border-radius:8px;color:var(--muted);font-weight:600}
+nav.tabs button[aria-current]{background:var(--brand-l);color:var(--brand-d)}
+.me{width:32px;height:32px;border-radius:50%;background:var(--violet);color:#fff;display:grid;place-items:center;font-weight:700;font-size:12px}
+main{max-width:1180px;margin:0 auto;padding:24px 20px 60px}
+.screen{display:none;animation:in .3s ease}.screen.on{display:block}
+@keyframes in{from{opacity:0;transform:translateY(6px)}}
+h1{font-size:26px;margin:0 0 4px;letter-spacing:-.02em}h2{font-size:16px;margin:0 0 12px}
+.sub{color:var(--muted);margin:0 0 18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px}
+.g3{display:grid;grid-template-columns:240px 1fr 280px;gap:16px}
+.col{display:flex;flex-direction:column;gap:16px}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;background:var(--brand-l);color:var(--brand-d)}
+.cat{display:flex;justify-content:space-between;align-items:center;width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--card);margin-bottom:6px;text-align:left;color:var(--ink)}
+.cat[aria-pressed=true]{border-color:var(--brand);background:var(--brand-l)}
+.cat small{color:var(--muted)}
+.live{background:linear-gradient(135deg,#0F3D3A,#14706B);color:#fff;border:0}
+.live .tag{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;letter-spacing:.06em;background:rgba(255,255,255,.14);padding:4px 8px;border-radius:6px}
+.live .tag::before{content:"";width:7px;height:7px;border-radius:50%;background:#FF6B5E;animation:blink 1.2s infinite}
+@keyframes blink{50%{opacity:.25}}
+.match{background:rgba(255,255,255,.08);border-radius:12px;padding:12px 14px;margin-top:12px}
+.team{display:flex;justify-content:space-between;align-items:center;padding:6px 0}
+.team b{font-size:22px;font-variant-numeric:tabular-nums;transition:color .3s}
+.team b.bump{color:#7CF0C5}
+.meta{font-size:12px;opacity:.75;display:flex;justify-content:space-between}
+.feed{display:flex;flex-direction:column;gap:12px}
+.post{display:grid;grid-template-columns:40px 1fr;gap:10px}
+.av{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-weight:700;color:#fff;font-size:13px}
+.post p{margin:2px 0 8px}
+.acts{display:flex;gap:6px}
+.acts button{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:4px 12px;font-size:12px;font-weight:600;color:var(--muted)}
+.acts button[aria-pressed=true]{background:var(--brand-l);border-color:var(--brand);color:var(--brand-d)}
+.rank{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--line)}.rank:last-child{border:0}
+.rank .n{width:22px;font-weight:800;color:var(--muted)}
+.rank .up{margin-left:auto;font-size:12px;font-weight:700;color:var(--green)}
+.btn{border:0;border-radius:10px;padding:10px 16px;font-weight:700;background:var(--brand);color:#fff}
+.btn:hover{background:var(--brand-d)}
+.btn.ghost{background:var(--card);color:var(--ink);border:1px solid var(--line)}
+/* profile */
+.hero{display:grid;grid-template-columns:110px 1fr auto;gap:20px;align-items:start}
+.big-av{width:110px;height:110px;border-radius:50%;background:linear-gradient(135deg,#7A5AF8,#4E2FD0);color:#fff;display:grid;place-items:center;font-size:34px;font-weight:800}
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:16px;border-top:1px solid var(--line);padding-top:14px}
+.stats div{text-align:center}.stats b{display:block;font-size:22px}.stats span{font-size:12px;color:var(--muted)}
+.ptabs{display:flex;gap:4px;background:#EDF1F5;padding:4px;border-radius:12px;margin:18px 0}
+.ptabs button{flex:1;border:0;background:none;padding:9px;border-radius:9px;font-weight:600;color:var(--muted)}
+.ptabs button[aria-selected=true]{background:var(--card);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.badges{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.badge{display:flex;gap:12px;padding:14px;border-radius:12px;border:1.5px solid var(--line)}
+.badge i{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:18px;flex-shrink:0}
+.badge small{display:block;color:var(--muted)}
+.meter{height:8px;background:#EDF1F5;border-radius:999px;overflow:hidden;margin:6px 0 14px}.meter b{display:block;height:100%;background:var(--brand)}
+table{width:100%;border-collapse:collapse}td,th{padding:10px 6px;border-bottom:1px solid var(--line);text-align:left}th{font-size:12px;color:var(--muted)}
+/* dashboard */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.kpi b{font-size:26px;display:block}.kpi span{color:var(--muted);font-size:12px}.kpi em{font-style:normal;color:var(--green);font-size:12px;font-weight:700}
+.g2{display:grid;grid-template-columns:1.4fr 1fr;gap:16px;margin-top:16px}
+.ev{display:flex;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}.ev:last-child{border:0}
+.date{width:46px;text-align:center;border-radius:10px;background:var(--brand-l);color:var(--brand-d);padding:6px 0;font-weight:800;line-height:1.1}.date small{display:block;font-size:10px;font-weight:700}
+.ev .btn{margin-left:auto;padding:6px 12px;font-size:12px}
+.chart{display:flex;align-items:flex-end;gap:10px;height:150px;padding-top:10px}
+.chart div{flex:1;background:var(--brand-l);border-radius:6px 6px 0 0;position:relative}
+.chart div b{position:absolute;inset:auto 0 0;background:var(--brand);border-radius:6px 6px 0 0}
+.chart span{position:absolute;bottom:-20px;left:0;right:0;text-align:center;font-size:11px;color:var(--muted)}
+.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,200%);visibility:hidden;background:var(--ink);color:#fff;padding:11px 16px;border-radius:12px;font-weight:600;transition:transform .3s}
+.toast.on{transform:translate(-50%,0);visibility:visible}
+.foot{text-align:center;color:var(--muted);font-size:12px;padding:10px}
+@media (max-width:960px){.g3,.g2,.hero{grid-template-columns:1fr}.kpis,.stats{grid-template-columns:repeat(2,1fr)}.badges{grid-template-columns:1fr}nav.tabs{margin-left:0}.bar{flex-wrap:wrap}}
+</style>
+</head>
+<body>
+<header><div class="bar">
+  <div class="logo"><i aria-hidden="true">▲</i>Laurel</div>
+  <nav class="tabs" aria-label="Prototype screens">
+    <button data-go="home" aria-current="true">Home</button><button data-go="profile">Profile</button><button data-go="dash">My dashboard</button>
+  </nav>
+  <span class="me" aria-label="Signed in as Jordan Ellis">JE</span>
+</div></header>
+
+<main>
+<!-- HOME -->
+<section class="screen on" id="home">
+  <h1>Today in competitions</h1>
+  <p class="sub">Live scores, results and the people behind them, like a sports app for academics.</p>
+  <div class="g3">
+    <div class="col">
+      <div class="card"><h2>Categories</h2><div id="cats"></div></div>
+    </div>
+    <div class="col">
+      <div class="card live">
+        <div class="row" style="display:flex;justify-content:space-between;align-items:center"><span class="tag">LIVE</span><span class="meta" style="gap:10px"><span>Regional Quiz Bowl · Semifinal</span></span></div>
+        <div class="match"><div class="team"><span>Lakeside High</span><b id="s1">145</b></div><div class="team"><span>Riverview Academy</span><b id="s2">142</b></div><div class="meta"><span>Round 3 of 4</span><span id="clock">4:12 left</span></div></div>
+        <div class="match"><div class="team"><span>Northgate High</span><b>128</b></div><div class="team"><span>Westbrook Prep</span><b>135</b></div><div class="meta"><span>Round 4 of 4</span><span>Final minutes</span></div></div>
+      </div>
+      <div class="card">
+        <h2>From your network</h2>
+        <div class="feed" id="feed"></div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card"><h2>Rising this week</h2><div id="ranks"></div></div>
+      <div class="card"><h2>Coming up</h2>
+        <div class="ev"><div class="date">MAR<small>30</small></div><div><b>State Math League</b><div class="sub" style="margin:0;font-size:12px">Registration closes</div></div></div>
+        <div class="ev"><div class="date">APR<small>15</small></div><div><b>Science Fair Regionals</b><div class="sub" style="margin:0;font-size:12px">Competition day</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROFILE -->
+<section class="screen" id="profile">
+  <div class="card">
+    <div class="hero">
+      <div class="big-av">AC</div>
+      <div>
+        <h1>Ava Castillo</h1>
+        <p class="sub" style="margin:0">11th grade · Lakeside High · Seattle, WA</p>
+        <p style="margin:10px 0 0;max-width:560px">STEM competitor. Math league captain, science fair regular, always looking for a quiz bowl team.</p>
+      </div>
+      <div style="display:flex;gap:8px"><button class="btn" id="follow">Follow</button><button class="btn ghost" id="msg">Message</button></div>
+    </div>
+    <div class="stats"><div><b id="fol">156</b><span>Followers</span></div><div><b>23</b><span>Achievements</span></div><div><b>47</b><span>Competitions</span></div><div><b>68%</b><span>Win rate</span></div><div><b>#12</b><span>Regional rank</span></div></div>
+  </div>
+  <div class="ptabs" role="tablist">
+    <button role="tab" aria-selected="true" data-t="ach">Achievements</button><button role="tab" aria-selected="false" data-t="hist">Competition history</button><button role="tab" aria-selected="false" data-t="skills">Skills</button>
+  </div>
+  <div class="g2" style="margin-top:0">
+    <div class="card" id="ptab"></div>
+    <div class="card"><h2>Season progress</h2>
+      <div class="row" style="display:flex;justify-content:space-between"><span>Points</span><b>4,050</b></div><div class="meter"><b style="width:81%"></b></div>
+      <div class="row" style="display:flex;justify-content:space-between"><span>Badges</span><b>23 / 50</b></div><div class="meter"><b style="width:46%"></b></div>
+      <p class="sub" style="margin:0;font-size:12px">Visible to coaches and schools Ava follows. Parents see everything.</p>
+    </div>
+  </div>
+</section>
+
+<!-- DASHBOARD -->
+<section class="screen" id="dash">
+  <h1>Welcome back, Jordan</h1>
+  <p class="sub">Your season at a glance</p>
+  <div class="kpis">
+    <div class="card kpi"><span>Competitions</span><b>12</b><em>▲ 12% vs last season</em></div>
+    <div class="card kpi"><span>Win rate</span><b>75%</b><em>▲ 5%</em></div>
+    <div class="card kpi"><span>Followers</span><b id="dfol">424</b><em>▲ 15%</em></div>
+    <div class="card kpi"><span>Profile complete</span><b>87%</b><button class="btn ghost" style="padding:4px 10px;font-size:12px;margin-top:4px" id="complete">Finish profile</button></div>
+  </div>
+  <div class="g2">
+    <div class="card"><h2>Score by month</h2>
+      <div class="chart" id="chart"></div><div style="height:24px"></div>
+    </div>
+    <div class="card"><h2>Upcoming</h2><div id="events"></div></div>
+  </div>
+</section>
+</main>
+<p class="foot">Concept prototype · sample data · names and schools are made up</p>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+const $=id=>document.getElementById(id);
+function go(id){document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('on',s.id===id));document.querySelectorAll('nav.tabs button').forEach(b=>b.toggleAttribute('aria-current',b.dataset.go===id));scrollTo(0,0)}
+document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>go(b.dataset.go));
+function toast(t){const e=$('toast');e.textContent=t;e.classList.add('on');clearTimeout(e._t);e._t=setTimeout(()=>e.classList.remove('on'),1500)}
+// categories filter the feed
+const cats=[['all','All',null],['math','Mathematics','2,847 active'],['sci','Science Olympiad','1,923 active'],['code','Coding','3,291 active'],['spell','Spelling Bee','1,458 active'],['debate','Debate','992 active']];
+let cat='all';
+const posts=[
+ {c:'math',n:'Ava Castillo',i:'AC',col:'#6941C6',t:'Took 1st at the State Math League qualifier. 38/40!',k:'2h',l:24},
+ {c:'sci',n:'Lakeside High',i:'LH',col:'#14706B',t:'Our Science Olympiad team placed 3rd of 41 schools. So proud of these students.',k:'4h',l:57},
+ {c:'debate',n:'Coach Rivera',i:'CR',col:'#B54708',t:'Looking for two more students for the regional policy debate team. DM me.',k:'6h',l:12},
+ {c:'spell',n:'Marcus Lee',i:'ML',col:'#067647',t:'Advanced to county finals in the spelling bee. "Onomatopoeia" almost got me.',k:'1d',l:41},
+ {c:'code',n:'Priya Nair',i:'PN',col:'#2E5AAC',t:'New personal best on the coding circuit: Silver division, 3 of 4 problems solved.',k:'1d',l:33}];
+function renderCats(){$('cats').innerHTML=cats.map(([k,l,s])=>`<button class="cat" aria-pressed="${k===cat}" data-c="${k}"><span>${l}</span><small>${s||''}</small></button>`).join('')}
+function renderFeed(){$('feed').innerHTML=posts.filter(p=>cat==='all'||p.c===cat).map((p,k)=>`<div class="post"><div class="av" style="background:${p.col}">${p.i}</div><div><b>${p.n}</b> <span class="sub" style="font-size:12px">· ${p.k}</span><p>${p.t}</p><div class="acts"><button aria-pressed="false" data-like="${posts.indexOf(p)}">👏 ${p.l}</button><button data-cmt>Comment</button><button data-prof>View profile</button></div></div></div>`).join('')||'<p class="sub">No posts in this category yet.</p>'}
+$('cats').onclick=e=>{const b=e.target.closest('.cat');if(!b)return;cat=b.dataset.c;renderCats();renderFeed()};
+$('feed').onclick=e=>{const l=e.target.closest('[data-like]');if(l){const p=posts[l.dataset.like];const on=l.getAttribute('aria-pressed')!=='true';p.l+=on?1:-1;l.setAttribute('aria-pressed',on);l.textContent='👏 '+p.l}
+ if(e.target.closest('[data-prof]'))go('profile');if(e.target.closest('[data-cmt]'))toast('Comments open in the full app')};
+renderCats();renderFeed();
+$('ranks').innerHTML=[['Ava Castillo','+4'],['Marcus Lee','+3'],['Priya Nair','+3'],['Sam Okoro','+2']].map(([n,u],k)=>`<div class="rank"><span class="n">${k+1}</span><span>${n}</span><span class="up">▲ ${u}</span></div>`).join('');
+// live score ticks
+let s1=145,s2=142,sec=252;
+setInterval(()=>{sec=Math.max(0,sec-1);$('clock').textContent=`${Math.floor(sec/60)}:${String(sec%60).padStart(2,'0')} left`},1000);
+setInterval(()=>{const a=Math.random()<.5;const el=a?$('s1'):$('s2');if(a)s1+=10;else s2+=10;el.textContent=a?s1:s2;el.classList.add('bump');setTimeout(()=>el.classList.remove('bump'),900)},4000);
+// profile
+let following=false,fol=156;
+$('follow').onclick=()=>{following=!following;fol+=following?1:-1;$('fol').textContent=fol;$('follow').textContent=following?'Following ✓':'Follow';$('follow').className=following?'btn ghost':'btn';if(following)toast('You follow Ava now. Her results show up in your feed.')};
+$('msg').onclick=()=>toast('Messages between students need a parent-approved account');
+const tabs={
+ ach:`<h2>Achievements</h2><div class="badges">${[['🏆','#FEF0C7','State Math League, 1st','Feb 2025'],['🔬','#EBE9FE','Science Fair, best research','Nov 2024'],['🎤','#E3F2F0','Quiz Bowl, top 10','Oct 2024'],['🔥','#FEE4E2','10-competition streak','Aug 2024']].map(([i,b,t,d])=>`<div class="badge"><i style="background:${b}">${i}</i><div><b>${t}</b><small>${d}</small></div></div>`).join('')}</div>`,
+ hist:`<h2>Competition history</h2><table><thead><tr><th>Season</th><th>Competition</th><th>Place</th></tr></thead><tbody><tr><td>2025</td><td>State Math League</td><td><b>1st</b></td></tr><tr><td>2024</td><td>Regional Science Fair</td><td><b>1st</b></td></tr><tr><td>2024</td><td>Quiz Bowl Regionals</td><td>4th</td></tr><tr><td>2023</td><td>County Spelling Bee</td><td>2nd</td></tr></tbody></table>`,
+ skills:`<h2>Skills</h2><div style="display:flex;flex-wrap:wrap;gap:8px">${['Algebra','Geometry','Experimental design','Public speaking','Team captain','Python'].map(s=>`<span class="pill">${s}</span>`).join('')}</div><p class="sub" style="margin-top:14px">Endorsed by 3 coaches</p>`};
+function tab(t){document.querySelectorAll('.ptabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.t===t));$('ptab').innerHTML=tabs[t]}
+document.querySelector('.ptabs').onclick=e=>{const b=e.target.closest('button');if(b)tab(b.dataset.t)};tab('ach');
+// dashboard
+$('chart').innerHTML=[['Sep',55],['Oct',62],['Nov',58],['Dec',70],['Jan',74],['Feb',88]].map(([m,v])=>`<div style="height:100%"><b style="height:${v}%"></b><span>${m}</span></div>`).join('');
+const evs=[['MAR','30','State Math League','Registered',true],['APR','15','Science Fair Regionals','Register',false],['APR','26','Quiz Bowl Invitational','Register',false]];
+function renderEv(){$('events').innerHTML=evs.map((e,k)=>`<div class="ev"><div class="date">${e[0]}<small>${e[1]}</small></div><div><b>${e[2]}</b></div><button class="btn ${e[4]?'ghost':''}" data-ev="${k}">${e[4]?'Registered ✓':'Register'}</button></div>`).join('')}
+$('events').onclick=e=>{const b=e.target.closest('[data-ev]');if(!b)return;const ev=evs[b.dataset.ev];if(ev[4])return;ev[4]=true;renderEv();toast(`Registered for ${ev[2]}. Your coach was notified.`)};renderEv();
+$('complete').onclick=()=>toast('Add a school, a photo and 3 skills to finish');
+</script>
+</body>
+</html>

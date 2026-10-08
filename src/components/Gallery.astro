@@ -3,6 +3,7 @@
 import { Picture } from 'astro:assets';
 import { img, url } from '../lib/images';
 import site from '../data/site.json';
+import laurelCover from '../assets/case/laurel-home.jpg';
 import commissionCover from '../assets/case/commission-dash.jpg';
 
 const tiles = await Promise.all(site.design.map(async (w) => {
@@ -45,9 +46,10 @@ const filters = [['all', 'All'], ['artwork', 'Artwork'], ['collection', 'Collect
       <div class="med"><Picture src={commissionCover} alt="" formats={['avif', 'webp']} widths={[600, 1000]} sizes="(max-width: 760px) 100vw, 50vw" style="width:100%;height:100%;object-fit:cover;object-position:top left" /></div>
       <div class="cap"><span class="n mono">UX</span><span class="tt"><b>Commission Hub</b><span class="k">Case study + prototype →</span></span></div>
     </a>
-    <div class="tile soon" data-tags="ux">
-      <div class="med soonbox"><span class="mono">UX case study</span><b>EdTech competition platform</b><span class="mono">Screens coming soon</span></div>
-    </div>
+    <a class="tile wide" data-tags="ux" href="/work/laurel/">
+      <div class="med"><Picture src={laurelCover} alt="" formats={['avif', 'webp']} widths={[600, 1000]} sizes="(max-width: 760px) 100vw, 50vw" style="width:100%;height:100%;object-fit:cover;object-position:top left" /></div>
+      <div class="cap"><span class="n mono">UX</span><span class="tt"><b>Laurel</b><span class="k">Case study + prototype →</span></span></div>
+    </a>
   </div>
 
   <div class="photo-head">
