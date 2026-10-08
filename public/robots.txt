@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /
 Sitemap: https://yahyaabdulbasser.me/sitemap-index.xml
+Disallow: /type-test/

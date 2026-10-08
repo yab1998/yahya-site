@@ -1,6 +1,6 @@
 ---
 import { Picture } from 'astro:assets';
-import { img } from '../lib/images';
+import { img, url } from '../lib/images';
 import site from '../data/site.json';
 import Icon from './Icon.astro';
 
@@ -26,12 +26,21 @@ const bits = [
   ['46', 'left:36%;bottom:16%;width:5%', '10deg', 5.6],
   ['09', 'right:30%;bottom:14%;width:4.5%', '-8deg', 7.9],
   ['01', 'left:14%;top:26%;width:3.5%', '10deg', 6.4],
-  ['16', 'right:22%;top:27%;width:7%', '-6deg', 8.2],
+  ['10', 'right:22%;top:27%;width:7%', '-6deg', 8.2],
   ['21', 'left:33%;top:12%;width:5.5%', '-14deg', 5.4],
   ['37', 'right:18%;bottom:28%;width:5%', '12deg', 6.2],
   ['53', 'left:21%;top:66%;width:5%', '-10deg', 7.1],
   ['59', 'right:42%;top:16%;width:4.5%', '14deg', 5.9],
+  ['15', 'left:30%;top:20%;width:6%', '-8deg', 6.7],
+  ['11', 'left:42%;top:17%;width:3.5%', '10deg', 7.3],
+  ['43', 'right:34%;top:21%;width:5%', '12deg', 5.7],
+  ['06', 'left:58%;top:11%;width:7%', '-6deg', 8.1],
 ] as const;
+const eye = {
+  base: await url('seeing-me/eye-base.png', 900), baseDk: await url('seeing-me/eye-base-dark.png', 900),
+  iris: await url('seeing-me/eye-iris.png', 900), mask: await url('seeing-me/eye-mask.png', 900),
+  shut: await url('seeing-me/eye-closed.png', 900), shutDk: await url('seeing-me/eye-closed-dark.png', 900),
+};
 const art = (n: string, dark = false) => img(`seeing-me/piece_${n}${dark ? '-dark' : ''}.png`);
 ---
 <section class="hero wrap" aria-labelledby="name">
@@ -58,9 +67,13 @@ const art = (n: string, dark = false) => img(`seeing-me/piece_${n}${dark ? '-dar
     </ul>
   </div>
   <div class="collage" aria-hidden="true">
-    <span class="center">
-      <Picture class="lt" src={art('33')} formats={['avif', 'webp']} widths={[400, 700, 1000]} sizes="(max-width: 760px) 70vw, 34vw" alt="" loading="eager" fetchpriority="high" />
-      <Picture class="dk" src={art('33', true)} formats={['avif', 'webp']} widths={[400, 700, 1000]} sizes="(max-width: 760px) 70vw, 34vw" alt="" />
+    <span class="center" id="eye">
+      <span class="open">
+        <img class="lt" src={eye.base} alt="" width="776" height="640" fetchpriority="high" />
+        <img class="dk" src={eye.baseDk} alt="" width="776" height="640" />
+        <span class="iris" style={`-webkit-mask-image:url(${eye.mask});mask-image:url(${eye.mask})`}><img src={eye.iris} alt="" width="776" height="640" /></span>
+      </span>
+      <span class="shut"><img class="lt" src={eye.shut} alt="" width="776" height="640" /><img class="dk" src={eye.shutDk} alt="" width="776" height="640" /></span>
     </span>
     {bits.map(([n, style, r, d], i) => (
       <span class="m" style={`${style};--r:${r};--d:${d}s;--dl:-${(i * 0.9).toFixed(1)}s`}>
@@ -72,6 +85,26 @@ const art = (n: string, dark = false) => img(`seeing-me/piece_${n}${dark ? '-dar
 </section>
 
 <script>
+  // the eye: blinks every few seconds and its pupil follows the cursor
+  const eyeEl = document.getElementById('eye');
+  if (eyeEl && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const blink = () => { eyeEl.classList.add('blink'); setTimeout(() => eyeEl.classList.remove('blink'), 140); };
+    const loop = () => { setTimeout(() => { blink(); if (Math.random() < .25) setTimeout(blink, 260); loop(); }, 2800 + Math.random() * 3200); };
+    loop();
+    let raf = 0;
+    addEventListener('pointermove', (e) => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        const r = eyeEl.getBoundingClientRect();
+        const cx = r.left + r.width * 0.51, cy = r.top + r.height * 0.56;
+        const dx = e.clientX - cx, dy = e.clientY - cy, d = Math.hypot(dx, dy) || 1;
+        const k = Math.min(1, d / 400), mx = r.width * 0.07, my = r.height * 0.04;
+        eyeEl.style.setProperty('--ex', `${(dx / d) * mx * k}px`);
+        eyeEl.style.setProperty('--ey', `${(dy / d) * my * k}px`);
+      });
+    }, { passive: true });
+  }
+
   // typewriter: the name is real text in the HTML; JS only hides then re-reveals it
   const h1 = document.getElementById('name');
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -113,10 +146,17 @@ const art = (n: string, dark = false) => img(`seeing-me/piece_${n}${dark ? '-dar
 
   .collage{grid-column:span 5;position:relative;aspect-ratio:5/6;min-height:400px}
   .collage .center{position:absolute;left:14%;top:26%;width:72%;filter:drop-shadow(0 14px 18px rgba(20,20,19,.18));animation:float 9s ease-in-out infinite}
-  .collage .dk{display:none}
-  :global(:root[data-theme="dark"]) .collage .lt{display:none}
-  :global(:root[data-theme="dark"]) .collage .dk{display:block}
-  @media (prefers-color-scheme:dark){:global(:root:not([data-theme="light"])) .collage .lt{display:none}:global(:root:not([data-theme="light"])) .collage .dk{display:block}}
+  .collage .center img{display:block;width:100%;height:auto}
+  .collage .center .open,.collage .center .shut{display:block}
+  .collage .center .iris{position:absolute;inset:0;-webkit-mask-size:100% 100%;mask-size:100% 100%}
+  .collage .center .iris img{transform:translate(var(--ex,0px),var(--ey,0px));transition:transform .25s ease-out}
+  .collage .center .shut{position:absolute;inset:0;opacity:0}
+  .collage .center.blink .open{opacity:0}
+  .collage .center.blink .shut{opacity:1}
+  .collage .dk,.collage .center img.dk{display:none}
+  :global(:root[data-theme="dark"]) .collage .lt,:global(:root[data-theme="dark"]) .collage .center img.lt{display:none}
+  :global(:root[data-theme="dark"]) .collage .dk,:global(:root[data-theme="dark"]) .collage .center img.dk{display:block}
+  @media (prefers-color-scheme:dark){:global(:root:not([data-theme="light"])) .collage .lt,:global(:root:not([data-theme="light"])) .collage .center img.lt{display:none}:global(:root:not([data-theme="light"])) .collage .dk,:global(:root:not([data-theme="light"])) .collage .center img.dk{display:block}}
   .collage .m{display:block;position:absolute;animation:float var(--d,7s) ease-in-out infinite;animation-delay:var(--dl,0s);transition:transform .35s cubic-bezier(.3,1.6,.6,1)}
   .collage .m:hover{transform:scale(1.12) rotate(var(--r,6deg))}
   .collage :global(img){width:100%;height:auto}

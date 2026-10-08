@@ -1,0 +1,69 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+const pixel = [
+  { name: 'Silkscreen', fam: 'Silkscreen', note: 'Closest to PP Neue Bit. Blocky caps, best small.' },
+  { name: 'Pixelify Sans', fam: 'Pixelify', note: 'Softer, rounder pixels. More personality at larger sizes.' },
+  { name: 'VT323', fam: 'VT323', note: 'Old terminal / subway-display feel. Needs to run a bit bigger.' },
+];
+const sec = [
+  { name: 'Space Mono (current captions)', fam: 'Space Mono', note: 'What the site uses now.' },
+  { name: 'Space Grotesk', fam: 'Space Grotesk', note: 'Free match for PP Supply Sans: same technical, slightly quirky grotesk.' },
+  { name: 'Geist', fam: 'Geist', note: 'Cleaner, more neutral take on the same idea.' },
+];
+---
+<BaseLayout title="Type test | yahya abdul-basser." description="Font comparison (private test page)">
+  <style is:global>
+    @font-face{font-family:Silkscreen;src:url(/fonts/silkscreen-latin-400-normal.woff2) format('woff2');font-weight:400}
+    @font-face{font-family:Silkscreen;src:url(/fonts/silkscreen-latin-700-normal.woff2) format('woff2');font-weight:700}
+    @font-face{font-family:Pixelify;src:url(/fonts/pixelify-sans-latin-400-normal.woff2) format('woff2');font-weight:400}
+    @font-face{font-family:Pixelify;src:url(/fonts/pixelify-sans-latin-700-normal.woff2) format('woff2');font-weight:700}
+    @font-face{font-family:VT323;src:url(/fonts/vt323-latin-400-normal.woff2) format('woff2')}
+    @font-face{font-family:'Space Grotesk';src:url(/fonts/space-grotesk-latin-400-normal.woff2) format('woff2');font-weight:400}
+    @font-face{font-family:'Space Grotesk';src:url(/fonts/space-grotesk-latin-700-normal.woff2) format('woff2');font-weight:700}
+    @font-face{font-family:Geist;src:url(/fonts/geist-sans-latin-400-normal.woff2) format('woff2');font-weight:400}
+    @font-face{font-family:Geist;src:url(/fonts/geist-sans-latin-700-normal.woff2) format('woff2');font-weight:700}
+  </style>
+  <div class="wrap tt">
+    <h1>Type test</h1>
+    <p class="lead">Each candidate shown in the places it would actually be used. All free for commercial use (SIL Open Font License).</p>
+    <h2 class="sec">Pixel accent: ticker, route labels, badges, now playing</h2>
+    {pixel.map((f) => (
+      <section class="cand">
+        <p class="nm">{f.name} <span>{f.note}</span></p>
+        <div class="demo" style={`font-family:'${f.fam}'`}>
+          <div class="tick">DESIGN ● CREATIVE DIRECTION ● CONTENT ● ALBUM ART ● CAMPAIGN VIDEO ● OPEN FOR WORK</div>
+          <div class="row"><span class="badge">▶ MOTION</span><span class="badge">COVER</span><span class="badge">UX</span><span class="np">NOW PLAYING — LOVETHATGIRL!</span></div>
+          <div class="big">yahya abdul-basser.</div>
+          <div class="bigb">WRONG STOP. 404</div>
+        </div>
+      </section>
+    ))}
+    <h2 class="sec">Secondary: captions, labels, meta lines</h2>
+    {sec.map((f) => (
+      <section class="cand">
+        <p class="nm">{f.name} <span>{f.note}</span></p>
+        <div class="demo" style={`font-family:'${f.fam}'`}>
+          <p class="k">ART DIRECTION · DESIGN · PHOTOGRAPHY</p>
+          <p class="cap">Styled, lit, shot and edited by me for The Heartbreak Saga. Each outfit stands for a different chapter of the story.</p>
+          <p class="cap b">01 &nbsp;The Hopeful / The Lost / The Lover — Collection</p>
+        </div>
+      </section>
+    ))}
+  </div>
+</BaseLayout>
+<style>
+  .tt{padding-block:48px 120px;max-width:1100px}
+  h1{font-size:clamp(48px,7vw,88px);font-weight:900;letter-spacing:-.04em;margin:0}
+  .lead{font-size:18px;margin:8px 0 32px}
+  .sec{font-family:var(--mono);font-size:13px;letter-spacing:.12em;text-transform:uppercase;margin:48px 0 16px;border-top:3px solid var(--ink);padding-top:16px}
+  .cand{border:2px solid var(--ink);border-radius:12px;padding:18px;margin-bottom:16px;background:var(--paper)}
+  .nm{font-weight:800;margin:0 0 12px}.nm span{font-weight:400;color:var(--muted);margin-left:8px}
+  .tick{background:var(--night);color:var(--yellow);padding:10px 14px;font-size:18px;white-space:nowrap;overflow:hidden;border-radius:6px}
+  .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:14px 0}
+  .badge{border:2px solid var(--ink);padding:3px 10px;font-size:14px;background:var(--cream)}
+  .np{font-size:18px}
+  .big{font-size:clamp(32px,5vw,56px);line-height:1}
+  .bigb{font-size:clamp(28px,4vw,44px);font-weight:700;margin-top:8px;color:var(--red)}
+  .k{font-size:12px;letter-spacing:.1em;margin:0 0 8px}
+  .cap{font-size:16px;line-height:1.5;margin:0 0 6px;max-width:640px}.cap.b{font-weight:700}
+</style>

@@ -94,12 +94,12 @@
         "motion"
       ],
       "images": [
-        "art/seeing-me.jpg"
+        "art/seeing-me-art.jpg"
       ],
       "size": "tall",
       "blurb": "An illustrated poster and short animation built from a library of hand-drawn figures, eyes, hearts and squiggles. Every element was drawn separately so it could move.",
       "video": "/video/seeing-me.mp4",
-      "poster": "art/seeing-me-poster.jpg",
+      "poster": "art/seeing-me-art.jpg",
       "alt": [
         "\"SEEING ME\": illustration + animation"
       ],
