@@ -32,7 +32,6 @@ const canonical = new URL('/studio/', Astro.site);
     <section class="hero">
       <div class="left dots">
         <h1>we are<br />lunar<br />lighthouse.</h1>
-        <img class="lh" src="/ll-mark-color.svg" alt="Lunar Lighthouse illustration: a striped lighthouse on the shore under a crescent moon and stars" width="300" height="360" />
       </div>
       <div class="right">
         <nav class="nav" aria-label="Studio">
@@ -47,6 +46,7 @@ const canonical = new URL('/studio/', Astro.site);
           <li>logos + brand identity</li><li>creative direction</li><li>campaign + social design</li><li>websites + digital</li>
         </ul>
       </div>
+      <img class="banner" src="/ll-banner-black.svg" alt="Black ink illustration of a striped lighthouse on rocky shore under a crescent moon and stars" width="1200" height="460" />
     </section>
 
     <section id="work" class="work">
@@ -125,10 +125,10 @@ const canonical = new URL('/studio/', Astro.site);
   h1,h2,h3{font-family:var(--serif);font-weight:600;letter-spacing:-.02em;line-height:1;margin:0}
   .skip{position:absolute;left:-9999px}.skip:focus{left:16px;top:16px;background:#fff;padding:8px 12px;z-index:9}
   .dots{background-color:var(--g);background-image:radial-gradient(rgba(0,0,0,.09) 2.2px,transparent 2.6px);background-size:22px 22px}
-  .hero{display:grid;grid-template-columns:1fr 1fr;min-height:100vh;border-bottom:4px solid var(--ink)}
+  .hero{display:grid;grid-template-columns:1fr 1fr;border-bottom:4px solid var(--ink)}
   .left{position:relative;display:flex;flex-direction:column;justify-content:space-between;padding:clamp(32px,5vw,72px) clamp(24px,5vw,72px) 0;overflow:hidden}
   .left h1{color:#fff;font-size:clamp(56px,7.6vw,118px);line-height:.98}
-  .left .lh{display:block;width:min(100%,460px);height:auto;margin:32px auto 0}
+  .hero .banner{grid-column:1/-1;display:block;width:100%;height:auto;border-top:4px solid var(--ink);background:#fff}
   .right{padding:clamp(32px,5vw,72px) clamp(24px,5vw,80px)}
   .nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:clamp(40px,7vh,80px)}
   .mark{display:flex;align-items:center;gap:12px;font-family:var(--serif);font-weight:600;font-size:24px;text-decoration:none;letter-spacing:-.01em;color:var(--g-d)}.mark img{width:46px;height:auto}
