@@ -51,4 +51,4 @@ Validating school data first shaped the prototypes: I knew which fields were rel
 
 ## Outcome
 
-[TODO: Yahya: what happened with the prototypes? Did the CEO use them in pitches, did any features get built, and which tools did you recommend?]
+The CEO used the prototypes to show where the product was headed, and parts of these features were built into the final design of the live platform. It also proved the method: a working, clickable prototype in days got leadership aligned faster than specs or static mockups.
