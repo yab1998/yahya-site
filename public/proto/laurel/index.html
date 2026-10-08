@@ -3,214 +3,438 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Academic competition platform prototype</title>
+<title>Laurel · academic competition platform prototype</title>
 <meta name="robots" content="noindex">
 <style>
-:root{--bg:#F6F8FA;--card:#fff;--ink:#0E1B2B;--muted:#56657A;--line:#E1E7EE;--brand:#14706B;--brand-d:#0D4F4B;--brand-l:#E3F2F0;--live:#D92D20;--violet:#6941C6;--amber:#B54708;--green:#067647;--r:14px;--f:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+:root{
+  --bg:#F3F6F9;--card:#fff;--ink:#0B1A2A;--muted:#5A6B80;--line:#E2E8F0;
+  --brand:#0F766E;--brand-d:#0B4F4A;--brand-l:#E0F2EF;--brand-g:linear-gradient(135deg,#0B4F4A 0%,#0F766E 55%,#14958A 100%);
+  --violet:#6D46D9;--violet-l:#EFE9FF;--amber:#B45309;--amber-l:#FEF3C7;--rose:#C2304B;--rose-l:#FFE4E8;
+  --blue:#2563EB;--blue-l:#E0EAFF;--green:#047857;--green-l:#DCFCE7;--live:#E5484D;
+  --sh:0 1px 2px rgba(15,23,42,.05),0 4px 14px rgba(15,23,42,.06);--sh-h:0 2px 4px rgba(15,23,42,.06),0 12px 28px rgba(15,23,42,.12);
+  --r:16px;--f:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
 *{box-sizing:border-box}html,body{margin:0}
-body{font-family:var(--f);background:var(--bg);color:var(--ink);font-size:14px;line-height:1.45}
-button{font:inherit;cursor:pointer}
-header{position:sticky;top:0;z-index:5;background:var(--card);border-bottom:1px solid var(--line)}
-.bar{max-width:1180px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:18px}
-.logo{display:flex;align-items:center;gap:8px;font-weight:800;font-size:16px}
-.logo i{width:28px;height:28px;border-radius:8px;background:var(--brand);color:#fff;display:grid;place-items:center;font-style:normal;font-size:14px}
-nav.tabs{display:flex;gap:4px;margin-left:auto}
-nav.tabs button{border:0;background:none;padding:8px 12px;border-radius:8px;color:var(--muted);font-weight:600}
-nav.tabs button[aria-current]{background:var(--brand-l);color:var(--brand-d)}
-.me{width:32px;height:32px;border-radius:50%;background:var(--violet);color:#fff;display:grid;place-items:center;font-weight:700;font-size:12px}
-main{max-width:1180px;margin:0 auto;padding:24px 20px 60px}
-.screen{display:none;animation:in .3s ease}.screen.on{display:block}
-@keyframes in{from{opacity:0;transform:translateY(6px)}}
-h1{font-size:26px;margin:0 0 4px;letter-spacing:-.02em}h2{font-size:16px;margin:0 0 12px}
-.sub{color:var(--muted);margin:0 0 18px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px}
-.g3{display:grid;grid-template-columns:240px 1fr 280px;gap:16px}
-.col{display:flex;flex-direction:column;gap:16px}
-.pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;background:var(--brand-l);color:var(--brand-d)}
-.cat{display:flex;justify-content:space-between;align-items:center;width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--card);margin-bottom:6px;text-align:left;color:var(--ink)}
-.cat[aria-pressed=true]{border-color:var(--brand);background:var(--brand-l)}
-.cat small{color:var(--muted)}
-.live{background:linear-gradient(135deg,#0F3D3A,#14706B);color:#fff;border:0}
-.live .tag{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;letter-spacing:.06em;background:rgba(255,255,255,.14);padding:4px 8px;border-radius:6px}
-.live .tag::before{content:"";width:7px;height:7px;border-radius:50%;background:#FF6B5E;animation:blink 1.2s infinite}
-@keyframes blink{50%{opacity:.25}}
-.match{background:rgba(255,255,255,.08);border-radius:12px;padding:12px 14px;margin-top:12px}
-.team{display:flex;justify-content:space-between;align-items:center;padding:6px 0}
-.team b{font-size:22px;font-variant-numeric:tabular-nums;transition:color .3s}
-.team b.bump{color:#7CF0C5}
-.meta{font-size:12px;opacity:.75;display:flex;justify-content:space-between}
-.feed{display:flex;flex-direction:column;gap:12px}
-.post{display:grid;grid-template-columns:40px 1fr;gap:10px}
-.av{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-weight:700;color:#fff;font-size:13px}
-.post p{margin:2px 0 8px}
-.acts{display:flex;gap:6px}
-.acts button{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:4px 12px;font-size:12px;font-weight:600;color:var(--muted)}
-.acts button[aria-pressed=true]{background:var(--brand-l);border-color:var(--brand);color:var(--brand-d)}
-.rank{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--line)}.rank:last-child{border:0}
-.rank .n{width:22px;font-weight:800;color:var(--muted)}
-.rank .up{margin-left:auto;font-size:12px;font-weight:700;color:var(--green)}
-.btn{border:0;border-radius:10px;padding:10px 16px;font-weight:700;background:var(--brand);color:#fff}
-.btn:hover{background:var(--brand-d)}
+body{font-family:var(--f);background:var(--bg);color:var(--ink);font-size:14px;line-height:1.45;-webkit-font-smoothing:antialiased}
+button{font:inherit;cursor:pointer;color:inherit}
+.ico{width:18px;height:18px;flex-shrink:0}
+/* header */
+header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.bar{max-width:1240px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:18px}
+.logo{display:flex;align-items:center;gap:9px;font-weight:800;font-size:17px;letter-spacing:-.01em}
+.logo i{width:32px;height:32px;border-radius:10px;background:var(--brand-g);display:grid;place-items:center;color:#fff;box-shadow:0 4px 10px rgba(15,118,110,.35)}
+.search{flex:1;max-width:340px;display:flex;align-items:center;gap:8px;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:8px 12px;color:var(--muted)}
+.search input{border:0;background:none;outline:0;font:inherit;width:100%}
+.hd-r{margin-left:auto;display:flex;align-items:center;gap:10px}
+.icon-btn{position:relative;width:38px;height:38px;border-radius:10px;border:1px solid var(--line);background:var(--card);display:grid;place-items:center}
+.icon-btn .dot{position:absolute;top:7px;right:8px;width:8px;height:8px;border-radius:50%;background:var(--live);border:2px solid #fff}
+.me{display:flex;align-items:center;gap:8px;font-weight:600}
+.av{border-radius:50%;display:grid;place-items:center;font-weight:700;color:#fff;flex-shrink:0}
+.subnav{max-width:1240px;margin:0 auto;padding:0 20px 10px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+.subnav button{flex-shrink:0;display:flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:7px 14px;font-weight:600;font-size:13px;color:var(--muted);transition:.15s}
+.subnav button:hover{border-color:#C7D2DE;color:var(--ink)}
+.subnav button[aria-current]{background:var(--brand);border-color:var(--brand);color:#fff;box-shadow:0 4px 12px rgba(15,118,110,.3)}
+main{max-width:1240px;margin:0 auto;padding:22px 20px 70px}
+.screen{display:none;animation:in .35s ease}.screen.on{display:block}
+@keyframes in{from{opacity:0;transform:translateY(8px)}}
+h1{font-size:28px;margin:0;letter-spacing:-.025em}
+h2{font-size:15px;margin:0;display:flex;align-items:center;gap:8px;letter-spacing:-.01em}
+.sub{color:var(--muted);margin:4px 0 0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px;box-shadow:var(--sh)}
+.hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.link{border:0;background:none;color:var(--brand);font-weight:700;font-size:13px;padding:0}
+.chip{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px}
+.btn{border:0;border-radius:10px;padding:10px 16px;font-weight:700;background:var(--brand);color:#fff;transition:.15s;display:inline-flex;align-items:center;gap:7px;justify-content:center}
+.btn:hover{background:var(--brand-d);transform:translateY(-1px)}
 .btn.ghost{background:var(--card);color:var(--ink);border:1px solid var(--line)}
+.btn.ghost:hover{border-color:#C7D2DE}
+.btn.sm{padding:6px 12px;font-size:12px;border-radius:8px}
+.lift{transition:transform .18s,box-shadow .18s}.lift:hover{transform:translateY(-2px);box-shadow:var(--sh-h)}
+/* home layout */
+.welcome{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:18px;flex-wrap:wrap}
+.g3{display:grid;grid-template-columns:250px minmax(0,1fr) 290px;gap:18px}
+.col{display:flex;flex-direction:column;gap:18px;min-width:0}
+.cat{display:flex;align-items:center;gap:11px;width:100%;padding:9px;border-radius:12px;border:1px solid transparent;background:none;text-align:left;margin-bottom:4px;transition:.15s}
+.cat:hover{background:var(--bg)}
+.cat[aria-pressed=true]{background:var(--brand-l);border-color:#9ED5CD}
+.cat .ci{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;font-size:18px}
+.cat b{display:block;font-size:13px}.cat small{color:var(--muted);font-size:12px}
+.sponsor{border:1.5px dashed #CBD5E1;border-radius:14px;padding:14px;text-align:center;background:linear-gradient(180deg,#fff,#F8FAFC)}
+/* live carousel */
+.live{background:var(--brand-g);color:#fff;border:0;position:relative;overflow:hidden;padding:20px}
+.live::after{content:"";position:absolute;right:-80px;top:-80px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.14),transparent 70%)}
+.livetag{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:800;letter-spacing:.08em;background:rgba(255,255,255,.16);padding:5px 9px;border-radius:7px}
+.livetag::before{content:"";width:7px;height:7px;border-radius:50%;background:#FF8A8A;box-shadow:0 0 0 0 rgba(255,138,138,.7);animation:pulse 1.6s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 8px rgba(255,138,138,0)}100%{box-shadow:0 0 0 0 rgba(255,138,138,0)}}
+.slides{position:relative;min-height:280px;margin-top:14px}
+.slide{position:absolute;inset:0;opacity:0;transform:translateX(24px);transition:opacity .45s,transform .45s;pointer-events:none}
+.slide.on{opacity:1;transform:none;pointer-events:auto}
+.ev-t{font-size:19px;font-weight:800;margin:0 0 2px;letter-spacing:-.01em}
+.ev-m{font-size:12px;opacity:.82;display:flex;gap:12px;flex-wrap:wrap}
+.match{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:10px 14px;margin-top:12px}
+.team{display:flex;justify-content:space-between;align-items:center;padding:5px 0}
+.team span{display:flex;align-items:center;gap:9px;font-weight:600}
+.team .tlg{width:26px;height:26px;border-radius:7px;background:rgba(255,255,255,.18);display:grid;place-items:center;font-size:11px;font-weight:800}
+.team b{font-size:24px;font-variant-numeric:tabular-nums;transition:color .3s,transform .3s}
+.team b.bump{color:#8EF5CF;transform:scale(1.12)}
+.team.lead span::after{content:"▲";font-size:9px;color:#8EF5CF}
+.board{display:grid;grid-template-columns:1fr auto;gap:6px 14px;margin-top:12px;background:rgba(255,255,255,.1);border-radius:14px;padding:12px 14px;border:1px solid rgba(255,255,255,.14)}
+.board span:nth-child(even){font-weight:800;text-align:right;font-variant-numeric:tabular-nums}
+.ctrls{display:flex;align-items:center;gap:8px;margin-top:14px;position:relative;z-index:1}
+.ctrls .dots{display:flex;gap:6px;margin-right:auto}
+.ctrls .dots button{width:8px;height:8px;border-radius:999px;border:0;background:rgba(255,255,255,.35);padding:0;transition:width .25s}
+.ctrls .dots button[aria-current]{width:22px;background:#fff}
+.ctrls .nav{width:32px;height:32px;border-radius:9px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:#fff}
+/* feed */
+.post{display:grid;grid-template-columns:42px 1fr;gap:12px;padding:14px 0;border-bottom:1px solid var(--line)}.post:last-child{border:0;padding-bottom:0}.post:first-child{padding-top:0}
+.post p{margin:3px 0 10px}
+.attach{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:12px;padding:10px;margin-bottom:10px;background:var(--bg)}
+.attach i{font-style:normal;font-size:20px}
+.acts{display:flex;gap:6px;flex-wrap:wrap}
+.acts button{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:5px 12px;font-size:12px;font-weight:600;color:var(--muted);transition:.15s}
+.acts button:hover{border-color:#C7D2DE;color:var(--ink)}
+.acts button[aria-pressed=true]{background:var(--brand-l);border-color:#9ED5CD;color:var(--brand-d)}
+.acts button.pop{animation:pop .35s}
+@keyframes pop{50%{transform:scale(1.15)}}
+.composer{display:flex;gap:10px;align-items:center;margin-bottom:14px}
+.composer input{flex:1;border:1px solid var(--line);background:var(--bg);border-radius:12px;padding:10px 14px;font:inherit;outline:0}
+.composer input:focus{border-color:var(--brand);background:#fff}
+/* right col */
+.stat{display:flex;align-items:center;gap:12px;padding:10px;border-radius:12px;background:var(--bg);margin-bottom:8px}
+.stat i{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;font-style:normal;font-size:17px}
+.stat b{display:block;font-size:17px;font-variant-numeric:tabular-nums}.stat small{color:var(--muted);font-size:12px}
+.rank{display:flex;align-items:center;gap:10px;padding:8px 0}
+.rank .n{width:22px;height:22px;border-radius:7px;display:grid;place-items:center;font-size:11px;font-weight:800;background:var(--bg);color:var(--muted)}
+.rank:nth-child(1) .n{background:#FDE68A;color:#78350F}.rank:nth-child(2) .n{background:#E2E8F0;color:#334155}.rank:nth-child(3) .n{background:#FED7AA;color:#7C2D12}
+.rank .up{margin-left:auto;font-size:12px;font-weight:700;color:var(--green)}
+.quiz-q{font-weight:700;margin:10px 0}
+.opt{display:block;width:100%;text-align:left;border:1px solid var(--line);background:var(--card);border-radius:10px;padding:9px 12px;margin-bottom:6px;font-weight:600;transition:.15s}
+.opt:hover:not(:disabled){border-color:var(--brand)}
+.opt.right{background:var(--green-l);border-color:#86EFAC;color:var(--green)}
+.opt.wrong{background:var(--rose-l);border-color:#FDA4AF;color:var(--rose)}
+.opt:disabled{cursor:default}
+.challenge{background:linear-gradient(135deg,#F3EEFF,#fff);border:1px solid #DDD3FF}
+.prize{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}
+.prize div{background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px 10px}
+.prize small{display:block;color:var(--muted);font-size:11px}
+/* events row */
+.row3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:18px}
+.comp{display:flex;flex-direction:column;gap:8px}
+.comp .top{height:86px;border-radius:12px;display:flex;align-items:flex-end;padding:10px;color:#fff;font-weight:800;position:relative;overflow:hidden}
+.comp .top span{position:absolute;right:10px;top:8px;font-size:30px;opacity:.9}
+.meta{display:flex;gap:12px;font-size:12px;color:var(--muted)}
 /* profile */
-.hero{display:grid;grid-template-columns:110px 1fr auto;gap:20px;align-items:start}
-.big-av{width:110px;height:110px;border-radius:50%;background:linear-gradient(135deg,#7A5AF8,#4E2FD0);color:#fff;display:grid;place-items:center;font-size:34px;font-weight:800}
-.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:16px;border-top:1px solid var(--line);padding-top:14px}
-.stats div{text-align:center}.stats b{display:block;font-size:22px}.stats span{font-size:12px;color:var(--muted)}
-.ptabs{display:flex;gap:4px;background:#EDF1F5;padding:4px;border-radius:12px;margin:18px 0}
-.ptabs button{flex:1;border:0;background:none;padding:9px;border-radius:9px;font-weight:600;color:var(--muted)}
-.ptabs button[aria-selected=true]{background:var(--card);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.08)}
-.badges{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.badge{display:flex;gap:12px;padding:14px;border-radius:12px;border:1.5px solid var(--line)}
-.badge i{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:18px;flex-shrink:0}
-.badge small{display:block;color:var(--muted)}
-.meter{height:8px;background:#EDF1F5;border-radius:999px;overflow:hidden;margin:6px 0 14px}.meter b{display:block;height:100%;background:var(--brand)}
-table{width:100%;border-collapse:collapse}td,th{padding:10px 6px;border-bottom:1px solid var(--line);text-align:left}th{font-size:12px;color:var(--muted)}
+.cover{height:150px;border-radius:var(--r) var(--r) 0 0;background:radial-gradient(circle at 20% 30%,rgba(255,255,255,.25),transparent 40%),linear-gradient(120deg,#5B3CC4,#7C5CF5 45%,#0F766E);position:relative}
+.cover::after{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.18) 1px,transparent 1px);background-size:14px 14px;border-radius:inherit}
+.pcard{padding:0;overflow:hidden}
+.pbody{padding:0 22px 20px;display:grid;grid-template-columns:auto 1fr auto;gap:20px;align-items:end}
+.big-av{width:120px;height:120px;margin-top:-56px;border:5px solid #fff;box-shadow:var(--sh-h);font-size:36px;background:linear-gradient(135deg,#8B6CF8,#5133C8);position:relative}
+.big-av .vf{position:absolute;right:4px;bottom:4px;width:28px;height:28px;border-radius:50%;background:var(--blue);border:3px solid #fff;display:grid;place-items:center;font-size:13px}
+.handle{font-size:12px;font-weight:700;color:var(--violet);background:var(--violet-l);padding:3px 9px;border-radius:999px;margin-left:8px;vertical-align:middle}
+.pmeta{display:flex;gap:14px;flex-wrap:wrap;color:var(--muted);font-size:13px;margin-top:6px}
+.stats{display:grid;grid-template-columns:repeat(6,1fr);border-top:1px solid var(--line)}
+.stats div{text-align:center;padding:14px 6px;border-right:1px solid var(--line)}.stats div:last-child{border:0}
+.stats b{display:block;font-size:22px;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.stats span{font-size:12px;color:var(--muted)}
+.ptabs{display:flex;gap:4px;background:#E8EEF4;padding:4px;border-radius:13px;margin:18px 0}
+.ptabs button{flex:1;border:0;background:none;padding:9px;border-radius:10px;font-weight:600;color:var(--muted);transition:.15s}
+.ptabs button[aria-selected=true]{background:var(--card);color:var(--ink);box-shadow:var(--sh)}
+.g2{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:18px}
+.badges{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.badge{display:flex;gap:12px;padding:14px;border-radius:14px;border:1.5px solid;background:#fff}
+.badge i{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-style:normal;font-size:21px;flex-shrink:0}
+.badge b{display:block}.badge small{display:block;color:var(--muted);font-size:12px}
+.badge .pts{margin-left:auto;align-self:flex-start;font-size:11px;font-weight:800;padding:3px 8px;border-radius:999px;white-space:nowrap}
+.meter{height:8px;background:#EDF1F5;border-radius:999px;overflow:hidden;margin:7px 0 16px}
+.meter b{display:block;height:100%;border-radius:inherit;background:var(--brand-g);width:0;transition:width 1s cubic-bezier(.2,.8,.2,1)}
+.lr{display:flex;justify-content:space-between;font-size:13px}
+.timeline{position:relative;padding-left:22px}
+.timeline::before{content:"";position:absolute;left:6px;top:6px;bottom:6px;width:2px;background:var(--line)}
+.tl{position:relative;padding-bottom:16px}
+.tl::before{content:"";position:absolute;left:-21px;top:4px;width:12px;height:12px;border-radius:50%;background:#fff;border:3px solid var(--brand)}
+.tl b{display:block}.tl small{color:var(--muted)}
+.place{float:right;font-weight:800}
+.skill{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.skill span{width:150px;font-weight:600}.skill .meter{flex:1;margin:0}
 /* dashboard */
-.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.kpi b{font-size:26px;display:block}.kpi span{color:var(--muted);font-size:12px}.kpi em{font-style:normal;color:var(--green);font-size:12px;font-weight:700}
-.g2{display:grid;grid-template-columns:1.4fr 1fr;gap:16px;margin-top:16px}
+.dash{display:grid;grid-template-columns:220px minmax(0,1fr);gap:18px}
+.side{padding:12px;align-self:start;position:sticky;top:120px}
+.side button{display:flex;align-items:center;gap:10px;width:100%;border:0;background:none;padding:10px 12px;border-radius:10px;font-weight:600;color:var(--muted);text-align:left}
+.side button:hover{background:var(--bg);color:var(--ink)}
+.side button[aria-current]{background:var(--brand-l);color:var(--brand-d)}
+.side .badge-n{margin-left:auto;font-size:11px;background:var(--live);color:#fff;border-radius:999px;padding:1px 7px}
+.alert{display:flex;align-items:center;gap:14px;background:linear-gradient(90deg,#FFF7ED,#fff);border:1px solid #FED7AA}
+.alert .meter{margin:8px 0 0}
+.alert .meter b{background:linear-gradient(90deg,#F97316,#FB923C)}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.kpi{border:1px solid var(--line);border-radius:14px;padding:14px;background:#fff}
+.kpi .k{display:flex;justify-content:space-between;align-items:center}
+.kpi i{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;font-style:normal;font-size:16px}
+.kpi b{display:block;font-size:26px;letter-spacing:-.02em;margin-top:10px;font-variant-numeric:tabular-nums}
+.kpi span{font-size:12px;color:var(--muted)}
+.trend{font-size:12px;font-weight:700;color:var(--green)}
+.dg{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:18px;margin-top:18px}
+svg.chart{width:100%;height:190px;display:block;overflow:visible}
+.qa{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.qa button{border:1px solid var(--line);background:#fff;border-radius:12px;padding:14px 8px;display:flex;flex-direction:column;align-items:center;gap:7px;font-weight:700;font-size:13px;transition:.15s}
+.qa button:hover{border-color:var(--brand);transform:translateY(-1px)}
+.qa i{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:17px}
 .ev{display:flex;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}.ev:last-child{border:0}
-.date{width:46px;text-align:center;border-radius:10px;background:var(--brand-l);color:var(--brand-d);padding:6px 0;font-weight:800;line-height:1.1}.date small{display:block;font-size:10px;font-weight:700}
-.ev .btn{margin-left:auto;padding:6px 12px;font-size:12px}
-.chart{display:flex;align-items:flex-end;gap:10px;height:150px;padding-top:10px}
-.chart div{flex:1;background:var(--brand-l);border-radius:6px 6px 0 0;position:relative}
-.chart div b{position:absolute;inset:auto 0 0;background:var(--brand);border-radius:6px 6px 0 0}
-.chart span{position:absolute;bottom:-20px;left:0;right:0;text-align:center;font-size:11px;color:var(--muted)}
-.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,200%);visibility:hidden;background:var(--ink);color:#fff;padding:11px 16px;border-radius:12px;font-weight:600;transition:transform .3s}
+.date{width:48px;text-align:center;border-radius:11px;background:var(--brand-l);color:var(--brand-d);padding:6px 0;font-weight:800;line-height:1.05;font-size:11px}
+.date b{display:block;font-size:18px}
+.ev .btn{margin-left:auto}
+.goal .lr b{font-weight:700}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,200%);visibility:hidden;background:var(--ink);color:#fff;padding:12px 18px;border-radius:12px;font-weight:600;transition:transform .3s;box-shadow:var(--sh-h);z-index:50}
 .toast.on{transform:translate(-50%,0);visibility:visible}
-.foot{text-align:center;color:var(--muted);font-size:12px;padding:10px}
-@media (max-width:960px){.g3,.g2,.hero{grid-template-columns:1fr}.kpis,.stats{grid-template-columns:repeat(2,1fr)}.badges{grid-template-columns:1fr}nav.tabs{margin-left:0}.bar{flex-wrap:wrap}}
+.foot{text-align:center;color:var(--muted);font-size:12px;padding:12px}
+@media (max-width:1060px){.g3{grid-template-columns:1fr 1fr}.g3>.col:nth-child(2){grid-column:1/-1;order:-1}.row3{grid-template-columns:1fr}}
+@media (max-width:860px){.g3,.g2,.dg,.dash{grid-template-columns:1fr}.side{position:static;display:flex;overflow-x:auto}.side button{white-space:nowrap}.stats{grid-template-columns:repeat(3,1fr)}.stats div:nth-child(3){border-right:0}.pbody{grid-template-columns:1fr;padding:0 16px 16px}.pbody>*{min-width:0}.handle{margin-left:0}.ptabs{overflow-x:auto}.ptabs button{flex:0 0 auto;padding:9px 14px}.badges,.kpis{grid-template-columns:1fr}.search{display:none}}
 </style>
 </head>
 <body>
-<header><div class="bar">
-  <div class="logo"><i aria-hidden="true">▲</i>Laurel</div>
-  <nav class="tabs" aria-label="Prototype screens">
-    <button data-go="home" aria-current="true">Home</button><button data-go="profile">Profile</button><button data-go="dash">My dashboard</button>
+<header>
+  <div class="bar">
+    <div class="logo"><i aria-hidden="true"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 01-10 0V4zM17 6h3v1a3 3 0 01-3 3M7 6H4v1a3 3 0 003 3"/></svg></i>Laurel</div>
+    <label class="search"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><input placeholder="Search students, schools, competitions" aria-label="Search"></label>
+    <div class="hd-r">
+      <button class="icon-btn" aria-label="Notifications" id="bell"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 01-3.4 0"/></svg><span class="dot"></span></button>
+      <span class="me"><span class="av" style="width:34px;height:34px;background:linear-gradient(135deg,#F59E0B,#D97706);font-size:12px">JE</span><span class="nm">Jordan</span></span>
+    </div>
+  </div>
+  <nav class="subnav" aria-label="Prototype screens">
+    <button data-go="home" aria-current="true">🏆 Competitions</button>
+    <button data-go="profile">👤 Profile</button>
+    <button data-go="dash">📊 My dashboard</button>
+    <button data-soon>📰 News</button><button data-soon>💬 Community</button><button data-soon>📅 Calendar</button>
   </nav>
-  <span class="me" aria-label="Signed in as Jordan Ellis">JE</span>
-</div></header>
+</header>
 
 <main>
-<!-- HOME -->
+<!-- ================= HOME ================= -->
 <section class="screen on" id="home">
-  <h1>Today in competitions</h1>
-  <p class="sub">Live scores, results and the people behind them, like a sports app for academics.</p>
+  <div class="welcome">
+    <div><h1>Today in competitions</h1><p class="sub">Live scores, results and the people behind them.</p></div>
+    <div style="display:flex;gap:8px"><button class="btn ghost" data-toast="Calendar opens in the full app">📅 This week</button><button class="btn" data-toast="Browse 2,500+ competitions">Find a competition</button></div>
+  </div>
   <div class="g3">
     <div class="col">
-      <div class="card"><h2>Categories</h2><div id="cats"></div></div>
+      <div class="card"><div class="hd"><h2>Categories</h2></div><div id="cats"></div></div>
+      <div class="sponsor"><small style="font-weight:800;letter-spacing:.08em;color:var(--muted)">PARTNER</small><p style="font-weight:800;margin:6px 0 2px">Your org here</p><p class="sub" style="font-size:12px;margin:0 0 10px">Reach students, coaches and schools</p><button class="btn sm" style="width:100%" data-toast="Partner placements are clearly labeled">Learn more</button></div>
     </div>
+
     <div class="col">
       <div class="card live">
-        <div class="row" style="display:flex;justify-content:space-between;align-items:center"><span class="tag">LIVE</span><span class="meta" style="gap:10px"><span>Regional Quiz Bowl · Semifinal</span></span></div>
-        <div class="match"><div class="team"><span>Lakeside High</span><b id="s1">145</b></div><div class="team"><span>Riverview Academy</span><b id="s2">142</b></div><div class="meta"><span>Round 3 of 4</span><span id="clock">4:12 left</span></div></div>
-        <div class="match"><div class="team"><span>Northgate High</span><b>128</b></div><div class="team"><span>Westbrook Prep</span><b>135</b></div><div class="meta"><span>Round 4 of 4</span><span>Final minutes</span></div></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;position:relative;z-index:1"><span class="livetag">LIVE</span><span style="font-size:12px;opacity:.85" id="slideCount">Event 1 of 3</span></div>
+        <div class="slides" id="slides">
+          <div class="slide on">
+            <p class="ev-t">Regional Quiz Bowl · Semifinal</p>
+            <div class="ev-m"><span>📍 Seattle, WA</span><span>⏱ <span id="clock">4:12</span> left · Round 3 of 4</span></div>
+            <div class="match">
+              <div class="team" id="t1"><span><i class="tlg">LH</i>Lakeside High</span><b id="s1">145</b></div>
+              <div class="team" id="t2"><span><i class="tlg">RA</i>Riverview Academy</span><b id="s2">142</b></div>
+            </div>
+            <div class="match"><div class="team"><span><i class="tlg">NG</i>Northgate High</span><b>128</b></div><div class="team lead"><span><i class="tlg">WP</i>Westbrook Prep</span><b>135</b></div></div>
+          </div>
+          <div class="slide">
+            <p class="ev-t">State Math League · Finals</p>
+            <div class="ev-m"><span>📍 Tacoma, WA</span><span>Individual round · 42 competitors</span></div>
+            <div class="board"><span>1. Ava Castillo · Lakeside</span><span>38/40</span><span>2. Sam Okoro · Westbrook</span><span>36/40</span><span>3. Priya Nair · Riverview</span><span>35/40</span><span>4. Marcus Lee · Northgate</span><span>33/40</span></div>
+          </div>
+          <div class="slide">
+            <p class="ev-t">County Spelling Bee · Round 7</p>
+            <div class="ev-m"><span>📍 Bellevue, WA</span><span>11 spellers remaining</span></div>
+            <div class="board"><span>Last word</span><span>"onomatopoeia" ✓</span><span>Speller</span><span>Marcus Lee</span><span>Next up</span><span>Hannah Brooks</span><span>Eliminated this round</span><span>3</span></div>
+          </div>
+        </div>
+        <div class="ctrls"><div class="dots" id="dots"></div><button class="nav" id="prev" aria-label="Previous event">←</button><button class="nav" id="next" aria-label="Next event">→</button></div>
       </div>
+
       <div class="card">
-        <h2>From your network</h2>
-        <div class="feed" id="feed"></div>
+        <div class="hd"><h2>From your network</h2><span class="chip" style="background:var(--brand-l);color:var(--brand-d)" id="feedLabel">All</span></div>
+        <div class="composer"><span class="av" style="width:38px;height:38px;background:linear-gradient(135deg,#F59E0B,#D97706);font-size:12px">JE</span><input id="postIn" placeholder="Share a result or shout out a teammate…"><button class="btn sm" id="postBtn">Post</button></div>
+        <div id="feed"></div>
       </div>
     </div>
+
     <div class="col">
-      <div class="card"><h2>Rising this week</h2><div id="ranks"></div></div>
-      <div class="card"><h2>Coming up</h2>
-        <div class="ev"><div class="date">MAR<small>30</small></div><div><b>State Math League</b><div class="sub" style="margin:0;font-size:12px">Registration closes</div></div></div>
-        <div class="ev"><div class="date">APR<small>15</small></div><div><b>Science Fair Regionals</b><div class="sub" style="margin:0;font-size:12px">Competition day</div></div></div>
+      <div class="card"><div class="hd"><h2>Live statistics</h2></div>
+        <div class="stat"><i style="background:var(--amber-l)">🏆</i><div><b id="lc">1,524</b><small>Active competitions</small></div></div>
+        <div class="stat"><i style="background:var(--blue-l)">🎓</i><div><b>25,180</b><small>Student athletes</small></div></div>
+        <div class="stat"><i style="background:var(--green-l)">💸</i><div><b>$12M+</b><small>Scholarships tracked</small></div></div>
+      </div>
+      <div class="card"><div class="hd"><h2>Rising this week</h2><button class="link" data-go="profile">See all</button></div><div id="ranks"></div></div>
+      <div class="card"><div class="hd"><h2>🧠 Question of the day</h2><span class="chip" style="background:var(--amber-l);color:var(--amber)">Science</span></div>
+        <p class="quiz-q">Which planet has the shortest day?</p><div id="quiz"></div><p class="sub" style="font-size:12px" id="quizNote">2,104 students answered today</p>
       </div>
     </div>
   </div>
+
+  <div class="row3">
+    <div class="card comp lift"><div class="top" style="background:linear-gradient(135deg,#4F46E5,#7C3AED)">Math Olympiad<span>∑</span></div><b>State Math League</b><div class="meta"><span>⭐ 4.9</span><span>2,500+ students</span></div><button class="btn ghost sm" data-reg="State Math League">Register</button></div>
+    <div class="card comp lift"><div class="top" style="background:linear-gradient(135deg,#059669,#10B981)">Science Olympiad<span>🔬</span></div><b>Regional Science Fair</b><div class="meta"><span>⭐ 4.8</span><span>23 events</span></div><button class="btn ghost sm" data-reg="Regional Science Fair">Register</button></div>
+    <div class="card comp challenge lift"><div style="display:flex;justify-content:space-between"><span class="chip" style="background:var(--violet);color:#fff">⚡ Weekly challenge</span><small class="sub" style="margin:0">5 days left</small></div><b style="font-size:16px">AI Ethics Debate</b><p class="sub" style="margin:0">Argue the ethics of AI in education in 500 words.</p><div class="prize"><div><small>Prize</small><b style="color:var(--green)">$200 + certificate</b></div><div><small>Entries</small><b id="entries">89</b></div></div><button class="btn sm" style="background:var(--violet)" id="join">Join challenge</button></div>
+  </div>
 </section>
 
-<!-- PROFILE -->
+<!-- ================= PROFILE ================= -->
 <section class="screen" id="profile">
-  <div class="card">
-    <div class="hero">
-      <div class="big-av">AC</div>
-      <div>
-        <h1>Ava Castillo</h1>
-        <p class="sub" style="margin:0">11th grade · Lakeside High · Seattle, WA</p>
-        <p style="margin:10px 0 0;max-width:560px">STEM competitor. Math league captain, science fair regular, always looking for a quiz bowl team.</p>
+  <div class="card pcard">
+    <div class="cover"></div>
+    <div class="pbody">
+      <div class="av big-av">AC<span class="vf" title="Verified student">✓</span></div>
+      <div style="padding-top:12px">
+        <h1 style="display:inline">Ava Castillo</h1><span class="handle">@avacastillo</span>
+        <div class="pmeta"><span>🏫 Lakeside High · 11th grade</span><span>📍 Seattle, WA</span><span>🗓 Joined Sept 2023</span></div>
+        <p style="margin:10px 0 0;max-width:600px">STEM competitor. Math league captain, science fair regular, always looking for a quiz bowl team.</p>
       </div>
-      <div style="display:flex;gap:8px"><button class="btn" id="follow">Follow</button><button class="btn ghost" id="msg">Message</button></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="follow">＋ Follow</button><button class="btn ghost" id="msg">Message</button><button class="btn ghost" aria-label="Share" data-toast="Profile link copied">↗</button></div>
     </div>
-    <div class="stats"><div><b id="fol">156</b><span>Followers</span></div><div><b>23</b><span>Achievements</span></div><div><b>47</b><span>Competitions</span></div><div><b>68%</b><span>Win rate</span></div><div><b>#12</b><span>Regional rank</span></div></div>
+    <div class="stats"><div><b id="fol">156</b><span>Followers</span></div><div><b>89</b><span>Following</span></div><div><b style="color:var(--amber)">23</b><span>Achievements</span></div><div><b style="color:var(--violet)">47</b><span>Competitions</span></div><div><b style="color:var(--rose)">68%</b><span>Win rate</span></div><div><b style="color:var(--blue)">#12</b><span>Regional rank</span></div></div>
   </div>
   <div class="ptabs" role="tablist">
-    <button role="tab" aria-selected="true" data-t="ach">Achievements</button><button role="tab" aria-selected="false" data-t="hist">Competition history</button><button role="tab" aria-selected="false" data-t="skills">Skills</button>
+    <button role="tab" aria-selected="true" data-t="ach">Achievements</button><button role="tab" aria-selected="false" data-t="hist">Competitions</button><button role="tab" aria-selected="false" data-t="skills">Skills</button><button role="tab" aria-selected="false" data-t="act">Activity</button>
   </div>
-  <div class="g2" style="margin-top:0">
+  <div class="g2">
     <div class="card" id="ptab"></div>
-    <div class="card"><h2>Season progress</h2>
-      <div class="row" style="display:flex;justify-content:space-between"><span>Points</span><b>4,050</b></div><div class="meter"><b style="width:81%"></b></div>
-      <div class="row" style="display:flex;justify-content:space-between"><span>Badges</span><b>23 / 50</b></div><div class="meter"><b style="width:46%"></b></div>
-      <p class="sub" style="margin:0;font-size:12px">Visible to coaches and schools Ava follows. Parents see everything.</p>
+    <div class="col">
+      <div class="card"><div class="hd"><h2>📈 Achievement stats</h2></div>
+        <div class="lr"><span>Season points</span><b>4,050</b></div><div class="meter"><b data-w="81"></b></div>
+        <div class="lr"><span>Regional rank</span><b>#12 of 640</b></div><div class="meter"><b data-w="92"></b></div>
+        <div class="lr"><span>Badges</span><b>23 / 50</b></div><div class="meter"><b data-w="46"></b></div>
+      </div>
+      <div class="card"><h2>🔒 Who can see this</h2><p class="sub" style="margin-top:8px">Results and badges are public. Messages need a parent-approved account. Coaches see what schools share.</p></div>
     </div>
   </div>
 </section>
 
-<!-- DASHBOARD -->
+<!-- ================= DASHBOARD ================= -->
 <section class="screen" id="dash">
-  <h1>Welcome back, Jordan</h1>
-  <p class="sub">Your season at a glance</p>
-  <div class="kpis">
-    <div class="card kpi"><span>Competitions</span><b>12</b><em>▲ 12% vs last season</em></div>
-    <div class="card kpi"><span>Win rate</span><b>75%</b><em>▲ 5%</em></div>
-    <div class="card kpi"><span>Followers</span><b id="dfol">424</b><em>▲ 15%</em></div>
-    <div class="card kpi"><span>Profile complete</span><b>87%</b><button class="btn ghost" style="padding:4px 10px;font-size:12px;margin-top:4px" id="complete">Finish profile</button></div>
-  </div>
-  <div class="g2">
-    <div class="card"><h2>Score by month</h2>
-      <div class="chart" id="chart"></div><div style="height:24px"></div>
+  <div class="dash">
+    <nav class="card side" aria-label="Dashboard">
+      <button aria-current="true">📊 Overview</button><button data-soon>📈 Analytics</button><button data-soon>📅 Calendar</button><button data-soon>💬 Messages<span class="badge-n">3</span></button><button data-soon>🏆 My competitions</button><button data-soon>🎯 Goals</button><button data-soon>📚 Study resources</button>
+    </nav>
+    <div style="min-width:0">
+      <div class="welcome"><div><h1>Welcome back, Jordan 👋</h1><p class="sub">Here's what's happening with your season.</p></div><button class="btn ghost" data-go="profile">View profile</button></div>
+      <div class="card alert" id="alert"><span style="font-size:26px">📝</span><div style="flex:1"><b>Complete your profile (87%)</b><div class="sub" style="margin:0;font-size:13px">Add a school photo and 3 skills so coaches can find you.</div><div class="meter"><b data-w="87"></b></div></div><button class="btn sm" style="background:#EA580C" id="complete">Complete</button></div>
+
+      <div class="dg" style="margin-top:18px">
+        <div class="card"><div class="hd"><h2>🏅 Competition performance</h2><span class="sub" style="margin:0;font-size:12px">This season</span></div>
+          <div class="kpis">
+            <div class="kpi"><div class="k"><i style="background:var(--amber-l)">🏆</i><span class="trend">▲ 12%</span></div><b>12</b><span>Competitions</span></div>
+            <div class="kpi"><div class="k"><i style="background:var(--green-l)">✅</i><span class="trend">▲ 5%</span></div><b>75%</b><span>Win rate</span></div>
+            <div class="kpi"><div class="k"><i style="background:var(--violet-l)">⭐</i><span class="trend">▲ 8%</span></div><b>4.2</b><span>Avg score / 5</span></div>
+          </div>
+        </div>
+        <div class="card"><div class="hd"><h2>👥 Social</h2></div>
+          <div class="kpis" style="grid-template-columns:repeat(3,1fr)">
+            <div class="kpi"><span>Followers</span><b>424</b><span class="trend">▲ 15%</span></div>
+            <div class="kpi"><span>Following</span><b>144</b><span class="trend">▲ 3%</span></div>
+            <div class="kpi"><span>Engagement</span><b>86%</b><span class="trend">▲ 7%</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dg">
+        <div class="card"><div class="hd"><h2>Score trend</h2><div style="display:flex;gap:4px" id="range"><button class="btn sm" data-r="6">6 mo</button><button class="btn ghost sm" data-r="12">12 mo</button></div></div><svg class="chart" id="chart" viewBox="0 0 520 190" preserveAspectRatio="none" role="img" aria-label="Score by month"></svg></div>
+        <div class="card"><div class="hd"><h2>⚡ Quick actions</h2></div>
+          <div class="qa"><button data-go="home"><i style="background:var(--blue-l)">📝</i>Register</button><button data-toast="Messages open in the full app"><i style="background:var(--green-l)">💬</i>Message</button><button data-toast="Study resources open in the full app"><i style="background:var(--violet-l)">📚</i>Study</button><button data-toast="Tracking every result automatically"><i style="background:var(--amber-l)">📍</i>Track</button></div>
+        </div>
+      </div>
+
+      <div class="dg">
+        <div class="card"><div class="hd"><h2>📅 Upcoming</h2><button class="link" data-toast="Calendar opens in the full app">View all</button></div><div id="events"></div></div>
+        <div class="card"><div class="hd"><h2>🎯 Goals</h2></div>
+          <div class="goal"><div class="lr"><b>Win regional math</b><span>53%</span></div><div class="meter"><b data-w="53"></b></div></div>
+          <div class="goal"><div class="lr"><b>Raise math score to 90</b><span>84%</span></div><div class="meter"><b data-w="84"></b></div></div>
+          <div class="goal"><div class="lr"><b>Finish research project</b><span>23%</span></div><div class="meter"><b data-w="23"></b></div></div>
+        </div>
+      </div>
     </div>
-    <div class="card"><h2>Upcoming</h2><div id="events"></div></div>
   </div>
 </section>
 </main>
-<p class="foot">Concept prototype · sample data · names and schools are made up</p>
+<p class="foot">Concept prototype · sample data · names, schools and organizations are made up</p>
 <div class="toast" id="toast" role="status"></div>
 
 <script>
 const $=id=>document.getElementById(id);
-function go(id){document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('on',s.id===id));document.querySelectorAll('nav.tabs button').forEach(b=>b.toggleAttribute('aria-current',b.dataset.go===id));scrollTo(0,0)}
-document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>go(b.dataset.go));
-function toast(t){const e=$('toast');e.textContent=t;e.classList.add('on');clearTimeout(e._t);e._t=setTimeout(()=>e.classList.remove('on'),1500)}
-// categories filter the feed
-const cats=[['all','All',null],['math','Mathematics','2,847 active'],['sci','Science Olympiad','1,923 active'],['code','Coding','3,291 active'],['spell','Spelling Bee','1,458 active'],['debate','Debate','992 active']];
+const grads=['linear-gradient(135deg,#8B6CF8,#5133C8)','linear-gradient(135deg,#14B8A6,#0F766E)','linear-gradient(135deg,#F59E0B,#D97706)','linear-gradient(135deg,#10B981,#047857)','linear-gradient(135deg,#60A5FA,#2563EB)','linear-gradient(135deg,#FB7185,#E11D48)'];
+function toast(t){const e=$('toast');e.textContent=t;e.classList.add('on');clearTimeout(e._t);e._t=setTimeout(()=>e.classList.remove('on'),1700)}
+function fillMeters(scope){scope.querySelectorAll('.meter b[data-w]').forEach(b=>{b.style.width='0';requestAnimationFrame(()=>requestAnimationFrame(()=>b.style.width=b.dataset.w+'%'))})}
+function go(id){document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('on',s.id===id));document.querySelectorAll('.subnav [data-go]').forEach(b=>b.toggleAttribute('aria-current',b.dataset.go===id));scrollTo({top:0,behavior:'smooth'});fillMeters($(id));if(id==='dash')drawChart()}
+document.addEventListener('click',e=>{const g=e.target.closest('[data-go]');if(g){go(g.dataset.go);return}
+  const t=e.target.closest('[data-toast]');if(t)toast(t.dataset.toast);
+  if(e.target.closest('[data-soon]'))toast('This section is outside the prototype');
+  const r=e.target.closest('[data-reg]');if(r&&!r.disabled){r.textContent='Registered ✓';r.disabled=true;toast(`Registered for ${r.dataset.reg}. Your coach was notified.`)}});
+$('bell').onclick=()=>{$('bell').querySelector('.dot').remove?.();toast('Ava Castillo posted a new result')};
+
+/* categories + feed */
+const cats=[['all','All categories','12,511 active','🌐','#E2E8F0'],['math','Mathematics','2,847 active','∑','#E0E7FF'],['sci','Science Olympiad','1,923 active','🔬','#DCFCE7'],['code','Coding','3,291 active','&lt;/&gt;','#E0F2FE'],['spell','Spelling Bee','1,458 active','🐝','#FEF3C7'],['debate','Debate','992 active','🎤','#FFE4E6']];
 let cat='all';
 const posts=[
- {c:'math',n:'Ava Castillo',i:'AC',col:'#6941C6',t:'Took 1st at the State Math League qualifier. 38/40!',k:'2h',l:24},
- {c:'sci',n:'Lakeside High',i:'LH',col:'#14706B',t:'Our Science Olympiad team placed 3rd of 41 schools. So proud of these students.',k:'4h',l:57},
- {c:'debate',n:'Coach Rivera',i:'CR',col:'#B54708',t:'Looking for two more students for the regional policy debate team. DM me.',k:'6h',l:12},
- {c:'spell',n:'Marcus Lee',i:'ML',col:'#067647',t:'Advanced to county finals in the spelling bee. "Onomatopoeia" almost got me.',k:'1d',l:41},
- {c:'code',n:'Priya Nair',i:'PN',col:'#2E5AAC',t:'New personal best on the coding circuit: Silver division, 3 of 4 problems solved.',k:'1d',l:33}];
-function renderCats(){$('cats').innerHTML=cats.map(([k,l,s])=>`<button class="cat" aria-pressed="${k===cat}" data-c="${k}"><span>${l}</span><small>${s||''}</small></button>`).join('')}
-function renderFeed(){$('feed').innerHTML=posts.filter(p=>cat==='all'||p.c===cat).map((p,k)=>`<div class="post"><div class="av" style="background:${p.col}">${p.i}</div><div><b>${p.n}</b> <span class="sub" style="font-size:12px">· ${p.k}</span><p>${p.t}</p><div class="acts"><button aria-pressed="false" data-like="${posts.indexOf(p)}">👏 ${p.l}</button><button data-cmt>Comment</button><button data-prof>View profile</button></div></div></div>`).join('')||'<p class="sub">No posts in this category yet.</p>'}
+ {c:'math',n:'Ava Castillo',i:'AC',g:0,t:'Took 1st at the State Math League qualifier. 38/40!',a:['🏆','State Math League · 1st place'],k:'2h',l:24},
+ {c:'sci',n:'Lakeside High',i:'LH',g:1,t:'Our Science Olympiad team placed 3rd of 41 schools. So proud of these students.',a:['🔬','Regional Science Olympiad · 3rd of 41'],k:'4h',l:57},
+ {c:'debate',n:'Coach Rivera',i:'CR',g:2,t:'Looking for two more students for the regional policy debate team. DM me.',k:'6h',l:12},
+ {c:'spell',n:'Marcus Lee',i:'ML',g:3,t:'Advanced to county finals. "Onomatopoeia" almost got me.',k:'1d',l:41},
+ {c:'code',n:'Priya Nair',i:'PN',g:4,t:'New personal best on the coding circuit: Silver division, 3 of 4 problems.',a:['💻','Coding Circuit · Silver'],k:'1d',l:33}];
+function renderCats(){$('cats').innerHTML=cats.map(([k,l,s,ic,bg])=>`<button class="cat" aria-pressed="${k===cat}" data-c="${k}"><span class="ci" style="background:${bg}">${ic}</span><span><b>${l}</b><small>${s}</small></span></button>`).join('')}
+function renderFeed(){const list=posts.filter(p=>cat==='all'||p.c===cat);$('feedLabel').textContent=cats.find(c=>c[0]===cat)[1];
+ $('feed').innerHTML=list.map(p=>`<div class="post"><span class="av" style="width:42px;height:42px;background:${grads[p.g]};font-size:13px">${p.i}</span><div><b>${p.n}</b> <span class="sub" style="font-size:12px">· ${p.k}</span><p>${p.t}</p>${p.a?`<div class="attach"><i>${p.a[0]}</i><b style="font-size:13px">${p.a[1]}</b></div>`:''}<div class="acts"><button aria-pressed="${!!p.liked}" data-like="${posts.indexOf(p)}">👏 ${p.l}</button><button data-toast="Comments open in the full app">💬 Comment</button>${p.i!=='JE'?'<button data-go="profile">View profile</button>':''}</div></div></div>`).join('')||'<p class="sub">No posts in this category yet. Be the first.</p>'}
 $('cats').onclick=e=>{const b=e.target.closest('.cat');if(!b)return;cat=b.dataset.c;renderCats();renderFeed()};
-$('feed').onclick=e=>{const l=e.target.closest('[data-like]');if(l){const p=posts[l.dataset.like];const on=l.getAttribute('aria-pressed')!=='true';p.l+=on?1:-1;l.setAttribute('aria-pressed',on);l.textContent='👏 '+p.l}
- if(e.target.closest('[data-prof]'))go('profile');if(e.target.closest('[data-cmt]'))toast('Comments open in the full app')};
+$('feed').onclick=e=>{const l=e.target.closest('[data-like]');if(!l)return;const p=posts[l.dataset.like];p.liked=!p.liked;p.l+=p.liked?1:-1;l.setAttribute('aria-pressed',p.liked);l.textContent='👏 '+p.l;l.classList.remove('pop');void l.offsetWidth;l.classList.add('pop')};
+$('postBtn').onclick=()=>{const v=$('postIn').value.trim();if(!v){toast('Write something first');return}posts.unshift({c:cat==='all'?'math':cat,n:'Jordan Ellis',i:'JE',g:2,t:v,k:'now',l:0});$('postIn').value='';renderFeed();toast('Posted to your network')};
+$('postIn').onkeydown=e=>{if(e.key==='Enter')$('postBtn').click()};
 renderCats();renderFeed();
-$('ranks').innerHTML=[['Ava Castillo','+4'],['Marcus Lee','+3'],['Priya Nair','+3'],['Sam Okoro','+2']].map(([n,u],k)=>`<div class="rank"><span class="n">${k+1}</span><span>${n}</span><span class="up">▲ ${u}</span></div>`).join('');
-// live score ticks
+$('ranks').innerHTML=[['Ava Castillo','Lakeside',0,'+4'],['Marcus Lee','Northgate',3,'+3'],['Priya Nair','Riverview',4,'+3'],['Sam Okoro','Westbrook',5,'+2']].map(([n,s,g,u],k)=>`<div class="rank"><span class="n">${k+1}</span><span class="av" style="width:30px;height:30px;background:${grads[g]};font-size:11px">${n.split(' ').map(w=>w[0]).join('')}</span><span><b style="font-size:13px">${n}</b><br><small class="sub" style="font-size:11px">${s}</small></span><span class="up">▲ ${u}</span></div>`).join('');
+
+/* live carousel */
+const slides=[...document.querySelectorAll('.slide')];let si=0,auto;
+$('dots').innerHTML=slides.map((_,k)=>`<button aria-label="Event ${k+1}" data-s="${k}"></button>`).join('');
+function show(k){si=(k+slides.length)%slides.length;slides.forEach((s,j)=>s.classList.toggle('on',j===si));$('dots').querySelectorAll('button').forEach((b,j)=>b.toggleAttribute('aria-current',j===si));$('slideCount').textContent=`Event ${si+1} of ${slides.length}`}
+function restart(){clearInterval(auto);auto=setInterval(()=>show(si+1),7000)}
+$('prev').onclick=()=>{show(si-1);restart()};$('next').onclick=()=>{show(si+1);restart()};$('dots').onclick=e=>{const b=e.target.closest('[data-s]');if(b){show(+b.dataset.s);restart()}};
+show(0);restart();
 let s1=145,s2=142,sec=252;
-setInterval(()=>{sec=Math.max(0,sec-1);$('clock').textContent=`${Math.floor(sec/60)}:${String(sec%60).padStart(2,'0')} left`},1000);
-setInterval(()=>{const a=Math.random()<.5;const el=a?$('s1'):$('s2');if(a)s1+=10;else s2+=10;el.textContent=a?s1:s2;el.classList.add('bump');setTimeout(()=>el.classList.remove('bump'),900)},4000);
-// profile
+setInterval(()=>{sec=Math.max(0,sec-1);$('clock').textContent=`${Math.floor(sec/60)}:${String(sec%60).padStart(2,'0')}`},1000);
+setInterval(()=>{const a=Math.random()<.5;if(a)s1+=10;else s2+=10;const el=a?$('s1'):$('s2');el.textContent=a?s1:s2;el.classList.add('bump');setTimeout(()=>el.classList.remove('bump'),900);$('t1').classList.toggle('lead',s1>s2);$('t2').classList.toggle('lead',s2>s1);$('lc').textContent=(1524+Math.floor(Math.random()*9)).toLocaleString()},4200);
+$('t1').classList.add('lead');
+
+/* quiz */
+const opts=['Mercury','Earth','Jupiter','Mars'];let answered=false;
+$('quiz').innerHTML=opts.map(o=>`<button class="opt">${o}</button>`).join('');
+$('quiz').onclick=e=>{const b=e.target.closest('.opt');if(!b||answered)return;answered=true;$('quiz').querySelectorAll('.opt').forEach(x=>{x.disabled=true;if(x.textContent==='Jupiter')x.classList.add('right')});if(b.textContent!=='Jupiter')b.classList.add('wrong');$('quizNote').textContent=b.textContent==='Jupiter'?'Correct! A Jupiter day is about 10 hours. 🔥 3-day streak':'Not quite. It\'s Jupiter, about 10 hours.'};
+let joined=false;$('join').onclick=()=>{if(joined)return;joined=true;$('entries').textContent='90';$('join').textContent='Joined ✓';toast('You joined the AI Ethics Debate')};
+
+/* profile */
 let following=false,fol=156;
-$('follow').onclick=()=>{following=!following;fol+=following?1:-1;$('fol').textContent=fol;$('follow').textContent=following?'Following ✓':'Follow';$('follow').className=following?'btn ghost':'btn';if(following)toast('You follow Ava now. Her results show up in your feed.')};
+$('follow').onclick=()=>{following=!following;fol+=following?1:-1;$('fol').textContent=fol;$('follow').innerHTML=following?'✓ Following':'＋ Follow';$('follow').className=following?'btn ghost':'btn';if(following)toast("You follow Ava. Her results will show in your feed.")};
 $('msg').onclick=()=>toast('Messages between students need a parent-approved account');
+const B=(i,bg,bd,t,s,d,p,pc)=>`<div class="badge lift" style="border-color:${bd}"><i style="background:${bg}">${i}</i><div><b>${t}</b><small>${s}</small><small>${d}</small></div><span class="pts" style="background:${bg};color:${pc}">+${p}</span></div>`;
 const tabs={
- ach:`<h2>Achievements</h2><div class="badges">${[['🏆','#FEF0C7','State Math League, 1st','Feb 2025'],['🔬','#EBE9FE','Science Fair, best research','Nov 2024'],['🎤','#E3F2F0','Quiz Bowl, top 10','Oct 2024'],['🔥','#FEE4E2','10-competition streak','Aug 2024']].map(([i,b,t,d])=>`<div class="badge"><i style="background:${b}">${i}</i><div><b>${t}</b><small>${d}</small></div></div>`).join('')}</div>`,
- hist:`<h2>Competition history</h2><table><thead><tr><th>Season</th><th>Competition</th><th>Place</th></tr></thead><tbody><tr><td>2025</td><td>State Math League</td><td><b>1st</b></td></tr><tr><td>2024</td><td>Regional Science Fair</td><td><b>1st</b></td></tr><tr><td>2024</td><td>Quiz Bowl Regionals</td><td>4th</td></tr><tr><td>2023</td><td>County Spelling Bee</td><td>2nd</td></tr></tbody></table>`,
- skills:`<h2>Skills</h2><div style="display:flex;flex-wrap:wrap;gap:8px">${['Algebra','Geometry','Experimental design','Public speaking','Team captain','Python'].map(s=>`<span class="pill">${s}</span>`).join('')}</div><p class="sub" style="margin-top:14px">Endorsed by 3 coaches</p>`};
-function tab(t){document.querySelectorAll('.ptabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.t===t));$('ptab').innerHTML=tabs[t]}
+ ach:`<div class="hd"><h2>🏆 Achievement gallery</h2><span class="sub" style="margin:0;font-size:12px">6 of 23</span></div><div class="badges">${[
+  B('🏆','#FEF3C7','#FCD34D','Math Olympiad Champion','1st, State Math League','Feb 2025','1000','#92400E'),
+  B('🔬','#EDE9FE','#C4B5FD','Science Fair Winner','Best research project','Nov 2024','850','#5B21B6'),
+  B('🎤','#E0F2FE','#93C5FD','Quiz Bowl Finalist','Top 10 regional','Oct 2024','650','#1E40AF'),
+  B('👑','#FCE7F3','#F9A8D4','Team Leader','Captain, math league','Sept 2024','750','#9D174D'),
+  B('🔥','#FFE4E6','#FDA4AF','Consistent Performer','10-competition streak','Aug 2024','500','#9F1239'),
+  B('⭐','#DCFCE7','#86EFAC','Rising Star','Fastest regional climb','July 2024','300','#166534')].join('')}</div>`,
+ hist:`<div class="hd"><h2>Competition history</h2></div><div class="timeline">${[['State Math League','Feb 2025 · Individual','1st 🥇'],['Regional Science Fair','Nov 2024 · Research','1st 🥇'],['Quiz Bowl Regionals','Oct 2024 · Team','4th'],['County Spelling Bee','Mar 2024','2nd 🥈'],['Coding Circuit','Jan 2024 · Bronze division','3rd 🥉']].map(([t,s,p])=>`<div class="tl"><span class="place">${p}</span><b>${t}</b><small>${s}</small></div>`).join('')}</div>`,
+ skills:`<div class="hd"><h2>Skills & strengths</h2><span class="sub" style="margin:0;font-size:12px">Endorsed by 3 coaches</span></div>${[['Algebra',92],['Geometry',85],['Experimental design',78],['Public speaking',70],['Python',55]].map(([s,v])=>`<div class="skill"><span>${s}</span><div class="meter"><b data-w="${v}"></b></div><b style="width:36px;text-align:right">${v}</b></div>`).join('')}`,
+ act:`<div class="hd"><h2>Recent activity</h2></div>${[['🏆','Earned <b>Math Olympiad Champion</b>','2h'],['👥','Followed <b>Lakeside Science Team</b>','1d'],['📝','Registered for <b>Regional Science Fair</b>','3d'],['👏','Clapped for <b>Marcus Lee</b>\'s result','4d']].map(([i,t,k])=>`<div class="stat"><i style="background:#fff;border:1px solid var(--line)">${i}</i><div><span>${t}</span><br><small>${k} ago</small></div></div>`).join('')}`};
+function tab(t){document.querySelectorAll('.ptabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.t===t));$('ptab').innerHTML=tabs[t];fillMeters($('ptab'))}
 document.querySelector('.ptabs').onclick=e=>{const b=e.target.closest('button');if(b)tab(b.dataset.t)};tab('ach');
-// dashboard
-$('chart').innerHTML=[['Sep',55],['Oct',62],['Nov',58],['Dec',70],['Jan',74],['Feb',88]].map(([m,v])=>`<div style="height:100%"><b style="height:${v}%"></b><span>${m}</span></div>`).join('');
-const evs=[['MAR','30','State Math League','Registered',true],['APR','15','Science Fair Regionals','Register',false],['APR','26','Quiz Bowl Invitational','Register',false]];
-function renderEv(){$('events').innerHTML=evs.map((e,k)=>`<div class="ev"><div class="date">${e[0]}<small>${e[1]}</small></div><div><b>${e[2]}</b></div><button class="btn ${e[4]?'ghost':''}" data-ev="${k}">${e[4]?'Registered ✓':'Register'}</button></div>`).join('')}
+
+/* dashboard */
+const data12=[58,61,55,64,60,66,62,70,68,74,79,88];let range=6;
+function drawChart(){const d=data12.slice(-range),W=520,H=170,p=10,mx=100,mn=40;const x=i=>p+i*(W-2*p)/(d.length-1),y=v=>H-(v-mn)/(mx-mn)*(H-20);
+ const pts=d.map((v,i)=>`${x(i)},${y(v)}`).join(' ');const m=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'].slice(-range);
+ $('chart').innerHTML=`<defs><linearGradient id="ga" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0F766E" stop-opacity=".28"/><stop offset="1" stop-color="#0F766E" stop-opacity="0"/></linearGradient></defs>${[50,70,90].map(v=>`<line x1="0" x2="${W}" y1="${y(v)}" y2="${y(v)}" stroke="#E2E8F0" stroke-dasharray="4 4"/><text x="0" y="${y(v)-4}" text-anchor="start" font-size="10" fill="#94A3B8">${v}</text>`).join('')}<polygon points="${p},${H} ${pts} ${W-p},${H}" fill="url(#ga)"/><polyline points="${pts}" fill="none" stroke="#0F766E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" pathLength="1" style="stroke-dasharray:1;stroke-dashoffset:1;animation:draw 1s ease forwards"/>${d.map((v,i)=>`<circle cx="${x(i)}" cy="${y(v)}" r="${i===d.length-1?5:3.5}" fill="#fff" stroke="#0F766E" stroke-width="2.5"><title>${m[i]}: ${v}</title></circle><text x="${x(i)}" y="${H+16}" text-anchor="middle" font-size="10" fill="#94A3B8">${m[i]}</text>`).join('')}<text x="${x(d.length-1)}" y="${y(d.at(-1))-12}" text-anchor="end" font-size="12" font-weight="800" fill="#0B4F4A">${d.at(-1)}</text>`}
+const st=document.createElement('style');st.textContent='@keyframes draw{to{stroke-dashoffset:0}}';document.head.append(st);
+$('range').onclick=e=>{const b=e.target.closest('[data-r]');if(!b)return;range=+b.dataset.r;$('range').querySelectorAll('button').forEach(x=>x.className='btn sm'+(x===b?'':' ghost'));drawChart()};
+const evs=[['MAR',30,'State Math League','Registration closes',true],['APR',15,'Regional Science Fair','Competition day',false],['APR',26,'Quiz Bowl Invitational','Team event',false]];
+function renderEv(){$('events').innerHTML=evs.map((e,k)=>`<div class="ev"><div class="date">${e[0]}<b>${e[1]}</b></div><div><b>${e[2]}</b><br><small class="sub" style="font-size:12px">${e[3]}</small></div><button class="btn sm ${e[4]?'ghost':''}" data-ev="${k}">${e[4]?'Registered ✓':'Register'}</button></div>`).join('')}
 $('events').onclick=e=>{const b=e.target.closest('[data-ev]');if(!b)return;const ev=evs[b.dataset.ev];if(ev[4])return;ev[4]=true;renderEv();toast(`Registered for ${ev[2]}. Your coach was notified.`)};renderEv();
-$('complete').onclick=()=>toast('Add a school, a photo and 3 skills to finish');
+$('complete').onclick=()=>{const m=$('alert').querySelector('.meter b');m.style.width='100%';$('alert').querySelector('b').textContent='Profile complete (100%) ✓';$('complete').textContent='Done';$('complete').disabled=true;toast('Profile complete. Coaches can now find you.')};
+fillMeters($('home'));
 </script>
 </body>
 </html>

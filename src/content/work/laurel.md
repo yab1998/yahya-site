@@ -27,13 +27,13 @@ Academic competitors work as hard as athletes, but their wins disappear into PDF
 <ol class="flow">
   <li><b>Live home</b><span>A scoreboard that updates during events, categories that filter everything, and a feed of results from people and schools you follow.</span></li>
   <li><b>Student profile</b><span>Stats up top (followers, win rate, rank), then achievements, competition history and skills, the "résumé" a coach or college would want.</span></li>
-  <li><b>Personal dashboard</b><span>Season stats, score trend and upcoming events with one-tap registration that notifies the coach.</span></li>
+  <li><b>Personal dashboard</b><span>Season stats, social reach, a score trend, goals and upcoming events with one-tap registration that notifies the coach.</span></li>
 </ol>
 
 ## Try the prototype
 
 <div class="proto"><iframe src="/proto/laurel/" title="Academic competition platform interactive prototype" loading="lazy"></iframe></div>
-<p class="protonote"><a href="/proto/laurel/" target="_blank" rel="noopener">Open full screen ↗</a> · Try following Ava, filtering the feed and registering for an event. Sample data only.</p>
+<p class="protonote"><a href="/proto/laurel/" target="_blank" rel="noopener">Open full screen ↗</a> · Try flipping through live events, answering the question of the day, following Ava and registering for an event. Sample data only.</p>
 
 ## Design decisions
 
