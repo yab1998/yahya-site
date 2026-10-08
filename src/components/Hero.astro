@@ -11,19 +11,28 @@ const lines = [
 ];
 // collage: [file, style, rotate-on-hover, float duration]
 const bits = [
-  ['seeing-me/piece_08.png', 'left:-2%;top:2%;width:22%', '-10deg', 6.5],
-  ['seeing-me/piece_07.png', 'right:0;top:0;width:24%', '8deg', 8],
-  ['seeing-me/piece_12.png', 'left:-2%;top:46%;width:20%', '-6deg', 7.2],
-  ['seeing-me/piece_19.png', 'right:-2%;top:40%;width:22%', '10deg', 9],
-  ['seeing-me/piece_29.png', 'left:14%;bottom:0;width:24%', '-8deg', 5.8],
-  ['seeing-me/piece_50.png', 'right:8%;bottom:2%;width:28%', '6deg', 7.6],
-  ['seeing-me/piece_18.png', 'left:46%;bottom:6%;width:14%', '12deg', 8.4],
-  ['seeing-me/piece_04.png', 'left:4%;top:30%;width:12%', '-12deg', 6.9],
-  ['seeing-me/piece_21.png', 'left:26%;top:0;width:7%', '-14deg', 5.4],
-  ['seeing-me/piece_37.png', 'right:24%;top:30%;width:6%', '12deg', 6.2],
-  ['seeing-me/piece_53.png', 'left:30%;bottom:22%;width:6.5%', '-10deg', 7.1],
-  ['seeing-me/piece_59.png', 'right:2%;top:26%;width:5.5%', '14deg', 5.9],
+  ['50', 'left:0;top:1%;width:23%', '-10deg', 6.5],
+  ['07', 'right:-1%;top:1%;width:23%', '8deg', 8],
+  ['32', 'left:2%;top:54%;width:14%', '-6deg', 7.2],
+  ['19', 'right:-3%;top:58%;width:21%', '10deg', 9],
+  ['29', 'left:16%;bottom:-1%;width:22%', '-8deg', 5.8],
+  ['50', 'right:4%;bottom:0;width:25%', '6deg', 7.6],
+  ['18', 'left:45%;bottom:2%;width:11%', '12deg', 8.4],
+  ['04', 'left:24%;top:4%;width:9%', '-12deg', 6.9],
+  ['10', 'left:47%;top:1%;width:12%', '8deg', 7.8],
+  ['55', 'right:26%;top:12%;width:7%', '-10deg', 6.1],
+  ['41', 'left:2%;top:36%;width:8%', '14deg', 7.4],
+  ['58', 'right:3%;top:42%;width:8%', '-14deg', 6.6],
+  ['46', 'left:36%;bottom:16%;width:5%', '10deg', 5.6],
+  ['09', 'right:30%;bottom:14%;width:4.5%', '-8deg', 7.9],
+  ['01', 'left:14%;top:26%;width:3.5%', '10deg', 6.4],
+  ['16', 'right:22%;top:27%;width:7%', '-6deg', 8.2],
+  ['21', 'left:33%;top:12%;width:5.5%', '-14deg', 5.4],
+  ['37', 'right:18%;bottom:28%;width:5%', '12deg', 6.2],
+  ['53', 'left:21%;top:66%;width:5%', '-10deg', 7.1],
+  ['59', 'right:42%;top:16%;width:4.5%', '14deg', 5.9],
 ] as const;
+const art = (n: string, dark = false) => img(`seeing-me/piece_${n}${dark ? '-dark' : ''}.png`);
 ---
 <section class="hero wrap" aria-labelledby="name">
   <div class="txt">
@@ -49,9 +58,15 @@ const bits = [
     </ul>
   </div>
   <div class="collage" aria-hidden="true">
-    <Picture class="center art-pop" src={img('seeing-me/piece_33.png')} formats={['avif', 'webp']} widths={[400, 700, 1000]} sizes="(max-width: 760px) 70vw, 30vw" alt="" loading="eager" fetchpriority="high" />
-    {bits.map(([f, style, r, d], i) => (
-      <Picture class="m art-pop" src={img(f)} formats={['avif', 'webp']} widths={[200, 400]} sizes="(max-width: 760px) 25vw, 12vw" alt="" style={`${style};--r:${r};--d:${d}s;--dl:-${(i * 0.9).toFixed(1)}s`} />
+    <span class="center">
+      <Picture class="lt" src={art('33')} formats={['avif', 'webp']} widths={[400, 700, 1000]} sizes="(max-width: 760px) 70vw, 34vw" alt="" loading="eager" fetchpriority="high" />
+      <Picture class="dk" src={art('33', true)} formats={['avif', 'webp']} widths={[400, 700, 1000]} sizes="(max-width: 760px) 70vw, 34vw" alt="" />
+    </span>
+    {bits.map(([n, style, r, d], i) => (
+      <span class="m" style={`${style};--r:${r};--d:${d}s;--dl:-${(i * 0.9).toFixed(1)}s`}>
+        <Picture class="lt" src={art(n)} formats={['avif', 'webp']} widths={[200, 400]} sizes="(max-width: 760px) 25vw, 12vw" alt="" />
+        <Picture class="dk" src={art(n, true)} formats={['avif', 'webp']} widths={[200, 400]} sizes="(max-width: 760px) 25vw, 12vw" alt="" />
+      </span>
     ))}
   </div>
 </section>
@@ -97,9 +112,13 @@ const bits = [
   .soc a:hover{color:var(--ink);background:rgba(20,20,19,.07)}
 
   .collage{grid-column:span 5;position:relative;aspect-ratio:5/6;min-height:400px}
-  .collage :global(.center){position:absolute;left:12%;top:22%;width:76%;filter:drop-shadow(0 14px 18px rgba(20,20,19,.18));animation:float 9s ease-in-out infinite}
-  .collage :global(.m){position:absolute;animation:float var(--d,7s) ease-in-out infinite;animation-delay:var(--dl,0s);transition:transform .35s cubic-bezier(.3,1.6,.6,1)}
-  .collage :global(.m:hover){transform:scale(1.12) rotate(var(--r,6deg))}
+  .collage .center{position:absolute;left:14%;top:26%;width:72%;filter:drop-shadow(0 14px 18px rgba(20,20,19,.18));animation:float 9s ease-in-out infinite}
+  .collage .dk{display:none}
+  :global(:root[data-theme="dark"]) .collage .lt{display:none}
+  :global(:root[data-theme="dark"]) .collage .dk{display:block}
+  @media (prefers-color-scheme:dark){:global(:root:not([data-theme="light"])) .collage .lt{display:none}:global(:root:not([data-theme="light"])) .collage .dk{display:block}}
+  .collage .m{display:block;position:absolute;animation:float var(--d,7s) ease-in-out infinite;animation-delay:var(--dl,0s);transition:transform .35s cubic-bezier(.3,1.6,.6,1)}
+  .collage .m:hover{transform:scale(1.12) rotate(var(--r,6deg))}
   .collage :global(img){width:100%;height:auto}
   @keyframes float{0%,100%{translate:0 0;rotate:0deg}25%{translate:3px -9px;rotate:1.5deg}50%{translate:-2px -14px;rotate:-1deg}75%{translate:-4px -5px;rotate:1deg}}
 
