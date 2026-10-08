@@ -1,0 +1,71 @@
+{
+  "headline": "Designer, creative director and content producer who pairs operational discipline with a strong visual and cultural instinct.",
+  "lanes": [
+    { "id": "design", "label": "Design + Content", "c": "c-red" },
+    { "id": "product", "label": "Product + PM", "c": "c-blu" },
+    { "id": "organizing", "label": "Campaigns + Partnerships", "c": "c-grn" }
+  ],
+  "roles": [
+    {
+      "org": "Lunar Lighthouse",
+      "title": "Principal / Lead Creative",
+      "when": "June 2019 – Present",
+      "where": "New York, NY",
+      "lanes": ["design", "organizing"],
+      "points": [
+        "Run a creative studio delivering brand strategy, content production and creative direction, managing the full cycle from concept through editing and delivery with freelance editors and designers.",
+        "Create and distribute short-form video and social content, building a platform of 30,000+ followers and 6.5M+ views across Reels, TikTok and YouTube.",
+        "Art-direct cover art and visual identity for my own releases and other artists.",
+        "Direct and edit campaign video for NYC-DSA candidates, including a walking-interview piece for Aber Kawas (2026)."
+      ]
+    },
+    {
+      "org": "ScholarComp",
+      "title": "Product & Data Analyst",
+      "when": "June 2025 – Sept 2025",
+      "where": "New York, NY",
+      "lanes": ["product"],
+      "points": [
+        "Designed AI-powered workflows and prototypes, integrating emerging AI tools into content and product processes.",
+        "Wrote the product brief and UX direction for results, rankings and student profiles on a K–12 academic competition platform."
+      ]
+    },
+    {
+      "org": "Straightway Ethical Advisory",
+      "title": "Project Manager",
+      "when": "March 2024 – June 2025",
+      "where": "New York, NY",
+      "lanes": ["product"],
+      "points": [
+        "Owned client engagements end to end (scopes, timelines, deliverables) as the primary point of contact, coordinating cross-functional teams from kickoff through delivery."
+      ]
+    },
+    {
+      "org": "Acutis Diagnostics Inc.",
+      "title": "Business Analyst",
+      "when": "May 2022 – April 2023",
+      "where": "Hicksville, NY",
+      "lanes": ["product"],
+      "points": [
+        "Managed cross-functional product launches across R&D, Sales and Logistics, owning roadmaps, timelines, budgets and stakeholder communication.",
+        "Led the shift from waterfall to agile and built the process documentation that let the work repeat."
+      ]
+    },
+    {
+      "org": "LaunchGood",
+      "title": "Business Development & Creative Strategy Fellow",
+      "when": "July 2020 – Sept 2020",
+      "where": "New York, NY",
+      "lanes": ["organizing", "design"],
+      "points": [
+        "Designed fundraising campaigns and creative strategy for nonprofit clients, supporting campaigns that raised up to $250K and building influencer partnerships to expand reach."
+      ]
+    }
+  ],
+  "education": { "school": "Cornell University", "degree": "BA, Psychology (Social Psychology & User Experience)", "when": "2021" },
+  "skills": [
+    { "group": "Creative + Content", "items": ["Art direction", "Short-form video editing (Premiere, CapCut)", "Adobe Creative Suite", "Figma", "Canva", "Content strategy", "YouTube + short-form publishing"] },
+    { "group": "Product + PM", "items": ["Asana", "Notion", "Jira", "Confluence", "Agile / Scrum", "Roadmapping", "Budgets", "Vendor + freelancer coordination", "Content calendars"] },
+    { "group": "Digital + AI", "items": ["Instagram / TikTok / YouTube", "Mailchimp / HubSpot", "AI-native workflows (LLMs)", "HTML / CSS", "SQL"] }
+  ]
+}

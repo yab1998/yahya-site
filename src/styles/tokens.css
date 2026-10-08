@@ -1,0 +1,47 @@
+/* Brand tokens — the only place colors, type and spacing are defined */
+@font-face{font-family:'Archivo';font-weight:400;font-display:swap;src:url(/fonts/archivo-latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:'Archivo';font-weight:500;font-display:swap;src:url(/fonts/archivo-latin-500-normal.woff2) format('woff2')}
+@font-face{font-family:'Archivo';font-weight:700;font-display:swap;src:url(/fonts/archivo-latin-700-normal.woff2) format('woff2')}
+@font-face{font-family:'Archivo';font-weight:800;font-display:swap;src:url(/fonts/archivo-latin-800-normal.woff2) format('woff2')}
+@font-face{font-family:'Archivo';font-weight:900;font-display:swap;src:url(/fonts/archivo-latin-900-normal.woff2) format('woff2')}
+@font-face{font-family:'Space Mono';font-weight:400;font-display:swap;src:url(/fonts/space-mono-latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:'Space Mono';font-weight:700;font-display:swap;src:url(/fonts/space-mono-latin-700-normal.woff2) format('woff2')}
+
+:root{
+  /* base */
+  --cream:#FBFAF6; --paper:#FFFFFF; --ink:#141413; --muted:#57534a;
+  /* subway line colors (UI color is capped to these) */
+  --red:#EE352E; --purple:#B933AD; --yellow:#FCCC0A; --orange:#FF6319; --green:#00933C; --blue:#0039A6;
+  --board:#FF9E1B; --live:#6CBE45;
+  /* type */
+  --sans:'Archivo',system-ui,sans-serif;
+  --mono:'Space Mono',ui-monospace,monospace;
+  --fs-body:clamp(17px,1.1vw + 12px,19px);
+  --fs-lead:clamp(19px,1.4vw + 12px,23px);
+  --fs-h2:clamp(46px,7vw,104px);
+  --fs-h1:clamp(70px,12vw,176px);
+  --measure:68ch;
+  /* layout */
+  --gut:clamp(16px,3.4vw,48px);
+  --nav-h:76px;
+}
+
+/* transit glass: scratched bus-shelter plexiglass, not app gloss */
+:root{ --glass-tint:rgba(251,250,246,.72); --glass-blur:12px; --glass-border:1px solid var(--ink); }
+
+/* fixed tones that never flip */
+:root{ --night:#141413; --day:#FBFAF6; --white:#FFFFFF; --wall:#f1efe8; --dot:rgba(20,20,19,.14); }
+
+/* ---------- dark mode ---------- */
+:root[data-theme="dark"]{
+  --cream:#121211; --paper:#1b1b19; --ink:#F2EEE4; --muted:#b9b3a7;
+  --wall:#1a1a18; --dot:rgba(242,238,228,.10); --glass-tint:rgba(18,18,17,.72);
+  color-scheme:dark;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --cream:#121211; --paper:#1b1b19; --ink:#F2EEE4; --muted:#b9b3a7;
+    --wall:#1a1a18; --dot:rgba(242,238,228,.10); --glass-tint:rgba(18,18,17,.72);
+    color-scheme:dark;
+  }
+}

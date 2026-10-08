@@ -1,0 +1,23 @@
+import { defineCollection } from 'astro:content';
+import { glob } from 'astro/loaders';
+import { z } from 'astro/zod';
+
+const work = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/work' }),
+  schema: ({ image }) => z.object({
+    title: z.string(),
+    order: z.number(),
+    summary: z.string(),           // one-line: what it is + the result
+    role: z.string(),
+    lane: z.string(),              // what this project proves
+    team: z.string().optional(),
+    timeline: z.string().optional(),
+    tools: z.string().optional(),
+    cover: image(),
+    coverAlt: z.string(),
+    status: z.enum(['ready', 'draft', 'soon']).default('draft'),
+    description: z.string(),       // meta description
+  }),
+});
+
+export const collections = { work };

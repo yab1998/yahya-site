@@ -1,0 +1,198 @@
+---
+import { Picture } from 'astro:assets';
+import { img, url } from '../lib/images';
+import Icon from './Icon.astro';
+import site from '../data/site.json';
+
+const fmt = (s: number) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
+const tracks = await Promise.all(site.tracks.map(async (t) => ({ ...t, coverUrl: await url(t.cover, 700) })));
+const first = tracks[0];
+---
+<section id="music" aria-labelledby="mh">
+  <div class="l">
+    <div class="mt"><span class="bul c-yel" aria-hidden="true">M</span><h2 id="mh">Music</h2></div>
+    <p class="intro">I write, rap and produce, and I art-direct the visuals for my own releases. Start with The Heartbreak Saga.</p>
+
+    <div class="np" aria-label="Now playing">
+      <div class="art">
+        <Picture id="npCover" src={img(first.cover)} alt="" formats={['avif', 'webp']} widths={[400, 700]} sizes="(max-width: 1000px) 80vw, 34vw" />
+        <canvas id="viz" width="600" height="120" aria-hidden="true"></canvas>
+      </div>
+      <div class="meta">
+        <span class="mono npk" id="npProj">{first.project}</span>
+        <b id="npTitle">{first.title}</b>
+        <span class="mono sm" id="npCredit">{first.credit}</span>
+      </div>
+      <div class="bar" id="bar" role="slider" aria-label="Seek" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0"><span id="fill"></span></div>
+      <div class="mono sm npt"><span id="tCur">0:00</span><span id="tDur">{fmt(first.previewSeconds)} preview</span></div>
+      <div class="ctl">
+        <button type="button" id="prev" aria-label="Previous track"><svg width="26" height="26" viewBox="0 0 24 24"><path d="M6 5h2v14H6zM20 5v14L9 12z" fill="currentColor"/></svg></button>
+        <button type="button" id="pp" class="pp" aria-label="Play"><svg width="34" height="34" viewBox="0 0 24 24"><path class="pl" d="M7 4l13 8-13 8z" fill="currentColor"/><g class="pz" fill="currentColor"><rect x="6" y="4" width="4.5" height="16"/><rect x="13.5" y="4" width="4.5" height="16"/></g></svg></button>
+        <button type="button" id="next" aria-label="Next track"><svg width="26" height="26" viewBox="0 0 24 24"><path d="M16 5h2v14h-2zM4 5v14l11-7z" fill="currentColor"/></svg></button>
+      </div>
+    </div>
+  </div>
+
+  <div class="r">
+    <div class="board-h mono" aria-hidden="true"><span>PLAY</span><span>NOW PLAYING: PREVIEWS</span><span>FULL</span></div>
+    <ol class="tracks">
+      {tracks.map((t, k) => (
+        <li>
+          <button type="button" class="trk" data-k={k} data-src={t.src} data-cover={t.coverUrl} data-title={t.title} data-credit={t.credit} data-project={t.project} data-sec={t.previewSeconds} aria-label={`Play preview: ${t.title}`}>
+            <span class="n mono">{String(k + 1).padStart(2, '0')}</span>
+            <span class="tx"><span class="tt mono">{t.title}</span><span class="cr mono">{t.credit} · {t.project}</span></span>
+            <span class="cr mono">{fmt(t.fullLength)}</span>
+          </button>
+        </li>
+      ))}
+    </ol>
+    <p class="note mono">45-second previews. Hear the full tracks on:</p>
+    <ul class="stream">
+      {site.streaming.map((s) => <li><a href={s.url} target="_blank" rel="noopener"><Icon name={s.icon} size={20} /><span>{s.name}</span></a></li>)}
+    </ul>
+  </div>
+  <audio id="audio" preload="none" crossorigin="anonymous"></audio>
+</section>
+<div class="mini glass" id="mini" hidden aria-label="Mini player">
+  <img id="miniCover" alt="" width="44" height="44" />
+  <a href="#music" class="miniT"><b id="miniTitle"></b><span class="mono" id="miniCredit"></span></a>
+  <button type="button" id="miniPP" class="miniPP" aria-label="Pause"><svg width="18" height="18" viewBox="0 0 24 24"><path class="pl" d="M7 4l13 8-13 8z" fill="currentColor"/><g class="pz" fill="currentColor"><rect x="6" y="4" width="4.5" height="16"/><rect x="13.5" y="4" width="4.5" height="16"/></g></svg></button>
+</div>
+
+<script>
+  const audio = document.getElementById('audio') as HTMLAudioElement;
+  const btns = [...document.querySelectorAll<HTMLButtonElement>('#music .trk')];
+  const $ = (id: string) => document.getElementById(id)!;
+  const pp = $('pp');
+  const fmt = (s: number) => (isFinite(s) ? `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}` : '0:00');
+  let cur = -1;
+
+  function load(k: number) {
+    const b = btns[k]; cur = k;
+    audio.src = b.dataset.src!;                       // only fetched once someone presses play
+    const cover = document.querySelector<HTMLImageElement>('#npCover img, img#npCover');
+    document.querySelectorAll('#music .art source').forEach((s) => s.remove());
+    if (cover) { cover.srcset = ''; cover.src = b.dataset.cover!; }
+    $('npTitle').textContent = b.dataset.title!; $('npCredit').textContent = b.dataset.credit!; $('npProj').textContent = b.dataset.project!;
+    $('tDur').textContent = `${fmt(Number(b.dataset.sec))} preview`;
+    btns.forEach((x, i) => x.classList.toggle('playing', i === k));
+  }
+  function play(k: number) { if (k !== cur) load(k); startViz(); audio.play(); }
+  btns.forEach((b, k) => b.addEventListener('click', () => { if (k === cur && !audio.paused) audio.pause(); else play(k); }));
+  pp.addEventListener('click', () => { if (cur < 0) play(0); else if (audio.paused) play(cur); else audio.pause(); });
+  $('prev').addEventListener('click', () => play(cur <= 0 ? btns.length - 1 : cur - 1));
+  $('next').addEventListener('click', () => play((cur + 1) % btns.length));
+  audio.addEventListener('play', () => { pp.classList.add('on'); pp.setAttribute('aria-label', 'Pause'); btns.forEach((b, i) => b.classList.toggle('on', i === cur)); });
+  audio.addEventListener('pause', () => { pp.classList.remove('on'); pp.setAttribute('aria-label', 'Play'); btns.forEach((b) => b.classList.remove('on')); });
+  audio.addEventListener('timeupdate', () => {
+    const p = audio.duration ? (audio.currentTime / audio.duration) * 100 : 0;
+    $('fill').style.width = p + '%'; $('bar').setAttribute('aria-valuenow', String(Math.round(p)));
+    $('tCur').textContent = fmt(audio.currentTime);
+  });
+  audio.addEventListener('ended', () => play((cur + 1) % btns.length));
+
+  // floating mini player (transit glass) while music plays and the section is off-screen
+  const mini = $('mini'), miniPP = $('miniPP');
+  let musicVisible = true;
+  new IntersectionObserver(([e]) => { musicVisible = e.isIntersecting; syncMini(); }, { threshold: 0.15 }).observe($('music'));
+  function syncMini() {
+    const show = cur >= 0 && !audio.paused && !musicVisible;
+    if (cur >= 0) { const b = btns[cur]; ($('miniCover') as HTMLImageElement).src = b.dataset.cover!; $('miniTitle').textContent = b.dataset.title!; $('miniCredit').textContent = b.dataset.credit!; }
+    mini.hidden = !(show || (!musicVisible && cur >= 0 && mini.dataset.pinned === '1'));
+    miniPP.classList.toggle('on', !audio.paused); miniPP.setAttribute('aria-label', audio.paused ? 'Play' : 'Pause');
+  }
+  audio.addEventListener('play', () => { mini.dataset.pinned = '1'; syncMini(); });
+  audio.addEventListener('pause', syncMini);
+  miniPP.addEventListener('click', () => (audio.paused ? audio.play() : audio.pause()));
+  const bar = $('bar');
+  bar.addEventListener('click', (e) => { if (!audio.duration) return; const r = bar.getBoundingClientRect(); audio.currentTime = ((e.clientX - r.left) / r.width) * audio.duration; });
+  bar.addEventListener('keydown', (e) => { if (!audio.duration) return; if (e.key === 'ArrowRight') audio.currentTime += 5; if (e.key === 'ArrowLeft') audio.currentTime -= 5; });
+
+  // ---- visualizer: departure-board bars, only runs while playing ----
+  const canvas = $('viz') as HTMLCanvasElement; const ctx = canvas.getContext('2d')!;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let analyser: AnalyserNode | null = null, data: Uint8Array, raf = 0;
+  function startViz() {
+    if (reduce || analyser) return;
+    try {
+      const AC = window.AudioContext || (window as any).webkitAudioContext; const ac = new AC();
+      const srcNode = ac.createMediaElementSource(audio);
+      analyser = ac.createAnalyser(); analyser.fftSize = 128; analyser.smoothingTimeConstant = 0.8;
+      srcNode.connect(analyser); analyser.connect(ac.destination);
+      data = new Uint8Array(analyser.frequencyBinCount);
+      audio.addEventListener('play', () => { ac.resume(); draw(); });
+      draw();
+    } catch { /* visualizer is decoration only */ }
+  }
+  function draw() {
+    cancelAnimationFrame(raf);
+    if (!analyser) return;
+    const W = canvas.width, H = canvas.height, n = 36, gap = 4, bw = (W - gap * (n - 1)) / n;
+    const loop = () => {
+      analyser!.getByteFrequencyData(data);
+      ctx.clearRect(0, 0, W, H);
+      for (let i = 0; i < n; i++) {
+        const v = data[Math.floor((i / n) * data.length * 0.75)] / 255;
+        const cells = Math.max(1, Math.round(v * 10));
+        for (let c = 0; c < cells; c++) {
+          ctx.fillStyle = c > 7 ? '#FF9E1B' : '#FCCC0A';
+          ctx.fillRect(i * (bw + gap), H - (c + 1) * (H / 10) + 2, bw, H / 10 - 4);
+        }
+      }
+      if (!audio.paused) raf = requestAnimationFrame(loop); else ctx.clearRect(0, 0, W, H);
+    };
+    loop();
+  }
+</script>
+
+<style>
+  #music{margin:112px var(--gut) 0;background:var(--night);color:var(--white);border-radius:14px;padding:clamp(24px,4vw,56px);display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:40px}
+  .l{grid-column:span 5;display:flex;flex-direction:column;gap:20px}
+  .r{grid-column:7/span 6;display:flex;flex-direction:column}
+  .mt{display:flex;align-items:center;gap:16px}
+  .mt .bul{width:60px;height:60px;font-size:32px}
+  h2{font-size:clamp(46px,6vw,80px)}
+  .intro{margin:0;font-size:18px;color:#e6e0d2}
+  .np{background:#1f1f1d;border:2px solid rgba(250,246,238,.22);border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:10px}
+  .art{position:relative;border-radius:10px;overflow:hidden;aspect-ratio:1;box-shadow:0 18px 40px rgba(0,0,0,.45)}
+  .art :global(img){width:100%;height:100%;object-fit:cover;transition:transform .4s}
+  #viz{position:absolute;left:0;right:0;bottom:0;width:100%;height:24%;pointer-events:none;mix-blend-mode:screen}
+  .meta{display:flex;flex-direction:column;gap:2px;margin-top:6px}
+  .meta b{font-size:24px;color:var(--board);font-family:var(--mono);line-height:1.15}
+  .npk{font-size:11px;color:var(--yellow);text-transform:uppercase;letter-spacing:.1em}
+  .sm{font-size:12px;color:#cfc9bc}
+  .bar{height:8px;background:rgba(250,246,238,.2);border-radius:4px;cursor:pointer;position:relative;margin-top:4px}
+  .bar span{position:absolute;inset:0 auto 0 0;width:0;background:var(--yellow);border-radius:4px}
+  .npt{display:flex;justify-content:space-between}
+  .ctl{display:flex;justify-content:center;align-items:center;gap:22px;margin-top:4px}
+  .ctl button{background:none;border:0;color:var(--white);width:52px;height:52px;display:grid;place-items:center;cursor:pointer;border-radius:50%}
+  .ctl button:hover{background:rgba(250,246,238,.08)}
+  .ctl .pp{width:68px;height:68px;background:var(--yellow);color:var(--night)}
+  .ctl .pp:hover{background:var(--yellow);transform:scale(1.05)}
+  .pz{display:none} .pp.on .pl{display:none} .pp.on .pz{display:block}
+
+  .board-h{display:grid;grid-template-columns:44px 1fr auto;gap:16px;font-size:12px;letter-spacing:.12em;color:var(--yellow);border-bottom:2px solid var(--white);padding-bottom:12px}
+  .tracks{list-style:none;margin:0;padding:0}
+  .trk{display:grid;grid-template-columns:44px 1fr auto;gap:16px;align-items:center;padding:16px 0;width:100%;background:none;border:0;border-bottom:1px solid rgba(250,246,238,.2);text-align:left;cursor:pointer;color:inherit}
+  .trk:hover .tt{text-decoration:underline;text-underline-offset:4px}
+  .n{font-size:13px;color:#cfc9bc}
+  .trk.playing .n{color:var(--yellow)}
+  .tx{display:flex;flex-direction:column}
+  .tt{font-weight:700;font-size:clamp(15px,1.4vw,18px);color:var(--board)}
+  .trk.playing .tt{color:var(--yellow)}
+  .cr{font-size:12px;color:#cfc9bc}
+  .note{font-size:12px;color:#cfc9bc;margin:18px 0 10px}
+  .stream{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:0;padding:0}
+  .stream a{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;border:2px solid rgba(250,246,238,.4);border-radius:999px;font-weight:700;font-size:14px;transition:background .15s,color .15s}
+  .stream a:hover{background:var(--white);color:var(--night)}
+  .mini{position:fixed;left:16px;bottom:16px;z-index:40;display:flex;align-items:center;gap:12px;padding:8px 8px 8px 8px;border-radius:999px;max-width:min(380px,calc(100vw - 32px));box-shadow:0 10px 30px rgba(20,20,19,.18);color:var(--ink)}
+  .mini[hidden]{display:none}
+  .mini img{width:44px;height:44px;border-radius:50%;object-fit:cover;position:relative;z-index:1}
+  .miniT{display:flex;flex-direction:column;min-width:0;position:relative;z-index:1}
+  .miniT b{font-family:var(--mono);font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .miniT span{font-size:11px;color:var(--muted)}
+  .miniPP{position:relative;z-index:1;width:44px;height:44px;border-radius:50%;border:0;background:var(--night);color:var(--yellow);display:grid;place-items:center;cursor:pointer;flex-shrink:0}
+  .miniPP.on .pl{display:none} .miniPP.on .pz{display:block}
+  @media (max-width:760px){.mini{bottom:84px;left:12px}}
+  @media (max-width:1000px){#music{grid-template-columns:1fr}.l,.r{grid-column:auto}.np{max-width:460px}}
+</style>

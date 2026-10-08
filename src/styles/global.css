@@ -1,0 +1,65 @@
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:var(--nav-h)}
+body{margin:0;background:var(--cream);color:var(--ink);font-family:var(--sans);font-size:var(--fs-body);line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img,video,picture{display:block;max-width:100%;height:auto}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit}
+p{max-width:var(--measure)}
+.mono{font-family:var(--mono)}
+.wrap{padding-inline:var(--gut)}
+.vh{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+.skip{position:absolute;left:12px;top:-60px;background:var(--ink);color:var(--cream);padding:10px 16px;z-index:100;border-radius:6px}
+.skip:focus{top:12px}
+
+/* film grain — decorative only, never over text */
+.grain{position:relative;overflow:hidden}
+.grain::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.2;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+/* halftone (Ben-Day dots) */
+.dots{background-image:radial-gradient(var(--dot) 1.4px,transparent 1.6px);background-size:9px 9px}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:8px;min-height:50px;padding:0 24px;border-radius:999px;font-weight:700;font-size:16px;border:2.5px solid var(--ink);transition:transform .15s,background .15s,color .15s}
+.btn:hover{transform:translateY(-2px)}
+.btn.solid{background:var(--ink);color:var(--cream)}
+.btn.ghost:hover{background:var(--ink);color:var(--cream)}
+
+/* bullets */
+.bul{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:22px;color:#fff;flex-shrink:0}
+.c-red{background:var(--red)} .c-pur{background:var(--purple)} .c-yel{background:var(--yellow);color:var(--night)} .c-org{background:var(--orange);color:var(--night)} .c-grn{background:var(--green)} .c-blu{background:var(--blue)}
+
+/* section heads */
+section{scroll-margin-top:var(--nav-h)}
+.shead{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;border-bottom:3px solid var(--ink);padding-bottom:20px;margin-bottom:32px;flex-wrap:wrap}
+.shead .t{display:flex;align-items:center;gap:20px}
+.shead .bul{width:72px;height:72px;font-size:38px}
+.shead .sub{margin:0;font-family:var(--mono);font-size:13px;max-width:46ch}
+h2{margin:0;font-weight:900;font-size:var(--fs-h2);line-height:.9;letter-spacing:-.04em}
+.k{font-family:var(--mono);font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.credit{font-family:var(--mono);font-size:12px;border-left:4px solid var(--red);padding-left:10px}
+
+/* scroll reveal (only when JS runs) */
+.js .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+.js .reveal.in{opacity:1;transform:none}
+
+@media (max-width:760px){
+  :root{--nav-h:0px}
+  body{padding-bottom:72px}
+  .shead .bul{width:52px;height:52px;font-size:28px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  .js .reveal{opacity:1;transform:none}
+}
+
+/* ---------- transit glass (max 3 elements: route bar, mini player, lightbox controls) ---------- */
+.glass{background:var(--glass-tint);-webkit-backdrop-filter:blur(var(--glass-blur)) saturate(1.1);backdrop-filter:blur(var(--glass-blur)) saturate(1.1);border:var(--glass-border)}
+.glass::before{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;opacity:.35;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .5 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){ .glass{background:var(--cream)} }
+@media (prefers-reduced-transparency:reduce){ .glass{background:var(--cream);-webkit-backdrop-filter:none;backdrop-filter:none} .glass::before{display:none} }
+
+/* dark-mode tweaks: keep the black-outlined art readable */
+:root[data-theme="dark"] .art-pop{filter:drop-shadow(0 0 1.5px rgba(242,238,228,.55))}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .art-pop{filter:drop-shadow(0 0 1.5px rgba(242,238,228,.55))}}

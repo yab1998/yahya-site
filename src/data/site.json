@@ -1,0 +1,557 @@
+{
+  "name": "yahya abdul-basser.",
+  "url": "https://yahyaabdulbasser.me",
+  "pitch": "Designer and creative director in NYC. I make brands, campaigns and visual stories for artists, movements and mission-driven teams.",
+  "roles": [
+    "Design",
+    "Creative Direction",
+    "Content"
+  ],
+  "availability": "Open to full-time + freelance",
+  "email": "yahya@yahyaabdulbasser.me",
+  "handle": "@thelifeofyahya",
+  "socials": [
+    {
+      "name": "Instagram",
+      "icon": "instagram",
+      "url": "https://instagram.com/thelifeofyahya"
+    },
+    {
+      "name": "TikTok",
+      "icon": "tiktok",
+      "url": "https://tiktok.com/@thelifeofyahya"
+    },
+    {
+      "name": "YouTube",
+      "icon": "youtube",
+      "url": "https://youtube.com/@thelifeofyahya"
+    },
+    {
+      "name": "LinkedIn",
+      "icon": "linkedin",
+      "url": "https://www.linkedin.com/in/yahyaabdulbasser/"
+    }
+  ],
+  "lookingFor": "Full-time design, creative direction or content roles in NYC or remote, plus freelance cover art, branding and campaign video.",
+  "bio": [
+    "I'm Yahya, a designer and creative director in New York, born and raised in Boston. I studied psychology and UX at Cornell, and I've worked where art, organizing and product meet ever since.",
+    "That means art-directing covers for my music and other artists, producing campaign video for candidates, building fundraising creative at LaunchGood, and shipping product work as an analyst and project manager. Lunar Lighthouse, my studio, helps artists and mission-driven teams find their visual voice. I make work about faith, community and identity, for the people it's meant for."
+  ],
+  "reach": {
+    "followers": "30K+",
+    "views": "6.5M+",
+    "asOf": "Sept 2026"
+  },
+  "videos": [
+    {
+      "title": "[TODO: best short-form edit]",
+      "url": "",
+      "platform": "TikTok"
+    },
+    {
+      "title": "[TODO: interview or long-form]",
+      "url": "",
+      "platform": "YouTube"
+    },
+    {
+      "title": "Aber Kawas walking video",
+      "url": "",
+      "platform": "Campaign"
+    }
+  ],
+  "design": [
+    {
+      "title": "The Hopeful / The Lost / The Lover",
+      "kind": "Cover series · photography + type",
+      "tags": [
+        "artwork",
+        "collection"
+      ],
+      "images": [
+        "covers/TGSTheHopeful.jpg",
+        "covers/TGSTheLost.jpg",
+        "covers/TGSTheLover.jpg"
+      ],
+      "size": "wide",
+      "blurb": "A three-part cover system: one backdrop, one chalk motif, three emotional states. Each single gets its own month and its own drawn symbol, so the set reads as a story when they sit side by side.",
+      "alt": [
+        "Cover for The Hopeful: Yahya laughing behind his hand against a purple backdrop with a chalk heart",
+        "Cover for The Lost: Yahya looking down in a floral shirt beside a chalk broken heart",
+        "Cover for The Lover: Yahya resting his face on his hand, chalk arrow-heart behind"
+      ],
+      "label": "Collection"
+    },
+    {
+      "title": "\"SEEING ME\"",
+      "kind": "Illustration + animation",
+      "tags": [
+        "artwork",
+        "motion"
+      ],
+      "images": [
+        "art/seeing-me.jpg"
+      ],
+      "size": "tall",
+      "blurb": "An illustrated poster and short animation built from a library of hand-drawn figures, eyes, hearts and squiggles. Every element was drawn separately so it could move.",
+      "video": "/video/seeing-me.mp4",
+      "poster": "art/seeing-me-poster.jpg",
+      "alt": [
+        "\"SEEING ME\": illustration + animation"
+      ],
+      "label": "Motion"
+    },
+    {
+      "title": "olive branch",
+      "kind": "Animation · hand-drawn",
+      "label": "Motion",
+      "tags": [
+        "motion",
+        "artwork"
+      ],
+      "images": [
+        "art/olive-branch-poster.jpg"
+      ],
+      "video": "/video/olive-branch.mp4",
+      "poster": "art/olive-branch-poster.jpg",
+      "blurb": "A hand-drawn animated TV: place names, a flag, and an olive branch. [TODO: one line on what it's for]",
+      "alt": [
+        "Line drawing of a vintage TV with a flag, olive branch and place names"
+      ],
+      "size": "wide"
+    },
+    {
+      "title": "remember us (breonna's song)",
+      "kind": "Single cover · creative direction",
+      "tags": [
+        "artwork"
+      ],
+      "images": [
+        "art/rememberusbreonnassong.jpg"
+      ],
+      "size": "big",
+      "blurb": "A commissioned portrait for a song written in memory of Breonna Taylor.",
+      "credit": "Art: Omar Din (commission). Art direction: Yahya.",
+      "alt": [
+        "remember us (breonna's song): single cover"
+      ],
+      "label": "Cover"
+    },
+    {
+      "title": "BEAUTIFUL/BROKEN",
+      "kind": "Single cover · collage",
+      "tags": [
+        "artwork"
+      ],
+      "images": [
+        "covers/BEAUTIFUL_BROKEN-cover1.jpg",
+        "covers/beautiful-broken-date.jpg"
+      ],
+      "blurb": "Collage cover and release-date variant: halftone rose, handwritten lyrics, and a red that does the shouting.",
+      "alt": [
+        "BEAUTIFUL/BROKEN: single cover",
+        "BEAUTIFUL/BROKEN: single cover"
+      ],
+      "label": "Cover"
+    },
+    {
+      "title": "the return?",
+      "kind": "Single cover · photo + handwriting",
+      "tags": [
+        "artwork"
+      ],
+      "images": [
+        "art/thereturncoverfinal.jpg"
+      ],
+      "blurb": "A bedroom photo annotated by hand, the way you'd write on a lyric sheet.",
+      "alt": [
+        "the return?: single cover"
+      ],
+      "label": "Cover"
+    },
+    {
+      "title": "The Heartbreak Saga",
+      "kind": "Project cover · photography",
+      "tags": [
+        "artwork",
+        "collection"
+      ],
+      "images": [
+        "art/thscoverraw-edit.jpg",
+        "photos/drive-stretchedtriplephoto.jpg"
+      ],
+      "blurb": "Project cover shot against a blank wall, with the behind-the-scenes composite that came before the final.",
+      "alt": [
+        "The Heartbreak Saga: project cover",
+        "The Heartbreak Saga: project cover"
+      ],
+      "label": "Cover"
+    },
+    {
+      "title": "American Dream",
+      "kind": "Project cover system · 5 covers",
+      "tags": [
+        "artwork",
+        "collection"
+      ],
+      "images": [
+        "art/americandreamamericandream.jpg",
+        "art/americandreamdarktimes.jpg",
+        "art/americandreamdistance.jpg",
+        "art/americandreamopps.jpg",
+        "art/americandreamv1-halfconstitution.jpg"
+      ],
+      "size": "wide",
+      "blurb": "One burning bill, five tracks. A consistent system across a full project, with the Constitution showing through on the main cover.",
+      "alt": [
+        "American Dream: project cover system",
+        "American Dream: project cover system",
+        "American Dream: project cover system",
+        "American Dream: project cover system",
+        "American Dream: project cover system"
+      ],
+      "label": "Collection"
+    },
+    {
+      "title": "HIATUS",
+      "kind": "Single cover",
+      "tags": [
+        "artwork"
+      ],
+      "images": [
+        "covers/HiatusCoverV1.jpg"
+      ],
+      "alt": [
+        "HIATUS: single cover"
+      ],
+      "label": "Cover"
+    },
+    {
+      "title": "THE VAULT",
+      "kind": "Project cover · illustration",
+      "tags": [
+        "artwork"
+      ],
+      "images": [
+        "covers/the-vault.jpg"
+      ],
+      "alt": [
+        "THE VAULT: project cover"
+      ],
+      "label": "Cover"
+    },
+    {
+      "title": "Bye Bye Savannah",
+      "kind": "Single cover",
+      "tags": [
+        "artwork"
+      ],
+      "images": [
+        "covers/ByeByeSavannahCover.jpg"
+      ],
+      "alt": [
+        "Bye Bye Savannah: single cover"
+      ],
+      "label": "Cover"
+    },
+    {
+      "title": "SANDSTORM",
+      "kind": "Single cover · Kanwal ft. Overflow & Yahya",
+      "tags": [
+        "artwork"
+      ],
+      "images": [
+        "covers/SANDSTORMCOVERART.jpg"
+      ],
+      "alt": [
+        "SANDSTORM: single cover"
+      ],
+      "label": "Cover"
+    },
+    {
+      "title": "Life Lion",
+      "kind": "Single cover · Töph ft. Yahya",
+      "tags": [
+        "artwork"
+      ],
+      "images": [
+        "covers/lifelioncover.jpg",
+        "covers/life-lion-color.jpg"
+      ],
+      "alt": [
+        "Life Lion: single cover",
+        "Life Lion: single cover"
+      ],
+      "label": "Cover"
+    },
+    {
+      "title": "summerluv.",
+      "kind": "Single cover",
+      "tags": [
+        "artwork"
+      ],
+      "images": [
+        "covers/summerloveV1.jpg"
+      ],
+      "alt": [
+        "summerluv.: single cover"
+      ],
+      "label": "Cover"
+    },
+    {
+      "title": "styll summer.",
+      "kind": "Single cover",
+      "tags": [
+        "artwork"
+      ],
+      "images": [
+        "covers/styllsummercoverV1.jpg"
+      ],
+      "alt": [
+        "styll summer.: single cover"
+      ],
+      "label": "Cover"
+    },
+    {
+      "title": "yahya.",
+      "kind": "Cover · illustration",
+      "tags": [
+        "artwork"
+      ],
+      "images": [
+        "art/specialalbumcover.jpg"
+      ],
+      "alt": [
+        "yahya.: cover"
+      ],
+      "label": "Cover"
+    },
+    {
+      "title": "twenty-one.",
+      "kind": "Project cover",
+      "tags": [
+        "artwork"
+      ],
+      "images": [
+        "covers/twenty-one.jpg"
+      ],
+      "alt": [
+        "twenty-one.: project cover"
+      ],
+      "label": "Cover"
+    },
+    {
+      "title": "(re)memory",
+      "kind": "Project cover · collage",
+      "tags": [
+        "artwork"
+      ],
+      "images": [
+        "covers/rememory.jpg"
+      ],
+      "alt": [
+        "(re)memory: project cover"
+      ],
+      "label": "Cover"
+    },
+    {
+      "title": "valentine's day",
+      "kind": "Single cover · Töph",
+      "tags": [
+        "artwork"
+      ],
+      "images": [
+        "covers/valentines-day.jpg"
+      ],
+      "alt": [
+        "valentine's day: single cover"
+      ],
+      "label": "Cover"
+    }
+  ],
+  "gallery": [
+    {
+      "src": "photos/bluepuffer-7968.jpg",
+      "series": "Blue Puffer",
+      "title": "Red Stoop",
+      "alt": "Photograph from Blue Puffer: Red Stoop"
+    },
+    {
+      "src": "photos/bluepuffer-7768.jpg",
+      "series": "Blue Puffer",
+      "title": "White Wall",
+      "alt": "Photograph from Blue Puffer: White Wall"
+    },
+    {
+      "src": "photos/bluepuffer-7818.jpg",
+      "series": "Blue Puffer",
+      "title": "Brim",
+      "alt": "Photograph from Blue Puffer: Brim"
+    },
+    {
+      "src": "photos/bluepuffer-7454.jpg",
+      "series": "Blue Puffer",
+      "title": "Corner",
+      "alt": "Photograph from Blue Puffer: Corner"
+    },
+    {
+      "src": "photos/img-2419.jpg",
+      "series": "Bluelight Sessions",
+      "title": "Maroon",
+      "alt": "Photograph from Bluelight Sessions: Maroon"
+    },
+    {
+      "src": "photos/blueshootsmilingcoloredshirt-edited.jpg",
+      "series": "Bluelight Sessions",
+      "title": "Laugh",
+      "alt": "Photograph from Bluelight Sessions: Laugh"
+    },
+    {
+      "src": "photos/img-2522.jpg",
+      "series": "Bluelight Sessions",
+      "title": "Floral",
+      "alt": "Photograph from Bluelight Sessions: Floral"
+    },
+    {
+      "src": "photos/drive-IMG_4947.jpg",
+      "series": "The Heartbreak Saga",
+      "title": "Set, Blank Wall",
+      "alt": "Photograph from The Heartbreak Saga: Set, Blank Wall"
+    },
+    {
+      "src": "photos/drive-IMG_4255.jpg",
+      "series": "Self-Portraits",
+      "title": "Shadow Line",
+      "alt": "Photograph from Self-Portraits: Shadow Line"
+    },
+    {
+      "src": "photos/bluepuffer-7793.jpg",
+      "series": "Blue Puffer",
+      "title": "Cap",
+      "alt": "Photograph from Blue Puffer: Cap"
+    },
+    {
+      "src": "photos/bluepuffer-7718.jpg",
+      "series": "Blue Puffer",
+      "title": "Profile",
+      "alt": "Photograph from Blue Puffer: Profile"
+    },
+    {
+      "src": "photos/bluelight-2393.jpg",
+      "series": "Bluelight Sessions",
+      "title": "Hands",
+      "alt": "Photograph from Bluelight Sessions: Hands"
+    },
+    {
+      "src": "photos/bluelight-2564.jpg",
+      "series": "Bluelight Sessions",
+      "title": "Stare",
+      "alt": "Photograph from Bluelight Sessions: Stare"
+    },
+    {
+      "src": "photos/wall-4913.jpg",
+      "series": "The Heartbreak Saga",
+      "title": "Set, Floor",
+      "alt": "Photograph from The Heartbreak Saga: Set, Floor"
+    },
+    {
+      "src": "photos/denim-4260.jpg",
+      "series": "Self-Portraits",
+      "title": "Denim",
+      "alt": "Photograph from Self-Portraits: Denim"
+    }
+  ],
+  "tracks": [
+    {
+      "title": "LOVETHATGIRL!",
+      "credit": "yahya w/ von",
+      "project": "The Heartbreak Saga",
+      "cover": "art/thscoverraw-edit.jpg",
+      "src": "/audio/lovethatgirl-preview.mp3",
+      "previewSeconds": 45,
+      "fullLength": 192,
+      "fullUrl": ""
+    },
+    {
+      "title": "prospect park.",
+      "credit": "yahya",
+      "project": "The Heartbreak Saga",
+      "cover": "art/thscoverraw-edit.jpg",
+      "src": "/audio/prospect-park-preview.mp3",
+      "previewSeconds": 45,
+      "fullLength": 182,
+      "fullUrl": ""
+    },
+    {
+      "title": "slidin'",
+      "credit": "yahya w/ maryam & töph",
+      "project": "The Heartbreak Saga",
+      "cover": "art/thscoverraw-edit.jpg",
+      "src": "/audio/slidin-preview.mp3",
+      "previewSeconds": 45,
+      "fullLength": 188,
+      "fullUrl": ""
+    },
+    {
+      "title": "remember us (breonna's song)",
+      "credit": "yahya",
+      "project": "single",
+      "cover": "art/rememberusbreonnassong.jpg",
+      "src": "/audio/remember-us-preview.mp3",
+      "previewSeconds": 45,
+      "fullLength": 202,
+      "fullUrl": ""
+    },
+    {
+      "title": "A.H.",
+      "credit": "yahya",
+      "project": "The Heartbreak Saga",
+      "cover": "art/thscoverraw-edit.jpg",
+      "src": "/audio/ah-preview.mp3",
+      "previewSeconds": 45,
+      "fullLength": 193,
+      "fullUrl": ""
+    },
+    {
+      "title": "LEAVEMEBEHIND",
+      "credit": "yahya w/ von",
+      "project": "The Heartbreak Saga",
+      "cover": "art/thscoverraw-edit.jpg",
+      "src": "/audio/leave-me-behind-preview.mp3",
+      "previewSeconds": 45,
+      "fullLength": 234,
+      "fullUrl": ""
+    },
+    {
+      "title": "the return?",
+      "credit": "yahya",
+      "project": "The Heartbreak Saga",
+      "cover": "art/thereturncoverfinal.jpg",
+      "src": "/audio/the-return-preview.mp3",
+      "previewSeconds": 45,
+      "fullLength": 201,
+      "fullUrl": ""
+    }
+  ],
+  "streaming": [
+    {
+      "name": "Spotify",
+      "icon": "spotify",
+      "url": "https://open.spotify.com/album/1273lLQ0ClLRamWEdObiEa"
+    },
+    {
+      "name": "Apple Music",
+      "icon": "apple",
+      "url": "https://music.apple.com/us/album/the-heartbreak-saga-ep/1757387825"
+    },
+    {
+      "name": "Amazon Music",
+      "icon": "amazon",
+      "url": "https://www.amazon.com/gp/product/B0D9FHJ6RG/"
+    },
+    {
+      "name": "SoundCloud",
+      "icon": "soundcloud",
+      "url": "https://soundcloud.com/thelifeofyahya"
+    }
+  ]
+}

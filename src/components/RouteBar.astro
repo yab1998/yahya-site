@@ -1,0 +1,59 @@
+---
+interface Props { home?: boolean }
+const { home = false } = Astro.props;
+const base = home ? '' : '/';
+const stops = [
+  { id: 'work',    l: 'W', name: 'Work',    sub: 'case studies', c: 'c-red' },
+  { id: 'design',  l: 'D', name: 'Design',  sub: 'covers + art', c: 'c-pur' },
+  { id: 'music',   l: 'M', name: 'Music',   sub: 'now playing',  c: 'c-yel' },
+  { id: 'content', l: 'V', name: 'Content', sub: 'video',        c: 'c-org' },
+  { id: 'about',   l: 'A', name: 'About',   sub: "hi, i'm yahya", c: 'c-grn' },
+  { id: 'contact', l: 'C', name: 'Contact', sub: 'open for work', c: 'c-blu' },
+];
+---
+<nav class="route glass" aria-label="Main">
+  {stops.map((s, i) => (
+    <>
+      <a class="stn" href={`${base}#${s.id}`} data-stop={s.id}>
+        <span class={`bul ${s.c}`} aria-hidden="true">{s.l}</span>
+        <span class="lbl"><b>{s.name}</b><span>{s.sub}</span></span>
+      </a>
+      {i < stops.length - 1 && <span class={`line ${s.c}`} aria-hidden="true" />}
+    </>
+  ))}
+</nav>
+
+<script>
+  // "you are here": mark the stop for the section in view
+  const links = [...document.querySelectorAll<HTMLAnchorElement>('.route .stn')];
+  const sections = links.map((a) => document.getElementById(a.dataset.stop!)).filter(Boolean) as HTMLElement[];
+  if (sections.length) {
+    const io = new IntersectionObserver((es) => {
+      es.forEach((e) => {
+        if (!e.isIntersecting) return;
+        links.forEach((a) => a.toggleAttribute('aria-current', a.dataset.stop === e.target.id));
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    sections.forEach((s) => io.observe(s));
+  }
+</script>
+
+<style>
+  .route{position:sticky;top:0;z-index:30;border:0;border-bottom:3px solid var(--ink);padding:14px var(--gut);display:flex;align-items:center}
+  .stn{position:relative;z-index:1;display:flex;align-items:center;gap:10px;flex-shrink:0;border-radius:999px;padding:4px 10px 4px 4px;transition:background .2s}
+  .stn .bul{transition:transform .2s}
+  .stn:hover .bul,.stn:focus-visible .bul{transform:scale(1.1)}
+  .stn[aria-current] {background:var(--ink);color:var(--cream)}
+  .stn[aria-current] .bul{box-shadow:0 0 0 3px var(--cream)}
+  .lbl{display:flex;flex-direction:column;line-height:1.1}
+  .lbl b{font-size:16px}
+  .lbl span{font-family:var(--mono);font-size:11px;opacity:.75}
+  .line{position:relative;z-index:1;flex-grow:1;height:7px;margin:0 8px;border-radius:4px;min-width:8px}
+  @media (max-width:1200px){.lbl span{display:none}}
+  @media (max-width:1000px){.lbl{display:none}.stn{padding:4px}}
+  /* phones: clean bottom bar */
+  @media (max-width:760px){
+    .route{position:fixed;top:auto;bottom:0;left:0;right:0;border-bottom:0;border-top:3px solid var(--ink);padding:10px 12px calc(10px + env(safe-area-inset-bottom));justify-content:space-between}
+    .line{margin:0 2px;height:5px}
+  }
+</style>

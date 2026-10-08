@@ -1,0 +1,176 @@
+---
+import { getCollection } from 'astro:content';
+import { Picture } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import WorkCard from '../components/WorkCard.astro';
+import Gallery from '../components/Gallery.astro';
+import MusicPlayer from '../components/MusicPlayer.astro';
+import { img } from '../lib/images';
+import site from '../data/site.json';
+import Icon from '../components/Icon.astro';
+const chain = ['19','23','29','47','39','25','51','24','42','54','03','32'].map((n) => `seeing-me/piece_${n}.png`);
+
+const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.order);
+const videos = site.videos;
+---
+<BaseLayout home>
+  <Hero />
+
+  <div class="ticker" aria-hidden="true"><div class="track">
+    {[0, 1, 2, 3].map(() => ['DESIGN', 'CREATIVE DIRECTION', 'CONTENT', 'ALBUM ART', 'CAMPAIGN VIDEO', 'MUSIC', 'OPEN FOR WORK'].map((w) => <><span>{w}</span><i>●</i></>))}
+  </div></div>
+
+  <section id="work" class="wrap">
+    <div class="shead">
+      <div class="t"><span class="bul c-red" aria-hidden="true">W</span><h2>Selected work</h2></div>
+      <p class="sub">Four projects, four lanes: campaign storytelling, art direction, product and brand systems.</p>
+    </div>
+    <div class="cards">
+      {work.map((e, i) => <WorkCard entry={e} n={i + 1} />)}
+    </div>
+  </section>
+
+  <Gallery />
+
+  <MusicPlayer />
+
+  <section id="content" class="wrap">
+    <div class="shead">
+      <div class="t"><span class="bul c-org" aria-hidden="true">V</span><h2>Content</h2></div>
+      <p class="sub">Short-form video and stories across Instagram, TikTok and YouTube as {site.handle}.</p>
+    </div>
+    <div class="reach">
+      <div><b class="count" data-to={site.reach.followers}>{site.reach.followers}</b><span>followers</span></div>
+      <div><b class="count" data-to={site.reach.views}>{site.reach.views}</b><span>views</span></div>
+      <p class="mono asof">As of {site.reach.asOf}</p>
+    </div>
+    <div class="vids">
+      {videos.map((v) => (
+        v.url
+          ? <a class="vid reveal" href={v.url} target="_blank" rel="noopener"><span class="k">{v.platform}</span><b>{v.title}</b><span class="mono">Watch ↗</span></a>
+          : <div class="vid soon reveal"><span class="k">{v.platform}</span><b>{v.title.replace(/\[TODO:?\s*|\]/g, '')}</b><span class="mono">Link coming soon</span></div>
+      ))}
+    </div>
+  </section>
+
+  <section id="about" class="wrap">
+    <div class="shead"><div class="t"><span class="bul c-grn" aria-hidden="true">A</span><h2>About</h2></div></div>
+    <div class="ab">
+      <div class="ph grain sigwrap"><Picture src={img('photos/bluepuffer-7768.jpg')} alt="Portrait of Yahya in a blue puffer jacket against a white wall" formats={['avif', 'webp']} widths={[500, 900]} sizes="(max-width: 760px) 100vw, 33vw" /><img class="sig" src="/signature-white.png" alt="" width="443" height="221" aria-hidden="true" /></div>
+      <div class="tx">
+        <p class="pull">Art, organizing and product. One practice, all New York.</p>
+        {site.bio.map((p) => <p>{p}</p>)}
+        <p class="skills mono">Art direction · Brand identity · Album art · Campaign video · Short-form content · Photography · UX · Product</p>
+      </div>
+    </div>
+    <div class="chain" aria-hidden="true">
+      {chain.map((f, i) => <Picture class="art-pop" src={img(f)} alt="" formats={['avif', 'webp']} widths={[160]} sizes="90px" style={`--i:${i}`} />)}
+    </div>
+  </section>
+
+  <section id="contact">
+    <p class="open"><span class="dot" aria-hidden="true"></span>{site.availability}</p>
+    <h2>Get in touch.</h2>
+    <a class="mail" href={`mailto:${site.email}`}>{site.email}</a>
+    <p class="look">{site.lookingFor}</p>
+    <ul class="socials">
+      {site.socials.map((s) => <li><a href={s.url} target="_blank" rel="noopener"><span class="ic"><Icon name={s.icon} size={26} /></span><b>{s.name} ↗</b><span class="mono">{s.icon === 'linkedin' ? 'yahyaabdulbasser' : site.handle}</span></a></li>)}
+      <li><a href="/resume/"><span class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M12 3v12m0 0l-5-5m5 5l5-5M4 20h16"/></svg></span><b>Resume</b><span class="mono">view + PDF</span></a></li>
+    </ul>
+    <footer><span>© 2026 YAHYA ABDUL-BASSER</span><span>YAHYAABDULBASSER.ME</span></footer>
+  </section>
+</BaseLayout>
+
+<script>
+  // signature writes itself when the About photo scrolls into view
+  const sw = document.querySelector('.sigwrap');
+  if (sw) new IntersectionObserver(([e], o) => { if (e.isIntersecting) { sw.classList.add('signed'); o.disconnect(); } }, { threshold: 0.5 }).observe(sw);
+
+  // count-up: real numbers are in the HTML; this just animates to them once
+  const els = document.querySelectorAll<HTMLElement>('.count');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const parse = (t: string) => { const m = t.match(/([\d.]+)\s*([KMB]?)(\+?)/i)!; return { n: parseFloat(m[1]), u: m[2], plus: m[3], dec: (m[1].split('.')[1] || '').length }; };
+  if (!reduce) {
+    const io = new IntersectionObserver((es) => es.forEach((e) => {
+      if (!e.isIntersecting) return; io.unobserve(e.target);
+      const el = e.target as HTMLElement, { n, u, plus, dec } = parse(el.dataset.to!), t0 = performance.now(), D = 1400;
+      const tick = (t: number) => { const p = Math.min(1, (t - t0) / D), v = n * (1 - Math.pow(1 - p, 3)); el.textContent = v.toFixed(dec) + u + plus; if (p < 1) requestAnimationFrame(tick); };
+      el.textContent = (0).toFixed(dec) + u + plus; requestAnimationFrame(tick);
+    }), { threshold: 0.6 });
+    els.forEach((el) => io.observe(el));
+  }
+</script>
+
+<style>
+  .ticker{background:var(--night);color:var(--day);overflow:hidden;white-space:nowrap;font-family:var(--mono);font-weight:700;font-size:15px;letter-spacing:.12em;padding:14px 0}
+  .track{display:inline-block;animation:tick 45s linear infinite}
+  .track i{font-style:normal;color:var(--yellow);margin:0 18px}
+  @keyframes tick{to{transform:translateX(-50%)}}
+
+  #work{padding-block:96px 0}
+  .cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:48px 32px}
+
+  #content{padding-block:112px 0}
+  .reach{display:flex;gap:56px;align-items:flex-end;flex-wrap:wrap;margin-bottom:32px}
+  .reach div{display:flex;flex-direction:column}
+  .reach b{font-size:clamp(56px,8vw,112px);font-weight:900;letter-spacing:-.04em;line-height:.9}
+  .reach span{font-family:var(--mono);font-size:13px;text-transform:uppercase}
+  .asof{font-size:12px;color:var(--muted);margin:0 0 8px}
+  .vids{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+  .vid{border:3px solid var(--ink);aspect-ratio:9/12;padding:22px;display:flex;flex-direction:column;justify-content:flex-end;gap:8px;background:var(--paper);transition:transform .25s,box-shadow .25s}
+  a.vid:hover{transform:translate(-4px,-4px);box-shadow:8px 8px 0 var(--orange)}
+  .vid.soon{border-style:dashed;background:transparent}
+  .vid b{font-size:22px;line-height:1.1}
+  .vid .mono{font-size:12px}
+
+  #about{padding-block:112px 120px}
+  .ab{display:grid;grid-template-columns:4fr 8fr;gap:48px;align-items:start}
+  .ph :global(picture img){width:100%;aspect-ratio:4/5;object-fit:cover;border:3px solid var(--ink)}
+  .sig{position:absolute;right:6%;bottom:5%;width:52%;height:auto;z-index:2;filter:drop-shadow(0 1px 2px rgba(0,0,0,.35));
+    -webkit-mask-image:linear-gradient(90deg,#000 45%,transparent 55%);mask-image:linear-gradient(90deg,#000 45%,transparent 55%);
+    -webkit-mask-size:240% 100%;mask-size:240% 100%;-webkit-mask-position:100% 0;mask-position:100% 0}
+  .sigwrap.signed .sig{animation:write 1.6s cubic-bezier(.55,.1,.35,1) forwards}
+  @keyframes write{to{-webkit-mask-position:0 0;mask-position:0 0}}
+  :global(html:not(.js)) .sig{-webkit-mask:none;mask:none}
+  @media (prefers-reduced-motion:reduce){.sig{-webkit-mask:none;mask:none}}
+  .tx{display:flex;flex-direction:column;gap:20px}
+  .tx p{margin:0}
+  .pull{font-size:clamp(28px,3.4vw,48px);line-height:1.05;font-weight:800;letter-spacing:-.025em}
+  .skills{font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+
+  #contact{--ink:#141413;--cream:#FBFAF6;--muted:#57534a;color:var(--ink);background-color:var(--yellow);background-image:radial-gradient(rgba(20,20,19,.10) 1.5px,transparent 1.8px);background-size:10px 10px;border-top:3px solid var(--ink);padding:96px var(--gut) 0;display:flex;flex-direction:column;gap:30px}
+  .open{margin:0;display:inline-flex;align-items:center;gap:10px;padding:12px 20px;background:var(--night);color:var(--yellow);border-radius:999px;font-weight:700;align-self:flex-start}
+  .dot{width:12px;height:12px;border-radius:50%;background:var(--live)}
+  #contact h2{font-size:clamp(60px,12vw,176px);letter-spacing:-.05em;line-height:.85}
+  .mail{font-size:clamp(22px,3.6vw,52px);font-weight:800;letter-spacing:-.02em;text-decoration:underline;text-decoration-thickness:5px;text-underline-offset:8px;overflow-wrap:anywhere}
+  .look{margin:0;font-size:20px;max-width:56ch}
+  .socials{display:grid;grid-template-columns:repeat(5,1fr);border-block:3px solid var(--ink);list-style:none;margin:0;padding:0}
+  .socials li{border-right:3px solid var(--ink)} .socials li:last-child{border-right:0}
+  .socials a{padding:24px;display:flex;flex-direction:column;gap:4px;height:100%;transition:background .15s,color .15s}
+  .socials a:hover{background:var(--ink);color:var(--yellow)}
+  .socials b{font-size:20px;font-weight:800}
+  .ic{display:block;margin-bottom:8px;--icon-bg:var(--yellow)}
+  .socials a:hover .ic{--icon-bg:var(--ink)}
+  .chain{display:flex;justify-content:space-between;align-items:flex-end;gap:8px;margin-top:72px;padding-top:24px;border-top:3px solid var(--ink);overflow:hidden}
+  .chain :global(picture){flex:0 0 auto}
+  .chain :global(img){height:clamp(54px,6.5vw,92px);width:auto;animation:bop 1.6s ease-in-out infinite;animation-delay:calc(var(--i) * -.27s);transform-origin:50% 100%}
+  @keyframes bop{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-8px) rotate(3deg)}}
+  .socials .mono{font-size:13px}
+  footer{margin-inline:calc(var(--gut) * -1);background:var(--night);color:var(--day);padding:18px var(--gut);display:flex;justify-content:space-between;font-family:var(--mono);font-size:12px;gap:12px;flex-wrap:wrap}
+
+  @media (max-width:1000px){
+    .vids{grid-template-columns:1fr 1fr}
+    .socials{grid-template-columns:1fr 1fr}
+    .socials li{border-bottom:3px solid var(--ink)}
+    .socials li:nth-child(2n){border-right:0}
+    .socials li:last-child{border-bottom:0;grid-column:span 2}
+    .chain :global(picture:nth-child(n+8)){display:none}
+  }
+  @media (max-width:760px){
+    .cards{grid-template-columns:1fr}
+    .vids{grid-template-columns:1fr}
+    .vid{aspect-ratio:auto;min-height:180px}
+    .ab{grid-template-columns:1fr}
+  }
+</style>

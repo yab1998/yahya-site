@@ -1,0 +1,134 @@
+---
+// The Design section: cover art / illustration grid with filters + the curated photo wall.
+import { Picture } from 'astro:assets';
+import { img, url } from '../lib/images';
+import site from '../data/site.json';
+
+const tiles = await Promise.all(site.design.map(async (w) => {
+  const items = await Promise.all(w.images.map(async (p, k) => ({ src: await url(p), alt: w.alt[k] ?? w.title })));
+  if (w.video) items.unshift({ src: await url(w.poster!), alt: `${w.title}: animation`, video: w.video } as any);
+  return { ...w, lb: JSON.stringify({ items, title: w.title, kind: w.kind, blurb: w.blurb, credit: w.credit }) };
+}));
+const plates = await Promise.all(site.gallery.map(async (g) => ({
+  ...g, lb: JSON.stringify({ items: [{ src: await url(g.src, 1600), alt: g.alt }], title: g.title, kind: g.series, blurb: 'Digital photograph' }),
+})));
+const filters = [['all', 'All'], ['artwork', 'Artwork'], ['collection', 'Collection'], ['motion', 'Motion'], ['ux', 'UX']];
+---
+<section id="design" class="wrap">
+  <div class="shead">
+    <div class="t"><span class="bul c-pur" aria-hidden="true">D</span><h2>Design</h2></div>
+    <div class="chips" role="group" aria-label="Filter design work">
+      {filters.map(([f, l], i) => <button type="button" class="chip" data-f={f} aria-pressed={i === 0 ? 'true' : 'false'}>{l}</button>)}
+    </div>
+  </div>
+
+  <div class="grid" id="dgrid">
+    {tiles.map((w, i) => (
+      <button type="button" class:list={['tile', 'reveal', w.size]} data-tags={w.tags.join(' ')} data-lb={w.lb} aria-label={`${w.title}, ${w.kind}. Open`}>
+        <div class="med grain">
+          {w.images.length > 1 && <span class="badge">{w.images.length} images</span>}
+          {w.video && <span class="badge">▶ motion</span>}
+          {w.size === 'wide' && w.images.length > 1 ? (
+            <div class="strip">
+              {w.images.slice(0, 5).map((p, k) => <Picture src={img(p)} alt="" formats={['avif', 'webp']} widths={[300, 600]} sizes="(max-width: 760px) 30vw, 15vw" />)}
+            </div>
+          ) : (
+            <Picture src={img(w.video ? w.poster! : w.images[0])} alt="" formats={['avif', 'webp']} widths={[400, 700, 1000]} sizes={w.size === 'big' ? '(max-width: 760px) 100vw, 50vw' : '(max-width: 480px) 100vw, (max-width: 1000px) 50vw, 25vw'} />
+          )}
+        </div>
+        <div class="cap"><span class="n mono">{String(i + 1).padStart(2, '0')}</span><span class="tt"><b>{w.title}</b><span class="k">{w.label}</span></span></div>
+        {w.credit && <span class="cred mono">{w.credit}</span>}
+      </button>
+    ))}
+    <div class="tile soon" data-tags="ux">
+      <div class="med soonbox"><span class="mono">UX case study</span><b>EdTech competition platform</b><span class="mono">Screens coming soon</span></div>
+    </div>
+  </div>
+
+  <div class="photo-head">
+    <h3 class="ph-title">Gallery</h3>
+    <div class="railnav">
+      <button type="button" aria-label="Previous photographs" data-dir="-1">←</button>
+      <button type="button" aria-label="Next photographs" data-dir="1">→</button>
+    </div>
+  </div>
+  <p class="curnote mono">Portraits and self-portraits across four shoots, made as covers and as studies. {plates.length} plates.</p>
+</section>
+<div class="wall dots" id="wall" tabindex="0" role="region" aria-label="Gallery of photographs, scroll sideways">
+  {plates.map((g, k) => (
+    <figure class="plate">
+      <button type="button" class="frame grain" data-lb={g.lb} aria-label={`Enlarge ${g.title}`}>
+        <Picture src={img(g.src)} alt={g.alt} formats={['avif', 'webp']} widths={[400, 700]} sizes="(max-width: 760px) 70vw, 360px" />
+      </button>
+      <figcaption class="label"><span class="no">PLATE {String(k + 1).padStart(2, '0')}</span><b>{g.title}</b><i>{g.series}</i></figcaption>
+    </figure>
+  ))}
+</div>
+
+<script>
+  const grid = document.getElementById('dgrid')!;
+  document.querySelectorAll<HTMLButtonElement>('#design .chip').forEach((ch) => ch.addEventListener('click', () => {
+    document.querySelectorAll('#design .chip').forEach((c) => c.setAttribute('aria-pressed', String(c === ch)));
+    const f = ch.dataset.f!;
+    grid.querySelectorAll<HTMLElement>('[data-tags]').forEach((t) => {
+      t.hidden = !(f === 'all' || t.dataset.tags!.split(' ').includes(f));
+    });
+  }));
+  const wall = document.getElementById('wall')!;
+  document.querySelectorAll<HTMLButtonElement>('#design .railnav button').forEach((b) =>
+    b.addEventListener('click', () => wall.scrollBy({ left: wall.clientWidth * 0.7 * Number(b.dataset.dir), behavior: 'smooth' })));
+</script>
+
+<style>
+  #design{padding-block:96px 0}
+  .chips{display:flex;gap:8px;flex-wrap:wrap}
+  .chip{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid var(--ink);background:transparent;font-weight:700;font-size:14px;cursor:pointer}
+  .chip[aria-pressed="true"]{background:var(--ink);color:var(--cream)}
+  .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px;grid-auto-flow:dense}
+  .tile{display:flex;flex-direction:column;gap:10px;background:none;border:0;padding:0;text-align:left;cursor:pointer}
+  .tile[hidden]{display:none}
+  .med{aspect-ratio:1;border:3px solid var(--ink);background:#ddd4c2;transition:transform .25s,box-shadow .25s}
+  .tile:hover .med,.tile:focus-visible .med{transform:translate(-4px,-4px);box-shadow:8px 8px 0 var(--ink)}
+  .med :global(picture),.med :global(img){width:100%;height:100%;object-fit:cover}
+  .wide{grid-column:span 2}.wide .med{aspect-ratio:2/1}
+  .big{grid-column:span 2;grid-row:span 2}.big .med{aspect-ratio:auto;flex-grow:1;min-height:0}
+  .tall{grid-row:span 2}.tall .med{aspect-ratio:auto;flex-grow:1}
+  .strip{display:grid;height:100%;grid-auto-flow:column;grid-auto-columns:1fr}
+  .strip :global(picture){border-left:3px solid var(--ink)} .strip :global(picture:first-child){border-left:0}
+  .badge{position:absolute;top:10px;left:10px;z-index:2;font-family:var(--mono);font-size:11px;font-weight:700;background:var(--cream);border:2px solid var(--ink);padding:2px 8px}
+  .cap{display:flex;align-items:baseline;gap:12px}
+  .cap .n{font-size:12px;font-weight:700}
+  .tt{display:flex;flex-direction:column;gap:3px;min-width:0}
+  .cap b{font-size:18px;font-weight:800;line-height:1.15;overflow-wrap:anywhere}
+  .cap .k{font-size:11px}
+  .soonbox{border-style:dashed;background:transparent;display:flex;flex-direction:column;justify-content:center;gap:8px;padding:22px}
+  .soonbox b{font-size:20px;line-height:1.1} .soonbox .mono{font-size:12px;color:var(--muted)}
+  .soon{cursor:default}
+  .cred{font-size:11px;color:var(--muted)}
+
+  .photo-head{display:flex;justify-content:space-between;align-items:center;margin-top:96px;border-top:3px solid var(--ink);padding-top:20px}
+  .ph-title{margin:0;font-size:clamp(32px,4vw,56px);font-weight:900;letter-spacing:-.03em}
+  .railnav{display:flex;gap:8px}
+  .railnav button{width:48px;height:48px;border-radius:50%;border:2.5px solid var(--ink);background:transparent;cursor:pointer;font-size:20px;font-weight:700}
+  .railnav button:hover{background:var(--ink);color:var(--cream)}
+  .curnote{font-size:13px;color:var(--muted);margin:10px 0 28px}
+  .wall{display:flex;gap:56px;overflow-x:auto;scroll-snap-type:x mandatory;padding:56px var(--gut) 40px;align-items:flex-end;border-block:3px solid var(--ink);background-color:var(--wall)}
+  .plate{flex:0 0 auto;scroll-snap-align:center;display:flex;flex-direction:column;gap:18px;margin:0}
+  .frame{background:#fff;padding:clamp(14px,1.6vw,22px);border:2px solid var(--ink);box-shadow:0 18px 30px rgba(20,20,19,.16);cursor:zoom-in;display:block}
+  .frame :global(img){height:clamp(300px,42vh,460px);width:auto;max-width:none}
+  .plate:nth-child(3n+2) .frame :global(img){height:clamp(240px,34vh,380px)}
+  .label{background:#fff;border:1px solid #cfcac0;padding:10px 12px;width:200px;font-size:13px;line-height:1.35;display:flex;flex-direction:column}
+  .no{font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--muted)}
+  .label b{font-size:15px} .label i{font-style:normal;color:var(--muted)}
+
+  @media (max-width:1000px){
+    .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .big{grid-row:span 1}.big .med{aspect-ratio:1}
+    .tall{grid-row:span 1}.tall .med{aspect-ratio:4/5}
+  }
+  @media (max-width:480px){
+    .grid{grid-template-columns:1fr}
+    .wide,.big{grid-column:span 1}
+    .wide .med{aspect-ratio:3/2}
+  }
+</style>

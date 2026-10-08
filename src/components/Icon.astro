@@ -1,0 +1,17 @@
+---
+// Brand icons. Paths from simple-icons where available; LinkedIn + Amazon drawn simply (removed from simple-icons).
+import { siInstagram, siTiktok, siYoutube, siSpotify, siApplemusic, siSoundcloud } from 'simple-icons';
+interface Props { name: string; size?: number }
+const { name, size = 22 } = Astro.props;
+const paths: Record<string, string> = {
+  instagram: siInstagram.path, tiktok: siTiktok.path, youtube: siYoutube.path,
+  spotify: siSpotify.path, apple: siApplemusic.path, soundcloud: siSoundcloud.path,
+};
+---
+{paths[name] ? (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d={paths[name]} /></svg>
+) : name === 'linkedin' ? (
+  <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden="true"><rect x="1" y="1" width="22" height="22" rx="4" fill="currentColor"/><path d="M6.2 9.6h2.6V18H6.2zM7.5 5.6a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM10.5 9.6H13v1.2c.4-.7 1.3-1.4 2.7-1.4 2.6 0 3.1 1.7 3.1 3.9V18h-2.6v-4.1c0-1 0-2.2-1.4-2.2s-1.6 1.1-1.6 2.1V18h-2.7z" fill="var(--icon-bg, #fff)"/></svg>
+) : name === 'amazon' ? (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M3 14.5c5 3.6 12.5 3.6 18 0"/><path d="M17.5 13.6l3.6.8-.9 3.4"/><path d="M9 5v7M9 5l6-1.5v7.2" /><circle cx="7.2" cy="12" r="1.8" fill="currentColor"/><circle cx="13.2" cy="10.7" r="1.8" fill="currentColor"/></svg>
+) : null}

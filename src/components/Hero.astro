@@ -1,0 +1,107 @@
+---
+import { Picture } from 'astro:assets';
+import { img } from '../lib/images';
+import site from '../data/site.json';
+import Icon from './Icon.astro';
+
+const lines = [
+  { t: 'yahya', hl: false },
+  { t: 'abdul-', hl: false },
+  { t: 'basser.', hl: true },
+];
+// collage: [file, style, rotate-on-hover, float duration]
+const bits = [
+  ['seeing-me/piece_08.png', 'left:-2%;top:2%;width:22%', '-10deg', 6.5],
+  ['seeing-me/piece_07.png', 'right:0;top:0;width:24%', '8deg', 8],
+  ['seeing-me/piece_20.png', 'left:-4%;top:52%;width:30%', '-6deg', 7.2],
+  ['seeing-me/piece_19.png', 'right:-2%;top:40%;width:22%', '10deg', 9],
+  ['seeing-me/piece_29.png', 'left:14%;bottom:0;width:24%', '-8deg', 5.8],
+  ['seeing-me/piece_50.png', 'right:8%;bottom:2%;width:28%', '6deg', 7.6],
+  ['seeing-me/piece_18.png', 'left:46%;bottom:6%;width:14%', '12deg', 8.4],
+  ['seeing-me/piece_04.png', 'left:4%;top:30%;width:12%', '-12deg', 6.9],
+] as const;
+---
+<section class="hero wrap" aria-labelledby="name">
+  <div class="txt">
+    <ul class="roles" aria-label="Disciplines">
+      {site.roles.map((r) => <li>{r}</li>)}
+    </ul>
+    <h1 id="name" class="big">
+      {lines.map((l, i) => (<>
+        <span class:list={['line', { hl: l.hl }]}>
+          {[...l.t].map((c) => <span class="ch">{c}</span>)}
+        </span>{i === 0 && ' '}
+      </>))}
+    </h1>
+    <p class="lead">{site.pitch}</p>
+    <p class="avail"><span class="dot" aria-hidden="true"></span>{site.availability}</p>
+    <div class="ctas">
+      <a class="btn solid" href="#work">View work</a>
+      <a class="btn ghost" href="/resume/">Resume</a>
+      <a class="btn ghost" href={`mailto:${site.email}`}>Email</a>
+    </div>
+    <ul class="soc" aria-label="Social profiles">
+      {site.socials.map((s) => <li><a href={s.url} target="_blank" rel="noopener" aria-label={s.name}><Icon name={s.icon} size={20} /></a></li>)}
+    </ul>
+  </div>
+  <div class="collage" aria-hidden="true">
+    <Picture class="center art-pop" src={img('seeing-me/piece_12.png')} formats={['avif', 'webp']} widths={[400, 700, 1000]} sizes="(max-width: 760px) 70vw, 30vw" alt="" loading="eager" fetchpriority="high" />
+    {bits.map(([f, style, r, d], i) => (
+      <Picture class="m art-pop" src={img(f)} formats={['avif', 'webp']} widths={[200, 400]} sizes="(max-width: 760px) 25vw, 12vw" alt="" style={`${style};--r:${r};--d:${d}s;--dl:-${(i * 0.9).toFixed(1)}s`} />
+    ))}
+  </div>
+</section>
+
+<script>
+  // typewriter: the name is real text in the HTML; JS only hides then re-reveals it
+  const h1 = document.getElementById('name');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (h1 && !reduce) {
+    const chars = [...h1.querySelectorAll<HTMLElement>('.ch')];
+    const caret = document.createElement('span'); caret.className = 'caret'; caret.setAttribute('aria-hidden', 'true');
+    h1.classList.add('typing');
+    h1.querySelector('.line')!.prepend(caret);
+    let i = 0;
+    const tick = () => {
+      if (i >= chars.length) return;
+      chars[i].classList.add('on'); chars[i].after(caret);
+      const c = chars[i].textContent; i++;
+      setTimeout(tick, c === '-' || c === '.' ? 260 : 70 + Math.random() * 90);
+    };
+    setTimeout(tick, 400);
+  }
+</script>
+
+<style>
+  .hero{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:24px;padding-block:56px 80px}
+  .txt{grid-column:span 7;display:flex;flex-direction:column;gap:24px;align-self:center}
+  .roles{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
+  .roles li{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border:2px solid var(--ink);border-radius:999px;padding:4px 12px}
+  .big{margin:0;font-weight:900;font-size:var(--fs-h1);line-height:.84;letter-spacing:-.045em;display:flex;flex-direction:column}
+  .line{white-space:nowrap}
+  .hl{align-self:flex-start;background-color:var(--yellow);background-image:radial-gradient(rgba(238,53,46,.35) 1.6px,transparent 1.9px);background-size:8px 8px;padding:0 .09em .07em .04em;margin-left:-.04em}
+  .typing :global(.ch){opacity:0}
+  .typing :global(.ch.on){opacity:1}
+  :global(.caret){display:inline-block;width:.08em;height:.78em;background:var(--ink);margin-left:.04em;vertical-align:-.02em;animation:blink 1s steps(1) infinite}
+  @keyframes blink{50%{opacity:0}}
+  .lead{margin:0;max-width:36ch;font-size:var(--fs-lead);line-height:1.4;font-weight:500}
+  .avail{margin:0;display:inline-flex;align-items:center;gap:10px;font-weight:700}
+  .dot{width:12px;height:12px;border-radius:50%;background:var(--live);box-shadow:0 0 0 2px var(--ink)}
+  .ctas{display:flex;gap:10px;flex-wrap:wrap}
+  .soc{display:flex;gap:6px;list-style:none;margin:-6px 0 0;padding:0}
+  .soc a{width:44px;height:44px;display:grid;place-items:center;border-radius:50%;color:var(--muted);transition:color .15s,background .15s;--icon-bg:var(--cream)}
+  .soc a:hover{color:var(--ink);background:rgba(20,20,19,.07)}
+
+  .collage{grid-column:span 5;position:relative;aspect-ratio:5/6;min-height:400px}
+  .collage :global(.center){position:absolute;left:18%;top:8%;width:64%;filter:drop-shadow(10px 12px 0 rgba(20,20,19,.12));animation:float 9s ease-in-out infinite}
+  .collage :global(.m){position:absolute;animation:float var(--d,7s) ease-in-out infinite;animation-delay:var(--dl,0s);transition:transform .35s cubic-bezier(.3,1.6,.6,1)}
+  .collage :global(.m:hover){transform:scale(1.12) rotate(var(--r,6deg))}
+  .collage :global(img){width:100%;height:auto}
+  @keyframes float{0%,100%{translate:0 0;rotate:0deg}25%{translate:3px -9px;rotate:1.5deg}50%{translate:-2px -14px;rotate:-1deg}75%{translate:-4px -5px;rotate:1deg}}
+
+  @media (max-width:760px){
+    .hero{grid-template-columns:1fr;padding-block:32px 48px}
+    .txt,.collage{grid-column:auto}
+    .collage{min-height:320px;max-width:420px;width:100%;justify-self:center}
+  }
+</style>

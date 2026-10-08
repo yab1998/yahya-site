@@ -1,0 +1,111 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import site from '../data/site.json';
+import cv from '../data/resume.json';
+const laneOf = Object.fromEntries(cv.lanes.map((l) => [l.id, l]));
+const linkedin = site.socials.find((s) => s.icon === 'linkedin');
+---
+<BaseLayout title="Resume | yahya abdul-basser." description="Resume: designer, creative director and content producer in NYC. Art direction, campaign video, product and project management.">
+  <article class="cv wrap">
+    <header class="top">
+      <a class="back mono" href="/">← Home</a>
+      <h1>Resume</h1>
+      <p class="head">{cv.headline}</p>
+      <div class="acts">
+        <a class="btn solid" href="/resume.pdf" download>Download PDF</a>
+        <a class="btn ghost" href={`mailto:${site.email}`}>{site.email}</a>
+        {linkedin && <a class="btn ghost" href={linkedin.url} target="_blank" rel="noopener"><Icon name="linkedin" size={18} /> LinkedIn</a>}
+        <button type="button" class="btn ghost print" onclick="window.print()">Print</button>
+      </div>
+    </header>
+
+    <div class="filters" role="group" aria-label="Filter experience by lane">
+      <button type="button" class="chip" data-lane="all" aria-pressed="true">All</button>
+      {cv.lanes.map((l) => <button type="button" class="chip" data-lane={l.id} aria-pressed="false"><span class={`dot ${l.c}`} aria-hidden="true"></span>{l.label}</button>)}
+    </div>
+
+    <section aria-labelledby="exp">
+      <h2 id="exp" class="sec mono">Experience</h2>
+      <ol class="line">
+        {cv.roles.map((r) => (
+          <li class="role" data-lanes={r.lanes.join(' ')}>
+            <span class={`stop ${laneOf[r.lanes[0]].c}`} aria-hidden="true"></span>
+            <div class="rhead">
+              <h3>{r.title}</h3>
+              <p class="org"><b>{r.org}</b> · {r.where}</p>
+              <p class="when mono">{r.when}</p>
+            </div>
+            <ul class="pts">{r.points.map((p) => <li>{p}</li>)}</ul>
+            <p class="tags">{r.lanes.map((l) => <span class="tag">{laneOf[l].label}</span>)}</p>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section aria-labelledby="edu" class="two">
+      <div>
+        <h2 id="edu" class="sec mono">Education</h2>
+        <h3>{cv.education.school}</h3>
+        <p>{cv.education.degree} · {cv.education.when}</p>
+      </div>
+      <div>
+        <h2 class="sec mono">Skills</h2>
+        {cv.skills.map((g) => (
+          <div class="sk"><h3 class="skh">{g.group}</h3><ul>{g.items.map((i) => <li>{i}</li>)}</ul></div>
+        ))}
+      </div>
+    </section>
+  </article>
+</BaseLayout>
+
+<script>
+  const chips = [...document.querySelectorAll<HTMLButtonElement>('.filters .chip')];
+  const roles = [...document.querySelectorAll<HTMLElement>('.role')];
+  chips.forEach((c) => c.addEventListener('click', () => {
+    chips.forEach((x) => x.setAttribute('aria-pressed', String(x === c)));
+    const lane = c.dataset.lane!;
+    roles.forEach((r) => r.classList.toggle('dim', lane !== 'all' && !r.dataset.lanes!.split(' ').includes(lane)));
+  }));
+</script>
+
+<style>
+  .cv{max-width:1000px;margin:0 auto;padding-block:48px 112px}
+  .back{font-size:13px;text-decoration:underline;text-underline-offset:4px}
+  h1{margin:16px 0 12px;font-size:clamp(56px,9vw,120px);font-weight:900;letter-spacing:-.05em;line-height:.9}
+  .head{font-size:var(--fs-lead);line-height:1.4;font-weight:500;margin:0 0 24px}
+  .acts{display:flex;gap:10px;flex-wrap:wrap}
+  .print{cursor:pointer;background:transparent}
+  .filters{display:flex;gap:8px;flex-wrap:wrap;margin:48px 0 8px;padding-top:20px;border-top:3px solid var(--ink)}
+  .chip{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;border-radius:999px;border:2px solid var(--ink);background:transparent;font-weight:700;font-size:14px;cursor:pointer}
+  .chip[aria-pressed="true"]{background:var(--ink);color:var(--cream)}
+  .dot{width:12px;height:12px;border-radius:50%}
+  .sec{font-size:13px;letter-spacing:.12em;text-transform:uppercase;margin:40px 0 20px;font-weight:700}
+  .line{list-style:none;margin:0;padding:0 0 0 34px;position:relative}
+  .line::before{content:"";position:absolute;left:9px;top:8px;bottom:8px;width:6px;border-radius:3px;background:var(--ink)}
+  .role{position:relative;padding:0 0 40px;transition:opacity .25s}
+  .role.dim{opacity:.22}
+  .stop{position:absolute;left:-34px;top:4px;width:24px;height:24px;border-radius:50%;border:4px solid var(--cream);box-shadow:0 0 0 3px var(--ink)}
+  .rhead{display:grid;grid-template-columns:1fr auto;gap:2px 20px;align-items:baseline}
+  h3{margin:0;font-size:24px;font-weight:800;letter-spacing:-.015em;line-height:1.15}
+  .org{margin:0;grid-column:1}
+  .when{margin:0;grid-column:2;grid-row:1;font-size:13px;color:var(--muted);white-space:nowrap}
+  .pts{margin:12px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+  .tags{margin:12px 0 0;display:flex;gap:6px;flex-wrap:wrap}
+  .tag{font-family:var(--mono);font-size:11px;border:1.5px solid var(--ink);border-radius:999px;padding:2px 10px}
+  .two{display:grid;grid-template-columns:1fr 1.4fr;gap:48px;border-top:3px solid var(--ink);margin-top:16px}
+  .two p{margin:6px 0 0}
+  .sk{margin-bottom:18px}
+  .skh{font-size:16px;margin-bottom:8px}
+  .sk ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
+  .sk li{font-size:14px;background:var(--paper);border:1.5px solid var(--ink);border-radius:6px;padding:4px 10px}
+  @media (max-width:760px){.rhead{grid-template-columns:1fr}.when{grid-column:1;grid-row:auto}.two{grid-template-columns:1fr}}
+  @media print{
+    :global(.route),:global(.sign),:global(.skip),.acts,.filters,.back{display:none!important}
+    :global(body){padding:0;background:#fff}
+    .cv{padding:0}
+    h1{font-size:40px}
+    .role{break-inside:avoid;padding-bottom:18px}
+    .role.dim{opacity:1}
+  }
+</style>

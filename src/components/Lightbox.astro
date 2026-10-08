@@ -1,0 +1,120 @@
+---
+// One shared lightbox. Any element with data-lb='{"items":[{src,alt,video?}],"title","kind","blurb","credit"}'
+// opens it on click; focus is trapped by the native modal <dialog> and returned to the opener on close.
+---
+<dialog id="lb" aria-labelledby="lbTitle">
+  <div class="lb">
+    <div class="stage">
+      <button class="x glass" type="button" aria-label="Close">✕</button>
+      <div id="lbMedia"></div>
+      <button class="arrow prev glass" type="button" aria-label="Previous image">←</button>
+      <button class="arrow next glass" type="button" aria-label="Next image">→</button>
+    </div>
+    <div class="info">
+      <span class="k" id="lbKind"></span>
+      <h3 id="lbTitle"></h3>
+      <p id="lbBlurb"></p>
+      <p class="credit" id="lbCredit"></p>
+      <div class="thumbs" id="lbThumbs"></div>
+    </div>
+  </div>
+</dialog>
+
+<script>
+  type Item = { src: string; alt: string; video?: string };
+  type Data = { items: Item[]; title: string; kind?: string; blurb?: string; credit?: string };
+  const dlg = document.getElementById('lb') as HTMLDialogElement;
+  const $ = (id: string) => document.getElementById(id)!;
+  let data: Data | null = null, idx = 0, opener: HTMLElement | null = null, dir = 0;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function render() {
+    if (!data) return;
+    const it = data.items[idx];
+    const media = $('lbMedia');
+    media.replaceChildren();
+    if (it.video) {
+      const v = document.createElement('video');
+      Object.assign(v, { src: it.video, poster: it.src, controls: true, autoplay: true, muted: true, loop: true, playsInline: true });
+      v.setAttribute('aria-label', it.alt);
+      media.append(v);
+    } else {
+      const im = new Image(); im.src = it.src; im.alt = it.alt; media.append(im);
+    }
+    if (dir && !reduce) media.firstElementChild?.animate([{ transform: `translateX(${dir * 60}px)`, opacity: 0 }, { transform: 'none', opacity: 1 }], { duration: 320, easing: 'cubic-bezier(.2,.8,.2,1)' });
+    dir = 0;
+    $('lbKind').textContent = data.kind ?? '';
+    $('lbTitle').textContent = data.title;
+    $('lbBlurb').textContent = data.blurb ?? '';
+    $('lbBlurb').hidden = !data.blurb;
+    $('lbCredit').textContent = data.credit ?? '';
+    $('lbCredit').hidden = !data.credit;
+    const many = data.items.length > 1;
+    dlg.querySelectorAll<HTMLElement>('.arrow').forEach((a) => (a.hidden = !many));
+    const th = $('lbThumbs'); th.replaceChildren();
+    if (many) data.items.forEach((t, k) => {
+      const b = document.createElement('button'); b.type = 'button';
+      b.setAttribute('aria-label', `Show image ${k + 1} of ${data!.items.length}`);
+      if (k === idx) b.setAttribute('aria-current', 'true');
+      const im = new Image(); im.src = t.src; im.alt = ''; b.append(im);
+      b.onclick = () => { idx = k; render(); };
+      th.append(b);
+    });
+  }
+  function step(d: number) { if (!data || data.items.length < 2) return; dir = d; idx = (idx + d + data.items.length) % data.items.length; render(); }
+
+  export function openLightbox(d: Data, start = 0, from: HTMLElement | null = null) {
+    data = d; idx = start; opener = from; render(); dlg.showModal();
+    // zoom-to-fill: grow the panel out of the tile that was clicked
+    const box = dlg.querySelector<HTMLElement>('.lb')!;
+    const src = from?.querySelector('.med, .frame, img') as HTMLElement | null;
+    if (src && !reduce) {
+      const a = src.getBoundingClientRect(), b = box.getBoundingClientRect();
+      const sx = a.width / b.width, sy = a.height / b.height;
+      const tx = a.left + a.width / 2 - (b.left + b.width / 2), ty = a.top + a.height / 2 - (b.top + b.height / 2);
+      box.animate([{ transform: `translate(${tx}px,${ty}px) scale(${sx},${sy})`, opacity: .4 }, { transform: 'none', opacity: 1 }], { duration: 420, easing: 'cubic-bezier(.2,.8,.2,1)' });
+    }
+  }
+  function closeLightbox() { dlg.close(); }
+  dlg.addEventListener('close', () => { $('lbMedia').replaceChildren(); opener?.focus(); });
+
+  dlg.querySelector('.x')!.addEventListener('click', closeLightbox);
+  dlg.querySelector('.prev')!.addEventListener('click', () => step(-1));
+  dlg.querySelector('.next')!.addEventListener('click', () => step(1));
+  dlg.addEventListener('click', (e) => { if (e.target === dlg) closeLightbox(); });
+  dlg.addEventListener('keydown', (e) => { if (e.key === 'ArrowRight') step(1); if (e.key === 'ArrowLeft') step(-1); });
+  // swipe on touch screens
+  let x0: number | null = null;
+  dlg.addEventListener('touchstart', (e) => { x0 = e.touches[0].clientX; }, { passive: true });
+  dlg.addEventListener('touchend', (e) => { if (x0 === null) return; const dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 40) step(dx < 0 ? 1 : -1); x0 = null; });
+
+  document.addEventListener('click', (e) => {
+    const el = (e.target as HTMLElement).closest<HTMLElement>('[data-lb]');
+    if (!el) return;
+    e.preventDefault();
+    openLightbox(JSON.parse(el.dataset.lb!), Number(el.dataset.lbStart ?? 0), el);
+  });
+</script>
+
+<style>
+  dialog{border:0;padding:0;background:transparent;max-width:min(1100px,94vw);width:100%}
+  dialog::backdrop{background:rgba(20,20,19,.88)}
+  dialog[open]::backdrop{animation:fade .3s ease}
+  @keyframes fade{from{opacity:0}}
+  .stage{overflow:hidden}
+  .lb{background:var(--cream);border:3px solid var(--ink);display:grid;grid-template-columns:1.4fr 1fr;max-height:90vh}
+  .stage{background:#111;display:flex;align-items:center;justify-content:center;position:relative;min-height:320px}
+  .stage :global(img),.stage :global(video){max-height:86vh;width:100%;object-fit:contain}
+  .info{padding:28px;display:flex;flex-direction:column;gap:14px;overflow:auto}
+  h3{margin:0;font-size:32px;font-weight:900;letter-spacing:-.03em;line-height:1}
+  .info p{margin:0;line-height:1.55}
+  .thumbs{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto}
+  .thumbs :global(button){width:58px;height:58px;padding:0;border:2px solid var(--ink);cursor:pointer;background:none;opacity:.55}
+  .thumbs :global(button[aria-current]){opacity:1;outline:3px solid var(--blue)}
+  .thumbs :global(img){width:100%;height:100%;object-fit:cover}
+  .x{position:absolute;top:10px;right:10px;width:44px;height:44px;border-radius:50%;font-size:20px;cursor:pointer;z-index:3}
+  .arrow{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;cursor:pointer;font-weight:700;z-index:3}
+  .arrow[hidden]{display:none}
+  .prev{left:10px}.next{right:10px}
+  @media (max-width:1000px){.lb{grid-template-columns:1fr}.stage :global(img),.stage :global(video){max-height:55vh}}
+</style>
