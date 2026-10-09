@@ -602,6 +602,16 @@
       "previewSeconds": 45,
       "fullLength": 201,
       "fullUrl": ""
+    },
+    {
+      "title": "snap",
+      "credit": "yahya w/ töph",
+      "project": "single",
+      "cover": "covers/snap.jpg",
+      "src": "/audio/snap-preview.mp3",
+      "previewSeconds": 45,
+      "fullLength": 162,
+      "fullUrl": ""
     }
   ],
   "streaming": [
@@ -656,6 +666,20 @@
       "credits": [
         "Written and performed by yahya",
         "Cover art by Omar Din"
+      ]
+    },
+    {
+      "title": "snap",
+      "type": "Single",
+      "year": "2021",
+      "cover": "covers/snap.jpg",
+      "tracks": [
+        "snap — w/ töph"
+      ],
+      "credits": [
+        "Written and performed by yahya & töph",
+        "Mixed and mastered by Neks",
+        "Cover art by yahya"
       ]
     }
   ]
