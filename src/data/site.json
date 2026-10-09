@@ -250,7 +250,7 @@
         "HIATUS: single cover"
       ],
       "label": "Cover",
-      "blurb": "Cover for an unreleased track. Made in Photoshop."
+      "blurb": "Cover for an unreleased track."
     },
     {
       "title": "THE VAULT",
@@ -265,7 +265,7 @@
         "THE VAULT: project cover"
       ],
       "label": "Cover",
-      "blurb": "Cover for my first EP, about the feelings we keep locked deep inside and how they end up defining us. Made in Photoshop."
+      "blurb": "Cover for my first EP, about the feelings we keep locked deep inside and how they end up defining us."
     },
     {
       "title": "Bye Bye Savannah",
@@ -280,7 +280,7 @@
         "Bye Bye Savannah: single cover"
       ],
       "label": "Cover",
-      "blurb": "Single cover for an indie pop-rock artist. Made in Photoshop."
+      "blurb": "Single cover for an indie pop-rock artist."
     },
     {
       "title": "SANDSTORM",
@@ -295,7 +295,7 @@
         "SANDSTORM: single cover"
       ],
       "label": "Cover",
-      "blurb": "Cover art for a single I was featured on. Made in Photoshop."
+      "blurb": "Cover art for a single I was featured on."
     },
     {
       "title": "Life Lion",
@@ -311,7 +311,8 @@
         "Life Lion: single cover",
         "Life Lion: single cover"
       ],
-      "label": "Cover"
+      "label": "Cover",
+      "blurb": "Single cover for Eric Christopher Porter, who performs as Töph."
     },
     {
       "title": "summerluv.",
@@ -325,7 +326,8 @@
       "alt": [
         "summerluv.: single cover"
       ],
-      "label": "Cover"
+      "label": "Cover",
+      "blurb": "Part of my September Singles playlist."
     },
     {
       "title": "styll summer.",
@@ -339,7 +341,8 @@
       "alt": [
         "styll summer.: single cover"
       ],
-      "label": "Cover"
+      "label": "Cover",
+      "blurb": "Part of my September Singles playlist."
     },
     {
       "title": "yahya.",
@@ -367,7 +370,8 @@
       "alt": [
         "twenty-one.: project cover"
       ],
-      "label": "Cover"
+      "label": "Cover",
+      "blurb": "A love letter to my friends and family for my 21st birthday, and one of my September Singles."
     },
     {
       "title": "(re)memory",
@@ -381,7 +385,8 @@
       "alt": [
         "(re)memory: project cover"
       ],
-      "label": "Cover"
+      "label": "Cover",
+      "blurb": "My final project for a freshman writing seminar on Blackness and Black fiction, in conversation with Octavia Butler, June Jordan and Toni Morrison."
     },
     {
       "title": "valentine's day",
@@ -395,7 +400,8 @@
       "alt": [
         "valentine's day: single cover"
       ],
-      "label": "Cover"
+      "label": "Cover",
+      "blurb": "Single cover for Töph (Eric Christopher Porter)."
     }
   ],
   "gallery": [
