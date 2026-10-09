@@ -1,7 +1,7 @@
 ---
-title: "DSA slate + Aber Kawas walking video"
+title: "NYC-DSA candidate videos"
 order: 1
-summary: "Two campaign videos for NYC-DSA candidate Aber Kawas: a walking interview through the neighborhood and a professionally shot sit-down. Used across her campaign's socials."
+summary: "Campaign videos for NYC-DSA candidates: a walking interview and a professionally shot edit for Aber Kawas, and a short interview with Darializa Avila Chevalier. Used across their campaigns' socials."
 role: "Director, producer, editor"
 lane: "Campaign storytelling · video"
 team: "[TODO: crew, campaign staff]"
@@ -10,8 +10,9 @@ tools: "Premiere Pro, CapCut, [TODO: camera]"
 cover: "../../assets/case/aber-hd.jpg"
 coverAlt: "Aber Kawas outside a storefront in the walking-interview campaign video"
 loop: "/video/work/aber-hd.mp4"
+heroLoop: "/video/work/dsa-bts.mp4"
 status: draft
-description: "Campaign storytelling for NYC-DSA candidates: a walking-interview video for Aber Kawas, directed, shot and edited by Yahya Abdul-Basser."
+description: "Campaign videos for NYC-DSA candidates Aber Kawas and Darializa Avila Chevalier, directed, shot and edited by Yahya Abdul-Basser."
 ---
 
 ## The brief
@@ -24,7 +25,11 @@ description: "Campaign storytelling for NYC-DSA candidates: a walking-interview 
 
 ## The work
 
-<p class="protonote"><a href="https://www.tiktok.com/@thelifeofyahya/video/7654336225603521805" target="_blank" rel="noopener">Watch the walking video on TikTok ↗</a></p>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;margin:28px 0">
+  <figure style="margin:0;grid-column:1/-1"><video src="/video/work/aber-edit.mp4" poster="/video/work/aber-edit.jpg" controls playsinline preload="none" style="width:100%;aspect-ratio:16/9;object-fit:cover;border:3px solid var(--ink);border-radius:var(--rad);background:#000"></video><figcaption class="mono" style="font-size:13px;margin-top:8px"><b>Aber Kawas · campaign edit</b><br>Shot on cinema cameras</figcaption></figure>
+  <figure style="margin:0"><video src="/video/content/aber.mp4" poster="/video/content/aber.jpg" controls playsinline preload="none" style="width:100%;aspect-ratio:9/16;object-fit:cover;border:3px solid var(--ink);border-radius:var(--rad);background:#000"></video><figcaption class="mono" style="font-size:13px;margin-top:8px"><b>Aber Kawas · walking interview</b><br><a href="https://www.tiktok.com/@thelifeofyahya/video/7654336225603521805" target="_blank" rel="noopener">On TikTok ↗</a></figcaption></figure>
+  <figure style="margin:0"><div style="width:100%;aspect-ratio:9/16;border:3px dashed var(--ink);border-radius:var(--rad);display:grid;place-items:center;text-align:center;padding:20px" class="mono">Darializa Avila Chevalier interview<br>coming soon</div><figcaption class="mono" style="font-size:13px;margin-top:8px"><b>Darializa Avila Chevalier · short interview</b></figcaption></figure>
+</div>
 
 ## Outcome
 

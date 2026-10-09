@@ -23,7 +23,7 @@ const facts = [['Role', d.role], ['Team', d.team], ['Timeline', d.timeline], ['T
     </header>
     <div class="hero grain">
       <Picture src={d.cover} alt={d.coverAlt} formats={['avif', 'webp']} widths={[800, 1400, 2000]} sizes="100vw" loading="eager" fetchpriority="high" />
-      {d.loop && <video class="hloop" src={d.loop} muted loop playsinline autoplay aria-hidden="true"></video>}
+      {(d.heroLoop ?? d.loop) && <video class="hloop" src={d.heroLoop ?? d.loop} muted loop playsinline autoplay aria-hidden="true"></video>}
     </div>
     </>)}
     <slot name="lead" />
