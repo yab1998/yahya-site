@@ -7,6 +7,8 @@ import site from '../data/site.json';
 const fmt = (s: number) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
 const tracks = await Promise.all(site.tracks.map(async (t) => ({ ...t, coverUrl: await url(t.cover, 700) })));
 const first = tracks[0];
+const norm = (x: string) => x.split(' — ')[0].toLowerCase().replace(/[^a-z0-9]/g, '');
+const idxOf = (name: string) => tracks.findIndex((t) => norm(t.title) === norm(name));
 const disco = await Promise.all((site as any).discography.map(async (r: any) => ({ ...r, coverUrl: await url(r.cover, 400) })));
 ---
 <section id="music" aria-labelledby="mh">
@@ -62,7 +64,7 @@ const disco = await Promise.all((site as any).discography.map(async (r: any) => 
           <span class="pl" aria-hidden="true">+</span>
         </summary>
         <div class="rb">
-          <ol>{r.tracks.map((t: string) => <li>{t}</li>)}</ol>
+          <ol>{r.tracks.map((t: string) => { const k = idxOf(t); return <li>{k >= 0 ? <button type="button" class="dplay" data-k={k} aria-label={`Play preview: ${t}`}><span class="di" aria-hidden="true">▶</span>{t}</button> : t}</li>; })}</ol>
           <ul class="cr">{r.credits.map((c: string) => <li>{c}</li>)}</ul>
         </div>
       </details>
@@ -95,10 +97,13 @@ const disco = await Promise.all((site as any).discography.map(async (r: any) => 
     btns.forEach((x, i) => x.classList.toggle('playing', i === k));
   }
   function play(k: number) { if (k !== cur) load(k); startViz(); audio.play(); }
+  document.querySelectorAll<HTMLButtonElement>('#music .dplay').forEach((d) => d.addEventListener('click', () => { const k = Number(d.dataset.k); if (k === cur && !audio.paused) audio.pause(); else play(k); }));
   btns.forEach((b, k) => b.addEventListener('click', () => { if (k === cur && !audio.paused) audio.pause(); else play(k); }));
   pp.addEventListener('click', () => { if (cur < 0) play(0); else if (audio.paused) play(cur); else audio.pause(); });
   $('prev').addEventListener('click', () => play(cur <= 0 ? btns.length - 1 : cur - 1));
   $('next').addEventListener('click', () => play((cur + 1) % btns.length));
+  const dmark = () => document.querySelectorAll<HTMLElement>('#music .dplay').forEach((d) => d.classList.toggle('on', !audio.paused && Number(d.dataset.k) === cur));
+  audio.addEventListener('play', dmark); audio.addEventListener('pause', dmark);
   audio.addEventListener('play', () => { pp.classList.add('on'); pp.setAttribute('aria-label', 'Pause'); btns.forEach((b, i) => b.classList.toggle('on', i === cur)); });
   audio.addEventListener('pause', () => { pp.classList.remove('on'); pp.setAttribute('aria-label', 'Play'); btns.forEach((b) => b.classList.remove('on')); });
   audio.addEventListener('timeupdate', () => {
@@ -227,4 +232,9 @@ const disco = await Promise.all((site as any).discography.map(async (r: any) => 
   .miniPP.on .pl{display:none} .miniPP.on .pz{display:block}
   @media (max-width:760px){.mini{bottom:84px;left:12px}}
   @media (max-width:1000px){#music{grid-template-columns:1fr}.l,.r{grid-column:auto}.np{max-width:460px}}
+  .dplay{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:8px;border-radius:6px;padding:1px 4px;margin-left:-4px}
+  .dplay .di{font-size:.7em;opacity:.55;transition:opacity .2s}
+  .dplay:hover,.dplay:focus-visible{background:rgba(127,127,127,.15)}.dplay:hover .di{opacity:1}
+  .dplay:focus-visible{outline:2px solid currentColor}
+  .dplay.on{font-weight:800}.dplay.on .di{opacity:1}
 </style>
