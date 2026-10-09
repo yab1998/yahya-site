@@ -22,7 +22,7 @@
 
 <script>
   type Item = { src: string; alt: string; video?: string };
-  type Data = { items: Item[]; title: string; kind?: string; blurb?: string; credit?: string };
+  type Data = { items: Item[]; title: string; kind?: string; blurb?: string; credit?: string; creditUrl?: string };
   const dlg = document.getElementById('lb') as HTMLDialogElement;
   const $ = (id: string) => document.getElementById(id)!;
   let data: Data | null = null, idx = 0, opener: HTMLElement | null = null, dir = 0;
@@ -77,7 +77,9 @@
     $('lbKind').textContent = data.kind ?? '';
     $('lbTitle').textContent = data.title;
     $('lbBlurb').textContent = data.blurb ?? ''; $('lbBlurb').hidden = !data.blurb;
-    $('lbCredit').textContent = data.credit ?? ''; $('lbCredit').hidden = !data.credit;
+    { const c = $('lbCredit'); c.replaceChildren(); c.hidden = !data.credit;
+      if (data.credit && data.creditUrl) { const m = data.credit.match(/^(.*?)(\(@[^)]+\))(.*)$/); if (m) { const a = document.createElement('a'); a.href = data.creditUrl; a.target = '_blank'; a.rel = 'noopener'; a.textContent = m[2]; c.append(m[1], a, m[3]); } else c.textContent = data.credit; }
+      else c.textContent = data.credit ?? ''; }
     dlg.querySelectorAll<HTMLElement>('.arrow').forEach((a) => (a.hidden = data!.items.length < 2));
     markThumb(); preloadAround();
   }
