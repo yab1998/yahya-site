@@ -1,8 +1,8 @@
 ---
 title: "Album Art Collection"
 order: 2
-summary: "Cover art and visual identity across a body of releases: THE VAULT, summerluv., HIATUS and The Hopeful series."
-role: "Art director, designer, photographer (where noted)"
+summary: "Cover art for my own releases and for other artists, drawn, shot, lit and finished in Photoshop by me."
+role: "Art director, illustrator, photographer, designer"
 lane: "Art direction · visual identity"
 timeline: "2019–2024"
 tools: "Photoshop, Illustrator, Lightroom"
@@ -12,22 +12,13 @@ status: draft
 description: "How Yahya Abdul-Basser art-directs cover art as a system: THE VAULT, summerluv., HIATUS and The Hopeful series."
 ---
 
-## The brief
+## How I make them
 
-Every release needed a cover that worked alone on a phone screen and still felt like part of one artist's world. [TODO: confirm/adjust in your words.]
+These covers weren't made as one project. They came together over years, release by release, for my own music and for artists I love. What ties them together is the process, and I do all of it myself:
 
-## Process
+- **Sketching and drawing.** Most covers start on paper: thumbnails, symbols, hand lettering. Some, like the Life Lion alternate, stay hand-drawn all the way through.
+- **Composition.** I lay out the idea before any photo is taken, so the type, the subject and the empty space are planned together.
+- **Photography and lighting.** When a cover needs a photo, I style it, light it and shoot it. The purple Bluelight Sessions behind The Hopeful trilogy and The Heartbreak Saga are mine end to end.
+- **Photoshop.** This is where everything meets: collage, texture, color and handwriting layered over photos until the cover feels like the song.
 
-[TODO: 3–5 process images with captions: early sketches for THE VAULT, the Hopeful shoot setup, rejected HIATUS directions.]
-
-## The work
-
-The Hopeful, The Lost and The Lover share one purple backdrop and one chalk motif, with a different drawn symbol and month for each single, so the three read as chapters. [TODO: add a line each for THE VAULT, summerluv. and HIATUS.]
-
-## Outcome
-
-[TODO: streams, playlist adds, anything an artist or fan said.]
-
-## What I'd do differently
-
-[TODO]
+It's a mixed-media approach. Each cover has to work on its own, tiny on a phone screen, and still feel like it came from the same hands.
