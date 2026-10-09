@@ -192,14 +192,14 @@ const canonical = new URL('/studio/', Astro.site);
   .hero h1{font-size:clamp(60px,10.5vw,170px);line-height:.92;letter-spacing:-.035em;margin:clamp(28px,6vh,72px) 0 0}
   .hero h1 .dot{color:var(--g)}
   .banner{margin:auto calc(clamp(24px,5vw,72px) * -1) 0;line-height:0}
-  .banner svg{display:block;width:100%;height:auto}
+  .banner svg{display:block;width:100%;height:auto;overflow:visible;-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 22%);mask-image:linear-gradient(to bottom,transparent 0,#000 22%)}
   .banner .rays{transform-box:view-box;transform-origin:330px 150px;animation:spin 90s linear infinite}
   .banner .beam{transform-box:view-box;transform-origin:760px 129px;animation:sweep 7s ease-in-out infinite alternate}
   .banner .tw{transform-box:fill-box;transform-origin:center;animation:twinkle 3.2s ease-in-out infinite;animation-delay:var(--d)}
   .banner .win{animation:flick 6s steps(1) infinite}.banner .win:nth-of-type(3n){animation-delay:2.2s}.banner .win:nth-of-type(4n){animation-delay:4.1s}
   @keyframes flick{0%,100%{opacity:1}40%{opacity:.15}55%{opacity:1}}
   @keyframes spin{to{transform:rotate(360deg)}}
-  @keyframes sweep{from{transform:rotate(-7deg);opacity:.05}to{transform:rotate(9deg);opacity:.11}}
+  @keyframes sweep{from{transform:rotate(-7deg);opacity:.7}to{transform:rotate(9deg);opacity:1}}
   @keyframes twinkle{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(.45);opacity:.35}}
   .clock{font-size:14px;color:var(--g-d);margin-right:6px;font-variant-numeric:tabular-nums}
   .hl{display:flex;flex-direction:column}
