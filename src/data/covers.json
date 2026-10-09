@@ -1,16 +1,5 @@
 [
   {
-    "title": "The Hopeful / The Lost / The Lover",
-    "project": "Singles trilogy",
-    "for": "Me",
-    "images": [
-      "covers/TGSTheHopeful.jpg",
-      "covers/TGSTheLost.jpg",
-      "covers/TGSTheLover.jpg"
-    ],
-    "blurb": "A three-part cover system: one backdrop, one chalk motif, three emotional states. Each single gets its own month and its own drawn symbol, so the set reads as a story when they sit side by side."
-  },
-  {
     "title": "The Heartbreak Saga",
     "project": "The Heartbreak Saga (EP)",
     "for": "Me",
@@ -21,6 +10,26 @@
     "blurb": "Project cover shot against a blank wall, with the behind-the-scenes composite that came before the final."
   },
   {
+    "title": "The Hopeful / The Lost / The Lover",
+    "project": "The Heartbreak Saga (chapters)",
+    "for": "Me",
+    "images": [
+      "covers/TGSTheHopeful.jpg",
+      "covers/TGSTheLost.jpg",
+      "covers/TGSTheLover.jpg"
+    ],
+    "blurb": "The three chapters of The Heartbreak Saga, one for each outfit on the EP cover. One backdrop, one chalk motif, three emotional states, each with its own month and drawn symbol."
+  },
+  {
+    "title": "the return?",
+    "project": "The Heartbreak Saga (single)",
+    "for": "Me",
+    "images": [
+      "art/thereturncoverfinal.jpg"
+    ],
+    "blurb": "A bedroom photo annotated by hand, the way you'd write on a lyric sheet."
+  },
+  {
     "title": "THE VAULT",
     "project": "THE VAULT (EP)",
     "for": "Me",
@@ -28,6 +37,15 @@
       "covers/the-vault.jpg"
     ],
     "blurb": "Cover for my first EP, about the feelings we keep locked deep inside and how they end up defining us."
+  },
+  {
+    "title": "special",
+    "project": "THE VAULT (EP)",
+    "for": "Me",
+    "images": [
+      "art/specialalbumcover.jpg"
+    ],
+    "blurb": "Praying hands and a heart, for the song \"special\" from my first EP."
   },
   {
     "title": "American Dream",
@@ -44,22 +62,13 @@
   },
   {
     "title": "BEAUTIFUL/BROKEN",
-    "project": "Single",
+    "project": "BEAUTIFUL/BROKEN (unreleased EP)",
     "for": "Me",
     "images": [
       "covers/BEAUTIFUL_BROKEN-cover1.jpg",
       "covers/beautiful-broken-date.jpg"
     ],
     "blurb": "Collage cover and release-date variant: halftone rose, handwritten lyrics, and a red that does the shouting."
-  },
-  {
-    "title": "the return?",
-    "project": "Single",
-    "for": "Me",
-    "images": [
-      "art/thereturncoverfinal.jpg"
-    ],
-    "blurb": "A bedroom photo annotated by hand, the way you'd write on a lyric sheet."
   },
   {
     "title": "summerluv.",
@@ -96,15 +105,6 @@
       "covers/HiatusCoverV1.jpg"
     ],
     "blurb": "Cover for an unreleased track."
-  },
-  {
-    "title": "yahya.",
-    "project": "yahya.",
-    "for": "Me",
-    "images": [
-      "art/specialalbumcover.jpg"
-    ],
-    "blurb": ""
   },
   {
     "title": "(re)memory",

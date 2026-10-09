@@ -11,7 +11,7 @@ export async function getStaticPaths() {
 const { entry, next } = Astro.props;
 const { Content } = await render(entry);
 ---
-<CaseStudy entry={entry} next={next.id === entry.id ? undefined : next}>
-  {entry.id === 'album-art' && <CoverCrate />}
+<CaseStudy entry={entry} next={next.id === entry.id ? undefined : next} bare={entry.id === 'album-art'}>
+  {entry.id === 'album-art' && <CoverCrate slot="lead" title={entry.data.title} />}
   <Content />
 </CaseStudy>

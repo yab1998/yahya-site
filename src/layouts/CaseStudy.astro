@@ -3,14 +3,15 @@ import { Picture, getImage } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import BaseLayout from './BaseLayout.astro';
 
-interface Props { entry: CollectionEntry<'work'>; next?: CollectionEntry<'work'> }
-const { entry, next } = Astro.props;
+interface Props { entry: CollectionEntry<'work'>; next?: CollectionEntry<'work'>; bare?: boolean }
+const { entry, next, bare = false } = Astro.props;
 const d = entry.data;
 const og = await getImage({ src: d.cover, width: 1200, height: 630, fit: 'cover', format: 'jpg' });
 const facts = [['Role', d.role], ['Team', d.team], ['Timeline', d.timeline], ['Tools', d.tools]].filter(([, v]) => v);
 ---
 <BaseLayout title={`${d.title} | yahya abdul-basser.`} description={d.description} image={og.src}>
   <article class="cs">
+    {!bare && (<>
     <header class="wrap top">
       <a class="back mono" href="/#work">← All work</a>
       <p class="k">{d.lane}</p>
@@ -24,6 +25,8 @@ const facts = [['Role', d.role], ['Team', d.team], ['Timeline', d.timeline], ['T
       <Picture src={d.cover} alt={d.coverAlt} formats={['avif', 'webp']} widths={[800, 1400, 2000]} sizes="100vw" loading="eager" fetchpriority="high" />
       {d.loop && <video class="hloop" src={d.loop} muted loop playsinline autoplay aria-hidden="true"></video>}
     </div>
+    </>)}
+    <slot name="lead" />
     <div class="body wrap">
       <slot />
     </div>

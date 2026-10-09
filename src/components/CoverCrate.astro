@@ -4,13 +4,15 @@
 import { Picture } from 'astro:assets';
 import { img, url } from '../lib/images';
 import covers from '../data/covers.json';
+const { title = 'The crate' } = Astro.props;
 
 const data = await Promise.all(covers.map(async (c) => ({ ...c, who: c.for === 'Me' ? 'mine' : 'others', big: await Promise.all(c.images.map((p) => url(p, 1400))) })));
 const hues = ['#E63946', '#7B2CBF', '#F4A261', '#2A9D8F', '#264653', '#E9C46A', '#118AB2'];
 ---
 <section class="crate-wrap" aria-labelledby="crateTitle">
+  <a class="cback mono" href="/#work">← All work</a>
   <div class="crate-head">
-    <h2 id="crateTitle">The crate <span>{data.length} covers</span></h2>
+    <div class="ttl"><h1 id="crateTitle">{title}</h1><p class="cnt">{data.length} covers</p></div>
     <div class="crate-tabs" role="group" aria-label="Filter covers">
       <button type="button" data-w="all" aria-pressed="true">All</button>
       <button type="button" data-w="mine" aria-pressed="false">My releases</button>
@@ -90,7 +92,7 @@ const hues = ['#E63946', '#7B2CBF', '#F4A261', '#2A9D8F', '#264653', '#E9C46A', 
   const visible = () => [...document.querySelectorAll<HTMLElement>('.rec:not([hidden])')].map((r) => Number(r.dataset.i));
   function fill() {
     const c = data[cur];
-    im.src = c.big[alt]; im.alt = `${c.title} cover`;
+    if (im.getAttribute('src') !== c.big[alt]) { im.style.opacity = '0'; im.onload = () => { im.style.opacity = '1'; }; im.src = c.big[alt]; if (im.complete) im.style.opacity = '1'; } im.alt = `${c.title} cover`;
     $('spinProj').textContent = c.project; $('spinTitle').textContent = c.title;
     $('spinFor').textContent = `for ${c.for === 'Me' ? 'me' : c.for}`; $('spinBlurb').textContent = c.blurb || '';
     const th = $('spinThumbs'); th.replaceChildren();
@@ -118,14 +120,18 @@ const hues = ['#E63946', '#7B2CBF', '#F4A261', '#2A9D8F', '#264653', '#E9C46A', 
   dlg.querySelector('.nx')!.addEventListener('click', () => step(1));
   dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); });
   dlg.addEventListener('keydown', (e) => { if (e.key === 'ArrowRight') step(1); if (e.key === 'ArrowLeft') step(-1); });
-  dlg.addEventListener('close', () => { dlg.classList.remove('out'); opener?.focus(); });
+  dlg.addEventListener('close', () => { dlg.classList.remove('out'); im.removeAttribute('src'); opener?.focus(); });
+  // warm the cache so opening is instant
+  const warm = () => data.forEach((c) => { const i = new Image(); i.src = c.big[0]; });
+  'requestIdleCallback' in window ? (window as any).requestIdleCallback(warm) : setTimeout(warm, 1500);
 </script>
 
 <style>
-  .crate-wrap{width:100vw;margin:0 0 64px calc(50% - 50vw);padding:56px 0 24px;background:var(--ink);color:var(--cream);border-block:3px solid var(--ink)}
+  .crate-wrap{min-height:calc(100svh - 80px);display:flex;flex-direction:column;justify-content:center;margin:0 0 64px;padding:clamp(96px,12vh,140px) 0 24px;background:var(--ink);color:var(--cream);border-block:3px solid var(--ink)}
   .crate-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:18px;padding:0 clamp(16px,4vw,56px)}
-  .crate-head h2{margin:0;font-size:clamp(40px,6vw,84px);font-weight:900;letter-spacing:-.04em;line-height:.9;color:var(--cream)}
-  .crate-head h2 span{font-family:var(--pixel);font-size:16px;font-weight:400;letter-spacing:0;vertical-align:middle;margin-left:10px;color:#f5c518}
+  .cback{color:var(--cream);opacity:.7;font-size:13px;padding:0 clamp(16px,4vw,56px);margin-bottom:18px;text-decoration:none}.cback:hover{opacity:1}
+  .crate-head h1{margin:0;font-size:clamp(40px,6vw,84px);font-weight:900;letter-spacing:-.04em;line-height:.9;color:var(--cream)}
+  .ttl{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}.cnt{margin:0;font-family:var(--pixel);font-size:16px;font-weight:400;letter-spacing:0;vertical-align:middle;margin-left:10px;color:#f5c518}
   .crate-tabs{display:flex;gap:8px;flex-wrap:wrap}
   .crate-tabs button{min-height:42px;padding:0 18px;border-radius:999px;border:2px solid var(--cream);background:transparent;color:var(--cream);font-weight:800;cursor:pointer}
   .crate-tabs button[aria-pressed=true]{background:var(--cream);color:var(--ink)}
@@ -155,7 +161,7 @@ const hues = ['#E63946', '#7B2CBF', '#F4A261', '#2A9D8F', '#264653', '#E9C46A', 
   .spin[open]{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(260px,1fr);gap:clamp(24px,4vw,56px);align-items:center}
   .stage{position:relative;aspect-ratio:1;width:min(70%,78vh)}
   .art{position:absolute;inset:0;z-index:2;border-radius:8px;overflow:hidden;box-shadow:0 40px 80px -20px rgba(0,0,0,.9)}
-  .art img{width:100%!important;max-width:100%!important;height:100%;margin:0!important;border:0!important;object-fit:cover;display:block}
+  .art img{transition:opacity .2s;width:100%!important;max-width:100%!important;height:100%;margin:0!important;border:0!important;object-fit:cover;display:block}
   .vinyl{position:absolute;inset:3%;border-radius:50%;z-index:1;--h:#E63946;background:radial-gradient(circle,var(--h) 0 15%,#0b0b0b 15.5% 17%,transparent 17.5%),repeating-radial-gradient(circle,#141414 0 2px,#202020 2px 3px);box-shadow:0 20px 50px rgba(0,0,0,.6),inset 0 0 0 2px #333,inset 0 0 40px rgba(255,255,255,.06);transition:transform .9s cubic-bezier(.2,.8,.2,1)}
   .vinyl i{position:absolute;left:50%;top:50%;width:4%;height:4%;border-radius:50%;background:#0b0b0b;translate:-50% -50%}
   .spin.out .vinyl{transform:translateX(46%);animation:turn 3.2s linear .9s infinite}

@@ -81,7 +81,7 @@
         "covers/TGSTheLover.jpg"
       ],
       "size": "wide",
-      "blurb": "A three-part cover system: one backdrop, one chalk motif, three emotional states. Each single gets its own month and its own drawn symbol, so the set reads as a story when they sit side by side.",
+      "blurb": "The three chapters of The Heartbreak Saga, one for each outfit on the EP cover. One backdrop, one chalk motif, three emotional states.",
       "alt": [
         "Cover for The Hopeful: Yahya laughing behind his hand against a purple backdrop with a chalk heart",
         "Cover for The Lost: Yahya looking down in a floral shirt beside a chalk broken heart",
@@ -188,7 +188,7 @@
       "images": [
         "art/thereturncoverfinal.jpg"
       ],
-      "blurb": "A bedroom photo annotated by hand, the way you'd write on a lyric sheet.",
+      "blurb": "A single from The Heartbreak Saga: a bedroom photo annotated by hand, the way you'd write on a lyric sheet.",
       "alt": [
         "the return?: single cover"
       ],
@@ -345,7 +345,7 @@
       "blurb": "Part of my September Singles playlist."
     },
     {
-      "title": "yahya.",
+      "title": "special",
       "kind": "Cover · illustration",
       "tags": [
         "artwork"
@@ -356,7 +356,8 @@
       "alt": [
         "yahya.: cover"
       ],
-      "label": "Cover"
+      "label": "Cover",
+      "blurb": "Praying hands and a heart, for the song \"special\" from my first EP, THE VAULT."
     },
     {
       "title": "twenty-one.",
