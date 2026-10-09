@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import CaseStudy from '../../layouts/CaseStudy.astro';
+import CoverCrate from '../../components/CoverCrate.astro';
 
 export async function getStaticPaths() {
   const all = (await getCollection('work')).sort((a, b) => a.data.order - b.data.order);
@@ -11,5 +12,6 @@ const { entry, next } = Astro.props;
 const { Content } = await render(entry);
 ---
 <CaseStudy entry={entry} next={next.id === entry.id ? undefined : next}>
+  {entry.id === 'album-art' && <CoverCrate />}
   <Content />
 </CaseStudy>

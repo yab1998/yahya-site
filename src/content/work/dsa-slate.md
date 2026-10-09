@@ -7,8 +7,9 @@ lane: "Campaign storytelling · video"
 team: "[TODO: crew, campaign staff]"
 timeline: "June 2026"
 tools: "Premiere Pro, CapCut, [TODO: camera]"
-cover: "../../assets/case/aber-platform.jpg"
-coverAlt: "Aber Kawas campaign platform graphic"
+cover: "../../assets/case/aber-tiktok.jpg"
+coverAlt: "Aber Kawas outside a storefront in the walking-interview campaign video"
+loop: "/video/content/aber-loop.mp4"
 status: draft
 description: "Campaign storytelling for NYC-DSA candidates: a walking-interview video for Aber Kawas, directed, shot and edited by Yahya Abdul-Basser."
 ---

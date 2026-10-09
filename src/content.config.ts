@@ -15,6 +15,7 @@ const work = defineCollection({
     tools: z.string().optional(),
     cover: image(),
     coverAlt: z.string(),
+    loop: z.string().optional(),     // muted looping mp4 shown over the cover
     status: z.enum(['ready', 'draft', 'soon']).default('draft'),
     description: z.string(),       // meta description
   }),
