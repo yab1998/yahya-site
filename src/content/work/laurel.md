@@ -7,6 +7,7 @@ lane: "Product · UX · data"
 timeline: "Summer 2025"
 tools: "Builder.io, Figma, Databricks"
 cover: "../../assets/case/laurel-home.jpg"
+hover: "/video/work/laurel-hover.mp4"
 coverAlt: "Prototype home screen with a live quiz bowl scoreboard, competition categories and a feed of student results"
 status: ready
 description: "UX case study: prototyping social features for an academic competition platform used by students, parents, teachers and schools."

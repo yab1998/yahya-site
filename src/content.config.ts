@@ -15,7 +15,8 @@ const work = defineCollection({
     tools: z.string().optional(),
     cover: image(),
     coverAlt: z.string(),
-    loop: z.string().optional(),     // muted looping mp4 shown over the cover
+    loop: z.string().optional(),
+    hover: z.string().optional(),    // mp4 that plays while the card is hovered     // muted looping mp4 shown over the cover
     status: z.enum(['ready', 'draft', 'soon']).default('draft'),
     description: z.string(),       // meta description
   }),

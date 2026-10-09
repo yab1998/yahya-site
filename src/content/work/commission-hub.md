@@ -7,6 +7,7 @@ lane: "Product · UX"
 timeline: "2022"
 tools: "Figma, interactive HTML prototype"
 cover: "../../assets/case/commission-dash.jpg"
+hover: "/video/work/commission-hover.mp4"
 coverAlt: "Commission Hub dashboard showing the sales team, commission overview, active adjustments and a Generate new reports button"
 status: ready
 description: "UX case study: designing and pitching an in-house commission reporting app for a clinical lab's finance team."

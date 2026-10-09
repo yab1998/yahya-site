@@ -8,7 +8,7 @@
 <style>
 :root{
   --bg:#F3F6F9;--card:#fff;--ink:#0B1A2A;--muted:#5A6B80;--line:#E2E8F0;
-  --brand:#0F766E;--brand-d:#0B4F4A;--brand-l:#E0F2EF;--brand-g:linear-gradient(135deg,#0B4F4A 0%,#0F766E 55%,#14958A 100%);
+  --brand:#4338CA;--brand-d:#312E81;--brand-l:#EEF0FF;--brand-g:linear-gradient(135deg,#312E81 0%,#4338CA 55%,#6366F1 100%);
   --violet:#6D46D9;--violet-l:#EFE9FF;--amber:#B45309;--amber-l:#FEF3C7;--rose:#C2304B;--rose-l:#FFE4E8;
   --blue:#2563EB;--blue-l:#E0EAFF;--green:#047857;--green-l:#DCFCE7;--live:#E5484D;
   --sh:0 1px 2px rgba(15,23,42,.05),0 4px 14px rgba(15,23,42,.06);--sh-h:0 2px 4px rgba(15,23,42,.06),0 12px 28px rgba(15,23,42,.12);
@@ -21,7 +21,7 @@ button{font:inherit;cursor:pointer;color:inherit}
 header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
 .bar{max-width:1240px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:18px}
 .logo{display:flex;align-items:center;gap:9px;font-weight:800;font-size:17px;letter-spacing:-.01em}
-.logo i{width:32px;height:32px;border-radius:10px;background:var(--brand-g);display:grid;place-items:center;color:#fff;box-shadow:0 4px 10px rgba(15,118,110,.35)}
+.logo i{width:32px;height:32px;border-radius:10px;background:var(--brand-g);display:grid;place-items:center;color:#fff;box-shadow:0 4px 10px rgba(67,56,202,.35)}
 .search{flex:1;max-width:340px;display:flex;align-items:center;gap:8px;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:8px 12px;color:var(--muted)}
 .search input{border:0;background:none;outline:0;font:inherit;width:100%}
 .hd-r{margin-left:auto;display:flex;align-items:center;gap:10px}
@@ -32,7 +32,7 @@ header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.88);backdro
 .subnav{max-width:1240px;margin:0 auto;padding:0 20px 10px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
 .subnav button{flex-shrink:0;display:flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:7px 14px;font-weight:600;font-size:13px;color:var(--muted);transition:.15s}
 .subnav button:hover{border-color:#C7D2DE;color:var(--ink)}
-.subnav button[aria-current]{background:var(--brand);border-color:var(--brand);color:#fff;box-shadow:0 4px 12px rgba(15,118,110,.3)}
+.subnav button[aria-current]{background:var(--brand);border-color:var(--brand);color:#fff;box-shadow:0 4px 12px rgba(67,56,202,.3)}
 main{max-width:1240px;margin:0 auto;padding:22px 20px 70px}
 .screen{display:none;animation:in .35s ease}.screen.on{display:block}
 @keyframes in{from{opacity:0;transform:translateY(8px)}}
@@ -55,7 +55,7 @@ h2{font-size:15px;margin:0;display:flex;align-items:center;gap:8px;letter-spacin
 .col{display:flex;flex-direction:column;gap:18px;min-width:0}
 .cat{display:flex;align-items:center;gap:11px;width:100%;padding:9px;border-radius:12px;border:1px solid transparent;background:none;text-align:left;margin-bottom:4px;transition:.15s}
 .cat:hover{background:var(--bg)}
-.cat[aria-pressed=true]{background:var(--brand-l);border-color:#9ED5CD}
+.cat[aria-pressed=true]{background:var(--brand-l);border-color:#C7CBF7}
 .cat .ci{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;font-size:18px}
 .cat b{display:block;font-size:13px}.cat small{color:var(--muted);font-size:12px}
 .sponsor{border:1.5px dashed #CBD5E1;border-radius:14px;padding:14px;text-align:center;background:linear-gradient(180deg,#fff,#F8FAFC)}
@@ -75,8 +75,8 @@ h2{font-size:15px;margin:0;display:flex;align-items:center;gap:8px;letter-spacin
 .team span{display:flex;align-items:center;gap:9px;font-weight:600}
 .team .tlg{width:26px;height:26px;border-radius:7px;background:rgba(255,255,255,.18);display:grid;place-items:center;font-size:11px;font-weight:800}
 .team b{font-size:24px;font-variant-numeric:tabular-nums;transition:color .3s,transform .3s}
-.team b.bump{color:#8EF5CF;transform:scale(1.12)}
-.team.lead span::after{content:"▲";font-size:9px;color:#8EF5CF}
+.team b.bump{color:#FDE68A;transform:scale(1.12)}
+.team.lead span::after{content:"▲";font-size:9px;color:#FDE68A}
 .board{display:grid;grid-template-columns:1fr auto;gap:6px 14px;margin-top:12px;background:rgba(255,255,255,.1);border-radius:14px;padding:12px 14px;border:1px solid rgba(255,255,255,.14)}
 .board span:nth-child(even){font-weight:800;text-align:right;font-variant-numeric:tabular-nums}
 .ctrls{display:flex;align-items:center;gap:8px;margin-top:14px;position:relative;z-index:1}
@@ -92,7 +92,7 @@ h2{font-size:15px;margin:0;display:flex;align-items:center;gap:8px;letter-spacin
 .acts{display:flex;gap:6px;flex-wrap:wrap}
 .acts button{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:5px 12px;font-size:12px;font-weight:600;color:var(--muted);transition:.15s}
 .acts button:hover{border-color:#C7D2DE;color:var(--ink)}
-.acts button[aria-pressed=true]{background:var(--brand-l);border-color:#9ED5CD;color:var(--brand-d)}
+.acts button[aria-pressed=true]{background:var(--brand-l);border-color:#C7CBF7;color:var(--brand-d)}
 .acts button.pop{animation:pop .35s}
 @keyframes pop{50%{transform:scale(1.15)}}
 .composer{display:flex;gap:10px;align-items:center;margin-bottom:14px}
@@ -123,7 +123,7 @@ h2{font-size:15px;margin:0;display:flex;align-items:center;gap:8px;letter-spacin
 .comp .top span{position:absolute;right:10px;top:8px;font-size:30px;opacity:.9}
 .meta{display:flex;gap:12px;font-size:12px;color:var(--muted)}
 /* profile */
-.cover{height:150px;border-radius:var(--r) var(--r) 0 0;background:radial-gradient(circle at 20% 30%,rgba(255,255,255,.25),transparent 40%),linear-gradient(120deg,#5B3CC4,#7C5CF5 45%,#0F766E);position:relative}
+.cover{height:150px;border-radius:var(--r) var(--r) 0 0;background:radial-gradient(circle at 20% 30%,rgba(255,255,255,.25),transparent 40%),linear-gradient(120deg,#5B3CC4,#7C5CF5 45%,#4338CA);position:relative}
 .cover::after{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.18) 1px,transparent 1px);background-size:14px 14px;border-radius:inherit}
 .pcard{padding:0;overflow:hidden}
 .pbody{padding:0 22px 20px;display:grid;grid-template-columns:auto 1fr auto;gap:20px;align-items:end}
@@ -357,7 +357,7 @@ svg.chart{width:100%;height:190px;display:block;overflow:visible}
 
 <script>
 const $=id=>document.getElementById(id);
-const grads=['linear-gradient(135deg,#8B6CF8,#5133C8)','linear-gradient(135deg,#14B8A6,#0F766E)','linear-gradient(135deg,#F59E0B,#D97706)','linear-gradient(135deg,#10B981,#047857)','linear-gradient(135deg,#60A5FA,#2563EB)','linear-gradient(135deg,#FB7185,#E11D48)'];
+const grads=['linear-gradient(135deg,#8B6CF8,#5133C8)','linear-gradient(135deg,#818CF8,#4338CA)','linear-gradient(135deg,#F59E0B,#D97706)','linear-gradient(135deg,#10B981,#047857)','linear-gradient(135deg,#60A5FA,#2563EB)','linear-gradient(135deg,#FB7185,#E11D48)'];
 function toast(t){const e=$('toast');e.textContent=t;e.classList.add('on');clearTimeout(e._t);e._t=setTimeout(()=>e.classList.remove('on'),1700)}
 function fillMeters(scope){scope.querySelectorAll('.meter b[data-w]').forEach(b=>{b.style.width='0';requestAnimationFrame(()=>requestAnimationFrame(()=>b.style.width=b.dataset.w+'%'))})}
 function go(id){document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('on',s.id===id));document.querySelectorAll('.subnav [data-go]').forEach(b=>b.toggleAttribute('aria-current',b.dataset.go===id));scrollTo({top:0,behavior:'smooth'});fillMeters($(id));if(id==='dash')drawChart()}
@@ -427,7 +427,7 @@ document.querySelector('.ptabs').onclick=e=>{const b=e.target.closest('button');
 const data12=[58,61,55,64,60,66,62,70,68,74,79,88];let range=6;
 function drawChart(){const d=data12.slice(-range),W=520,H=170,p=10,mx=100,mn=40;const x=i=>p+i*(W-2*p)/(d.length-1),y=v=>H-(v-mn)/(mx-mn)*(H-20);
  const pts=d.map((v,i)=>`${x(i)},${y(v)}`).join(' ');const m=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'].slice(-range);
- $('chart').innerHTML=`<defs><linearGradient id="ga" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0F766E" stop-opacity=".28"/><stop offset="1" stop-color="#0F766E" stop-opacity="0"/></linearGradient></defs>${[50,70,90].map(v=>`<line x1="0" x2="${W}" y1="${y(v)}" y2="${y(v)}" stroke="#E2E8F0" stroke-dasharray="4 4"/><text x="0" y="${y(v)-4}" text-anchor="start" font-size="10" fill="#94A3B8">${v}</text>`).join('')}<polygon points="${p},${H} ${pts} ${W-p},${H}" fill="url(#ga)"/><polyline points="${pts}" fill="none" stroke="#0F766E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" pathLength="1" style="stroke-dasharray:1;stroke-dashoffset:1;animation:draw 1s ease forwards"/>${d.map((v,i)=>`<circle cx="${x(i)}" cy="${y(v)}" r="${i===d.length-1?5:3.5}" fill="#fff" stroke="#0F766E" stroke-width="2.5"><title>${m[i]}: ${v}</title></circle><text x="${x(i)}" y="${H+16}" text-anchor="middle" font-size="10" fill="#94A3B8">${m[i]}</text>`).join('')}<text x="${x(d.length-1)}" y="${y(d.at(-1))-12}" text-anchor="end" font-size="12" font-weight="800" fill="#0B4F4A">${d.at(-1)}</text>`}
+ $('chart').innerHTML=`<defs><linearGradient id="ga" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4338CA" stop-opacity=".28"/><stop offset="1" stop-color="#4338CA" stop-opacity="0"/></linearGradient></defs>${[50,70,90].map(v=>`<line x1="0" x2="${W}" y1="${y(v)}" y2="${y(v)}" stroke="#E2E8F0" stroke-dasharray="4 4"/><text x="0" y="${y(v)-4}" text-anchor="start" font-size="10" fill="#94A3B8">${v}</text>`).join('')}<polygon points="${p},${H} ${pts} ${W-p},${H}" fill="url(#ga)"/><polyline points="${pts}" fill="none" stroke="#4338CA" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" pathLength="1" style="stroke-dasharray:1;stroke-dashoffset:1;animation:draw 1s ease forwards"/>${d.map((v,i)=>`<circle cx="${x(i)}" cy="${y(v)}" r="${i===d.length-1?5:3.5}" fill="#fff" stroke="#4338CA" stroke-width="2.5"><title>${m[i]}: ${v}</title></circle><text x="${x(i)}" y="${H+16}" text-anchor="middle" font-size="10" fill="#94A3B8">${m[i]}</text>`).join('')}<text x="${x(d.length-1)}" y="${y(d.at(-1))-12}" text-anchor="end" font-size="12" font-weight="800" fill="#312E81">${d.at(-1)}</text>`}
 const st=document.createElement('style');st.textContent='@keyframes draw{to{stroke-dashoffset:0}}';document.head.append(st);
 $('range').onclick=e=>{const b=e.target.closest('[data-r]');if(!b)return;range=+b.dataset.r;$('range').querySelectorAll('button').forEach(x=>x.className='btn sm'+(x===b?'':' ghost'));drawChart()};
 const evs=[['MAR',30,'State Math League','Registration closes',true],['APR',15,'Regional Science Fair','Competition day',false],['APR',26,'Quiz Bowl Invitational','Team event',false]];
