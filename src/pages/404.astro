@@ -6,11 +6,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <span class="bul c-red" aria-hidden="true">?</span>
     <h1>Wrong stop.</h1>
     <p>This train doesn't run here. Head back to the main line.</p>
-    <a class="btn solid" href="/">Back home</a>
+    <div class="go"><a class="btn solid" href="/">Back home</a><a class="btn" href="/#work">See the work</a><a class="btn" href="/studio/">Lunar Lighthouse</a></div>
   </section>
 </BaseLayout>
 <style>
   .nf{padding-block:120px;display:flex;flex-direction:column;gap:20px;align-items:flex-start}
   .nf .bul{width:96px;height:96px;font-size:52px}
   h1{margin:0;font-size:clamp(60px,10vw,140px);font-weight:900;letter-spacing:-.05em;line-height:.9}
+  .go{display:flex;gap:10px;flex-wrap:wrap}
 </style>
