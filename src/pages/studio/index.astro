@@ -3,6 +3,7 @@ import { Picture, getImage } from 'astro:assets';
 import portrait from '../../assets/photos/blueshootscutesmilemaroonsweater-edited.jpg';
 import site from '../../data/site.json';
 import banner from '../../assets/studio/banner.svg?raw';
+import diwanPeek from '../../assets/studio/diwan/stories-1.jpg';
 
 const projects = [
   { name: 'the diwan foundation', tag: 'Nonprofit · fundraising campaigns', text: 'The 100 Hands campaign, Giving Day and Ramadan fundraisers, redesigned top to bottom: new digital assets, email copy and posting schedules. Each one helped raise about $40K.' },
@@ -61,7 +62,7 @@ const canonical = new URL('/studio/', Astro.site);
       <ol class="plist">
         {projects.map((p, i) => (
           <li class="prow rise" data-i={i}>
-            <a href={i === 2 ? '/studio/work/demo/' : '#contact'}>
+            <a href={i === 0 ? '/studio/work/diwan/' : i === 2 ? '/studio/work/demo/' : '#contact'}>
               <span class="num">0{i + 1}</span>
               <span class="pname">{p.name}</span>
               <span class="ptag">{p.tag}</span>
@@ -71,7 +72,7 @@ const canonical = new URL('/studio/', Astro.site);
           </li>
         ))}
       </ol>
-      <div class="peek" aria-hidden="true">{projects.map((p) => (<div class="pv"><b>{p.tag}</b><p>{p.text}</p><span>start something similar →</span></div>))}</div>
+      <div class="peek" aria-hidden="true">{projects.map((p, i) => (<div class="pv">{i === 0 && <Picture class="pimg" src={diwanPeek} alt="" formats={['avif', 'webp']} widths={[400]} sizes="300px" />}<b>{p.tag}</b><p>{p.text}</p><span>start something similar →</span></div>))}</div>
       <p class="clients rise"><span>trusted by</span> the diwan foundation · the crescent school · straightway ethical advisory · <i>and friends with big ideas</i></p>
     </section>
 
@@ -242,6 +243,7 @@ const canonical = new URL('/studio/', Astro.site);
   .peek{position:absolute;left:0;top:0;width:300px;pointer-events:none;opacity:0;scale:.85;transition:opacity .25s,scale .3s cubic-bezier(.2,.7,.2,1);z-index:3}
   .peek.on{opacity:1;scale:1}
   .pv{display:none;background:var(--g);color:#fff;border-radius:16px;padding:22px;box-shadow:0 18px 40px rgba(0,0,0,.18);rotate:-2deg}
+  .pv :global(.pimg){display:block;width:100%;height:auto;border-radius:10px;margin-bottom:12px}
   .pv b{font-family:var(--serif);font-size:22px;display:block;margin-bottom:8px}.pv p{margin:0 0 14px;font-size:15px}.pv span{font-size:13px;opacity:.85}
   .peek[data-i="0"] .pv:nth-child(1),.peek[data-i="1"] .pv:nth-child(2),.peek[data-i="2"] .pv:nth-child(3){display:block}
   @media (hover:none),(pointer:coarse){.ptext{display:block}.peek{display:none}}
